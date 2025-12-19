@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>First Blog</title>
+    <url>/2025/12/19/First-Blog/First-Blog/</url>
+    <content><![CDATA[<p>Hello! This is my first blog.</p>
+<p>A math formula: <span class="math display">\[
+\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
+\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
+\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
+\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
+\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
+\]</span></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>尝试一下中文输入 This's my blog!</p>
+<ul>
+<li>todo 1</li>
+<li>todo 2</li>
+</ul>
+<h1 id="hello">Hello</h1>
+<h2 id="你好">你好</h2>
+<h3 id="foo"><code>foo</code></h3>
+<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
+<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
+<p><span class="math display">\[a+b\geq 3\]</span></p>
+]]></content>
+  </entry>
+</search>
