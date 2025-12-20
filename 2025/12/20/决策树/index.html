@@ -20,26 +20,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。 数学公式渲染 处于兼容性考虑，我采用了 Mathjax 作为 math engine，同时将默认 Markdown 渲染器换成了 pandoc 一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误 英文引号变成中文 我想写这篇文章的罪魁祸首。 一开始，所有的英文引号 &#39;&#x2F;&quot; 都会被渲染成 ‘&#x2F;“，显示效果奇差无比 查询之后发现这也是渲">
+    <meta name="description" content="1. 决策树学习算法 决策树的学习算法一共有三点： 特征选择，决策树生成，决策树剪枝  决策树的非叶子节点代表一个划分，每一个叶子节点代表一个类（样本属于这些类） 2. 特征选择 希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。 信息增益：得知 特征X 的信息而使得类 Y 的信息的不确定性减少的程度，即经验熵的改变量。 定义为： \[ g(D, A)&#x3D;H(D)-H(D|A) \] 其">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo Blog 的一些技术细节">
-<meta property="og:url" content="http://shenlehan.github.io/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/index.html">
+<meta property="og:title" content="决策树">
+<meta property="og:url" content="http://shenlehan.github.io/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/index.html">
 <meta property="og:site_name" content="Lehan Shen&#39;s Blog">
-<meta property="og:description" content="花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。 数学公式渲染 处于兼容性考虑，我采用了 Mathjax 作为 math engine，同时将默认 Markdown 渲染器换成了 pandoc 一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误 英文引号变成中文 我想写这篇文章的罪魁祸首。 一开始，所有的英文引号 &#39;&#x2F;&quot; 都会被渲染成 ‘&#x2F;“，显示效果奇差无比 查询之后发现这也是渲">
+<meta property="og:description" content="1. 决策树学习算法 决策树的学习算法一共有三点： 特征选择，决策树生成，决策树剪枝  决策树的非叶子节点代表一个划分，每一个叶子节点代表一个类（样本属于这些类） 2. 特征选择 希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。 信息增益：得知 特征X 的信息而使得类 Y 的信息的不确定性减少的程度，即经验熵的改变量。 定义为： \[ g(D, A)&#x3D;H(D)-H(D|A) \] 其">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-12-20T01:13:09.000Z">
-<meta property="article:modified_time" content="2025-12-20T01:31:39.107Z">
+<meta property="article:published_time" content="2025-12-20T01:43:34.000Z">
+<meta property="article:modified_time" content="2025-12-20T01:51:57.183Z">
 <meta property="article:author" content="Lehan Shen">
+<meta property="article:tag" content="决策树">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://shenlehan.github.io/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/">
+<link rel="canonical" href="http://shenlehan.github.io/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://shenlehan.github.io/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/","path":"2025/12/20/Hexo Blog 的一些技术细节/index/","title":"Hexo Blog 的一些技术细节"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://shenlehan.github.io/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/","path":"2025/12/20/决策树/","title":"决策树"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hexo Blog 的一些技术细节 | Lehan Shen's Blog</title>
+<title>决策树 | Lehan Shen's Blog</title>
   
 
 
@@ -163,7 +164,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E6%B8%B2%E6%9F%93"><span class="nav-number">1.</span> <span class="nav-text">数学公式渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8B%B1%E6%96%87%E5%BC%95%E5%8F%B7%E5%8F%98%E6%88%90%E4%B8%AD%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">英文引号变成中文</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">1. 决策树学习算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9"><span class="nav-number">2.</span> <span class="nav-text">2. 特征选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E7%94%9F%E6%88%90"><span class="nav-number">3.</span> <span class="nav-text">3. 决策树生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E5%89%AA%E6%9E%9D"><span class="nav-number">4.</span> <span class="nav-text">4. 决策树剪枝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cart-%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">5.</span> <span class="nav-text">5. CART 决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.2.</span> <span class="nav-text">2. 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9E%E5%BD%92%E6%A0%91"><span class="nav-number">5.2.1.</span> <span class="nav-text">1. 回归树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E6%A0%91"><span class="nav-number">5.2.2.</span> <span class="nav-text">2. 分类树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%AA%E6%9E%9D"><span class="nav-number">5.3.</span> <span class="nav-text">3. 剪枝</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -214,7 +215,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/">
+    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -227,12 +228,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Hexo Blog 的一些技术细节 | Lehan Shen's Blog">
+      <meta itemprop="name" content="决策树 | Lehan Shen's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hexo Blog 的一些技术细节
+          决策树
         </h1>
 
         <div class="post-meta-container">
@@ -244,7 +245,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-12-20 09:13:09 / Modified: 09:31:39" itemprop="dateCreated datePublished" datetime="2025-12-20T09:13:09+08:00">2025-12-20</time>
+      <time title="Created: 2025-12-20 09:43:34 / Modified: 09:51:57" itemprop="dateCreated datePublished" datetime="2025-12-20T09:43:34+08:00">2025-12-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -252,7 +253,7 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a>
+          <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
         </span>
     </span>
 
@@ -263,14 +264,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>289</span>
+      <span>1.2k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>4 mins.</span>
     </span>
 </div>
 
@@ -280,27 +281,100 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a
-target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="决策树学习算法">1. 决策树学习算法</h2>
+<p>决策树的学习算法一共有三点： <div class="note primary"><p>特征选择，决策树生成，决策树剪枝</p>
+</div></p>
+<p>决策树的非叶子节点代表一个划分，每一个叶子节点代表一个类（样本属于这些类）</p>
+<h2 id="特征选择">2. 特征选择</h2>
+<p>希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。</p>
+<p>信息增益：得知 特征X 的信息而使得类 Y
+的信息的不确定性减少的程度，即经验熵的改变量。 定义为： <span
+class="math display">\[
+g(D, A)=H(D)-H(D|A)
+\]</span> 其中 D 为数据集，A 为我们选择的特征，H 为经验熵函数。</p>
+<p>我们希望 H 越小越好，即每一步的 g(D,A) 要大。</p>
+<p>容易发现，当 A
+表征的特征有更多选项时更容易被选中，所以引入信息增益比： <span
+class="math display">\[
+g_R(D, A)=\dfrac{g(D,A)}{H_A(D)}
+\]</span> 其中 H_A(D) 为数据集D关于特征A的熵 <span
+class="math display">\[
+H_A(D)=-\sum_{i=1}^n \dfrac{|D_i|}{|D|}\log_2{\dfrac{|D_i|}{|D|}}
+\]</span></p>
+<h2 id="决策树生成">3. 决策树生成</h2>
+<p>一共两种算法，ID3 和 C4.5 ID3 算法依赖于信息增益，而 C4.5
+则是信息增益比作为评价标准 流程： 1. 给定数据集 D 以及特征集 A 阈值
+<span class="math inline">\(\epsilon\)</span> 2.
+按照每一个特征，计算信息增益（比）；选取信息增益（比）最大的特征A，如果节点全部都属于同一类
+<span class="math inline">\(C_k\)</span>，则直接标记为<span
+class="math inline">\(C_k\)</span> 类并返回 3. 否则开始划分，按照 A
+的每一个可能的值 <span class="math inline">\(a_i\)</span> 将划分为 <span
+class="math inline">\(D_i\)</span>，递归此过程，直到子节点全部属于一类或者信息增益（比）小于阈值
+<span class="math inline">\(\epsilon\)</span> 或者特征集 A 为空。</p>
+<p>这两个都容易产生过拟合的问题，故考虑剪枝</p>
+<h2 id="决策树剪枝">4. 决策树剪枝</h2>
+<p>实质上就是一种正则化手段，利用经验熵作为损失函数，叶子节点数作为正则化项。
+定义决策树学习的损失函数为： <span class="math display">\[
+C_\alpha(T)=\sum_{t=1}^{|T|} N_tH_t(T)+\alpha|T|
+\]</span> 其中经验熵函数为 <span class="math display">\[
+H_t(T)=-\sum_k \dfrac{N_{tk}}{N_t}\log \dfrac{N_{tk}}{N_t}
+\]</span></p>
+<p>，<span class="math inline">\(|T|\)</span>
+为决策树的节点数（正则化项），<span class="math inline">\(t\)</span>
+是子节点编号，<span class="math inline">\(N_t\)</span>
+是每个叶节点的样本数，其中第 <span class="math inline">\(k\)</span>
+类的有 <span class="math inline">\(N_{tk}\)</span> 个。</p>
+<p>当 <span class="math inline">\(\alpha\)</span>
+很小的时候，说明选择损失函数最小的模型，调大 <span
+class="math inline">\(\alpha\)</span> 相当于限制（减小）模型复杂度。</p>
+<p>剪枝算法： 1. 递归，计算每一个叶节点的经验熵 2.
+尝试将一个叶子节点缩到父节点，比较前后的经验熵，如果经验熵减小，说明可以直接剪枝，将父节点变为一个新的叶节点。
+3. 回到2，继续操作</p>
+<h2 id="cart-决策树">5. CART 决策树</h2>
+<h3 id="概述">1. 概述</h3>
+<p>CART 是一种二叉决策树，每次提问都是 y/n；
+对于回归问题，使用平方误差作为损失函数；对于分类问题，使用 Gini
+系数；</p>
+<h3 id="模型">2. 模型</h3>
+<h4 id="回归树">1. 回归树</h4>
+<p><span class="math display">\[
+f(x)=\sum_{m=1}^M c_m \mathbb{I}(x\in R_m)
+\]</span> 其中，<span class="math inline">\(R_m\)</span>
+为提问所划分出的区域，<span class="math inline">\(c_m\)</span>
+为其上的代表值（固定的输出值）； 通过平方误差计算时，容易知道 <span
+class="math inline">\(c_m\)</span> 应该取 <span
+class="math inline">\(R_m\)</span> 的标签的平均值</p>
+<p>现在问题在于如何划分。 采用启发式的方法，每次取一个方向 <span
+class="math inline">\(x^{(j)}\)</span>，考虑将 D
+按照这个方向上的一个数值 <span class="math inline">\(s\)</span> 来划分
+<span class="math display">\[
+R_1(j,s)=\{x|x^{(j)}\leq s\},R_2(j,s)=\{x|x^{(j)}&gt; s\}
+\]</span> 现在来求解 <span class="math display">\[
+\min_{j,s} \left\{ \min_{c_1} \sum_{x_i\in R_1(j,s)} (y_i-c)^2 +
+\sum_{x_i\in R_2(j,s)} (y_i-c)^2 \right\}
+\]</span> 固定 <span class="math inline">\(j\)</span> 有 <span
+class="math inline">\(\hat{c_1}=\text{ave}(y_i|x_i\in
+R_1(j,s)),\hat{c_2}=\text{ave}(y_i|x_i\in R_2(j,s))\)</span></p>
+<p>重复这个过程，直到达到终止条件。</p>
+<h4 id="分类树">2. 分类树</h4>
+<p>定义 Gini 系数，对于一个概率分布 <span
+class="math inline">\(p\)</span> 有 <span class="math display">\[
+\text{Gini}(p)=\sum_{k=1}^K p_k(1-p_k)=1-\sum_{k=1}^K p_k^2
+\]</span> 容易发现它是一个凸函数。</p>
+<p>对于一个集合 D 及其划分 <span
+class="math inline">\(C_k\)</span>，类似有 <span class="math display">\[
+\text{Gini}(D)=\sum_{k=1}^K \dfrac{|C_k|}{|D|}
+\left(1-\dfrac{|C_k|}{|D|}\right)=1-\sum_{k=1}^K \left(
+\dfrac{|C_k|}{|D|} \right)^2
+\]</span> 类似条件经验熵函数，也可以定义条件 Gini 系数。</p>
+<p>Gini系数的概念非常类似经验熵函数，同样描述了数据的不确定程度。</p>
+<p>分类树则采用 Gini 系数，对于每一个特征A，对其所有可能值 <span
+class="math inline">\(a_i\)</span>，进行 y/n 分类，将 D 划分为 <span
+class="math inline">\(D_1\)</span>，<span
+class="math inline">\(D_2\)</span>
+两部分，计算条件Gini系数；选择最小的作为分类，递归操作直到满足终止条件。</p>
+<h3 id="剪枝">3. 剪枝</h3>
+<p>TODO</p>
 
     </div>
 
@@ -309,18 +383,21 @@ target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/1981"
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="tag"># 决策树</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2025/12/19/First-Blog/First-Blog/" rel="prev" title="First Blog">
-                  <i class="fa fa-angle-left"></i> First Blog
+                <a href="/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/" rel="prev" title="Hexo Blog 的一些技术细节">
+                  <i class="fa fa-angle-left"></i> Hexo Blog 的一些技术细节
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="next" title="决策树">
-                  决策树 <i class="fa fa-angle-right"></i>
+                <a href="/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/" rel="next" title="EM算法">
+                  EM算法 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>

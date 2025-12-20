@@ -20,26 +20,27 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。 数学公式渲染 处于兼容性考虑，我采用了 Mathjax 作为 math engine，同时将默认 Markdown 渲染器换成了 pandoc 一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误 英文引号变成中文 我想写这篇文章的罪魁祸首。 一开始，所有的英文引号 &#39;&#x2F;&quot; 都会被渲染成 ‘&#x2F;“，显示效果奇差无比 查询之后发现这也是渲">
+    <meta name="description" content="1. EM 算法的目标 先考虑著名的三硬币问题： 假设三枚硬币 A, B, C，其正面朝上的概率分别为 \(\pi,p,q\)。 先抛 A，若正面朝上抛 B，反之则抛 C。 只记录抛 B，C 的结果，得到一个 01 序列。 要求给出此模型的参数 \(\theta&#x3D;(\pi,p,q)\)  抽象出问题实质： 给出观测数据 \(Y&#x3D;[Y_1,\dots,Y_n]^T\) 以及隐变量 \(Z&#x3D;[Z_1,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo Blog 的一些技术细节">
-<meta property="og:url" content="http://shenlehan.github.io/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/index.html">
+<meta property="og:title" content="EM算法">
+<meta property="og:url" content="http://shenlehan.github.io/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="Lehan Shen&#39;s Blog">
-<meta property="og:description" content="花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。 数学公式渲染 处于兼容性考虑，我采用了 Mathjax 作为 math engine，同时将默认 Markdown 渲染器换成了 pandoc 一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误 英文引号变成中文 我想写这篇文章的罪魁祸首。 一开始，所有的英文引号 &#39;&#x2F;&quot; 都会被渲染成 ‘&#x2F;“，显示效果奇差无比 查询之后发现这也是渲">
+<meta property="og:description" content="1. EM 算法的目标 先考虑著名的三硬币问题： 假设三枚硬币 A, B, C，其正面朝上的概率分别为 \(\pi,p,q\)。 先抛 A，若正面朝上抛 B，反之则抛 C。 只记录抛 B，C 的结果，得到一个 01 序列。 要求给出此模型的参数 \(\theta&#x3D;(\pi,p,q)\)  抽象出问题实质： 给出观测数据 \(Y&#x3D;[Y_1,\dots,Y_n]^T\) 以及隐变量 \(Z&#x3D;[Z_1,">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-12-20T01:13:09.000Z">
-<meta property="article:modified_time" content="2025-12-20T01:31:39.107Z">
+<meta property="article:published_time" content="2025-12-20T01:48:51.000Z">
+<meta property="article:modified_time" content="2025-12-20T01:57:59.441Z">
 <meta property="article:author" content="Lehan Shen">
+<meta property="article:tag" content="EM 算法">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://shenlehan.github.io/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/">
+<link rel="canonical" href="http://shenlehan.github.io/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://shenlehan.github.io/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/","path":"2025/12/20/Hexo Blog 的一些技术细节/index/","title":"Hexo Blog 的一些技术细节"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://shenlehan.github.io/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/","path":"2025/12/20/EM算法/EM算法/","title":"EM算法"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hexo Blog 的一些技术细节 | Lehan Shen's Blog</title>
+<title>EM算法 | Lehan Shen's Blog</title>
   
 
 
@@ -163,7 +164,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E6%B8%B2%E6%9F%93"><span class="nav-number">1.</span> <span class="nav-text">数学公式渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8B%B1%E6%96%87%E5%BC%95%E5%8F%B7%E5%8F%98%E6%88%90%E4%B8%AD%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">英文引号变成中文</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#em-%E7%AE%97%E6%B3%95%E7%9A%84%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">1. EM 算法的目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#em-%E7%AE%97%E6%B3%95%E7%9A%84%E5%AF%BC%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">2. EM 算法的导出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#em-%E7%AE%97%E6%B3%95%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">3. EM 算法的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gmm"><span class="nav-number">4.</span> <span class="nav-text">4. GMM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%8E%E7%A1%AE%E9%9A%90%E5%8F%98%E9%87%8F"><span class="nav-number">4.1.</span> <span class="nav-text">1. 明确隐变量</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -214,7 +215,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/">
+    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -227,12 +228,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Hexo Blog 的一些技术细节 | Lehan Shen's Blog">
+      <meta itemprop="name" content="EM算法 | Lehan Shen's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hexo Blog 的一些技术细节
+          EM算法
         </h1>
 
         <div class="post-meta-container">
@@ -244,7 +245,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-12-20 09:13:09 / Modified: 09:31:39" itemprop="dateCreated datePublished" datetime="2025-12-20T09:13:09+08:00">2025-12-20</time>
+      <time title="Created: 2025-12-20 09:48:51 / Modified: 09:57:59" itemprop="dateCreated datePublished" datetime="2025-12-20T09:48:51+08:00">2025-12-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -252,7 +253,7 @@
       </span>
       <span class="post-meta-item-text">In</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a>
+          <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
         </span>
     </span>
 
@@ -263,14 +264,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>289</span>
+      <span>1k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>4 mins.</span>
     </span>
 </div>
 
@@ -280,27 +281,153 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a
-target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="em-算法的目标">1. EM 算法的目标</h2>
+<p>先考虑著名的三硬币问题： <div class="note primary"><p>假设三枚硬币 A, B, C，其正面朝上的概率分别为 <span
+class="math inline">\(\pi,p,q\)</span>。</p>
+<p>先抛 A，若正面朝上抛 B，反之则抛 C。</p>
+<p>只记录抛 B，C 的结果，得到一个 01 序列。</p>
+<p>要求给出此模型的参数 <span
+class="math inline">\(\theta=(\pi,p,q)\)</span></p>
+</div></p>
+<p>抽象出问题实质：</p>
+<p>给出观测数据 <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span>
+以及隐变量 <span
+class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span>，则给出似然估计：
+<span class="math display">\[
+P(Y|\theta) =\sum_Z P(Y|Z,\theta) P(Z|\theta)
+\]</span></p>
+<p>此问题中可以化简为：</p>
+<p><span class="math display">\[
+P(Y|\theta) =\prod_{j=1}^n \left[\pi p^{y_j} (1-p)^{1-y_j} +(1-\pi)
+q^{y_j} (1-q)^{1-y_j}  \right]
+\]</span> 希望给出</p>
+<p><span class="math display">\[
+\hat{\theta}=\arg \max_{\theta} \log(P(Y|\theta))
+\]</span></p>
+<p>下面给出一个用语的约定：</p>
+<ul>
+<li><p><strong>观测数据</strong>/<strong>不完全数据</strong> <span
+class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span></p></li>
+<li><p>隐变量/<strong>未观测数据</strong>/ <span
+class="math inline">\(\text{Latent Variables}\)</span> <span
+class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span></p></li>
+<li><p>完全数据：<span
+class="math inline">\(P(Y,Z|\theta)\)</span></p></li>
+<li><p>完全数据的对数似然函数：<span class="math inline">\(\log
+P(Y,Z|\theta)\)</span></p></li>
+</ul>
+<h2 id="em-算法的导出">2. EM 算法的导出</h2>
+<p>设 <span class="math display">\[
+\begin{align}
+L(\theta) &amp;=P(Y|\theta)=\sum_Z P(Y|Z,\theta) P(Z|\theta) \\
+&amp;=\log \left( \sum_Z P(Y|Z,\theta) P(Z|\theta) \right)
+\end{align}
+\]</span></p>
+<p>我们逐步迭代去求出最优化的 <span
+class="math inline">\(\theta\)</span>，设第 <span
+class="math inline">\(i\)</span> 次求出的解是 <span
+class="math inline">\(\theta^{(i)}\)</span>，则： <span
+class="math display">\[
+\begin{align}
+L(\theta)-L(\theta^{(i)})&amp;=\log \left( \sum_Z P(Y|Z,\theta)
+P(Z|\theta) \right)-\log P(Y|\theta^{(i)})
+\\
+&amp;= \log \left(\sum_Z P(Z|Y,\theta^{(i)}) \dfrac{  P(Y|Z,\theta)
+P(Z|\theta) }
+{P(Z|Y,\theta^{(i)})} \right)-\log P(Y|\theta^{(i)})\\
+&amp;\geq \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
+P(Z|\theta) }
+{P(Z|Y,\theta^{(i)})}   \right)-\log P(Y|\theta^{(i)})\\
+&amp;= \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
+P(Z|\theta) }
+{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right)\\
+\end{align}
+\]</span></p>
+<p>不等号是Jensen不等式</p>
+<p>设 <span
+class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
+P(Z|Y,\theta^{(i)})\log \left( \dfrac{ P(Y|Z,\theta) P(Z|\theta)
+}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})} \right)\)</span></p>
+<p>显然有 <span class="math inline">\(L(\theta)\geq
+B(\theta,\theta^{(i)})\)</span>，即 <span
+class="math inline">\(B\)</span> 为原本函数的一个下界，且 <span
+class="math inline">\(\theta=\theta^{(i)}\)</span> 时取等。
+故可以考虑最大化 <span class="math inline">\(B\)</span>，从而使得 <span
+class="math inline">\(L\)</span> 最大。</p>
+<p>即： <span class="math display">\[
+\begin{align}
+\theta^{(i+1)} &amp;= \arg \max _{\theta} B(\theta,\theta^{(i)})  \\
+&amp;=\arg \max_{\theta} \left( L(\theta^{(i)})+\sum_Z
+P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta) P(Z|\theta)
+}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right) \right)
+\\
+&amp;=\arg \max_{\theta} \left( \sum_Z P(Z|Y,\theta^{(i)})\log
+\left(   P(Y|Z,\theta) P(Z|\theta) \right) \right)\\
+&amp;=\arg \max_{\theta} \sum_Z P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)
+\end{align}
+\]</span> 上面的等号都是去掉了常数项（上面的变量只有 <span
+class="math inline">\(\theta\)</span>，<span
+class="math inline">\(\theta^{(i)}\)</span>固定） 令 <span
+class="math inline">\(Q(\theta,\theta^{(i)})=\sum_Z
+P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)\)</span>，则 Q 函数即为：</p>
+<p>完全似然函数 <span class="math inline">\(\log P(Y,Z|\theta)\)</span>
+关于在给定观测数据 <span class="math inline">\(Y\)</span>
+和当前参数估计<span class="math inline">\(\theta^{(i)}\)</span>
+下，对于未观测数据 <span class="math inline">\(Z\)</span> 的条件概率分布
+<span class="math inline">\(P(Z|Y,\theta^{(i)})\)</span> 的期望。</p>
+<p>EM 算法实质上就是找一个凸函数 <span
+class="math inline">\(B/Q\)</span>，让它在 <span
+class="math inline">\(\theta^{(i)}\)</span> 处严格等于对数似然函数 <span
+class="math inline">\(\log
+P(Y,Z|\theta)\)</span>，但始终在似然函数下方。我们通过不断增大 B
+函数，迫使似然函数上升。</p>
+<div class="note info"><p>关于 Q 函数更直观的认知，见 <a
+target="_blank" rel="noopener" href="https://chat.qwen.ai/c/41591c41-69ab-4005-8cbd-a9db5412b27b">Qwen</a></p>
+</div>
+<h2 id="em-算法的流程">3. EM 算法的流程</h2>
+<ol type="1">
+<li>初始化 <span class="math inline">\(\theta^{(0)}\)</span></li>
+<li>E(Expectation): 求出 Q 函数</li>
+<li>M(Maximization): 最大化 Q 函数，求出下一轮的 <span
+class="math inline">\(\theta^{(i+1)}\)</span></li>
+<li>重复 E-M 步，直到收敛为止</li>
+</ol>
+<h2 id="gmm">4. GMM</h2>
+<p>GMM，即 Gaussian Mixture Model，刻画了如下的问题： <div class="note "><p>有 K 个 Gaussian，分别服从 <span
+class="math inline">\(\theta_k=(\mu_k,\sigma_k)\)</span>；第 <span
+class="math inline">\(k\)</span> 个模型被选择的概率是 <span
+class="math inline">\(\alpha_k\)</span></p>
+<p>即 <span class="math inline">\(P(y)=\sum_{k=1}^K \alpha_k
+\phi(\mu_k,\sigma_k)\)</span></p>
+</div></p>
+<p>现在你既不知道各个Gaussian的具体参数，也不知道选择的概率 <span
+class="math inline">\(\alpha_k\)</span>，任务就是根据观测的序列 <span
+class="math inline">\(y=(y_1,\dots,y_N)\)</span> 求出 <span
+class="math inline">\(\theta=(\alpha_1,\dots,\alpha_K;\theta_1,\dots,\theta_K)\)</span></p>
+<p>使用 EM 算法完成这个任务，逐步分析：</p>
+<h3 id="明确隐变量">1. 明确隐变量</h3>
+<p>设 <span class="math display">\[
+\gamma_{jk}=
+\begin{cases}
+1 &amp; 第 j 个观测来自第 k 个模型\\
+0 &amp; 反之
+\end{cases}
+\]</span></p>
+<p>有了观测数据 <span class="math inline">\(y_j\)</span>
+之后，那么完全数据就是</p>
+<p><span class="math display">\[
+(y_j,\gamma_{j1},\dots,\gamma_{jk})
+\]</span></p>
+<p>后面整体算作上文的 <span class="math inline">\(Z\)</span></p>
+<p>写出似然函数：</p>
+<p>$$ <span class="math display">\[\begin{align}
+P(y,\gamma|\theta) &amp;= \prod_{j=1}^N
+P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
+
+&amp;= \prod_{j=1}^N \prod_{k=1}^K [\alpha_k
+\phi(y_j|\theta_k)]^{\gamma_{jk}}\\
+
+\end{align}\]</span> $$</p>
 
     </div>
 
@@ -309,19 +436,19 @@ target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/1981"
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/EM-%E7%AE%97%E6%B3%95/" rel="tag"># EM 算法</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2025/12/19/First-Blog/First-Blog/" rel="prev" title="First Blog">
-                  <i class="fa fa-angle-left"></i> First Blog
+                <a href="/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="prev" title="决策树">
+                  <i class="fa fa-angle-left"></i> 决策树
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="next" title="决策树">
-                  决策树 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
