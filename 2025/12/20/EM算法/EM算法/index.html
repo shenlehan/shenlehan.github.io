@@ -28,7 +28,7 @@
 <meta property="og:description" content="1. EM 算法的目标 先考虑著名的三硬币问题： 假设三枚硬币 A, B, C，其正面朝上的概率分别为 \(\pi,p,q\)。 先抛 A，若正面朝上抛 B，反之则抛 C。 只记录抛 B，C 的结果，得到一个 01 序列。 要求给出此模型的参数 \(\theta&#x3D;(\pi,p,q)\)  抽象出问题实质： 给出观测数据 \(Y&#x3D;[Y_1,\dots,Y_n]^T\) 以及隐变量 \(Z&#x3D;[Z_1,">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-12-20T01:48:51.000Z">
-<meta property="article:modified_time" content="2025-12-20T01:57:59.441Z">
+<meta property="article:modified_time" content="2025-12-20T01:59:09.847Z">
 <meta property="article:author" content="Lehan Shen">
 <meta property="article:tag" content="EM 算法">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-12-20 09:48:51 / Modified: 09:57:59" itemprop="dateCreated datePublished" datetime="2025-12-20T09:48:51+08:00">2025-12-20</time>
+      <time title="Created: 2025-12-20 09:48:51 / Modified: 09:59:09" itemprop="dateCreated datePublished" datetime="2025-12-20T09:48:51+08:00">2025-12-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -343,7 +343,7 @@ P(Z|\theta) }
 {P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right)\\
 \end{align}
 \]</span></p>
-<p>不等号是Jensen不等式</p>
+<p>不等号是Jensen不等式给出的</p>
 <p>设 <span
 class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
 P(Z|Y,\theta^{(i)})\log \left( \dfrac{ P(Y|Z,\theta) P(Z|\theta)
@@ -487,7 +487,7 @@ P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">9 mins.</span>
+    <span title="Reading time total">10 mins.</span>
   </span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
