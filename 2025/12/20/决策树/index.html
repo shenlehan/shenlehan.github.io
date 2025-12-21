@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="1. 决策树学习算法 决策树的学习算法一共有三点： 特征选择，决策树生成，决策树剪枝  决策树的非叶子节点代表选择的一个划分标准（如，第 \(i\) 个分量 \(x^{(i)}\) 是否大于等于 \(0\)），每一个叶子节点代表一个类（样本属于这些类） 2. 特征选择 希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。 信息增益：得知 特征X 的信息而使得类 Y 的信息的不确定性减少的">
+    <meta name="description" content="决策树学习算法 决策树的学习算法一共有三点： 特征选择，决策树生成，决策树剪枝  决策树的非叶子节点代表选择的一个划分标准（如，第 \(i\) 个分量 \(x^{(i)}\) 是否大于等于 \(0\)），每一个叶子节点代表一个类（样本属于这些类） 特征选择 希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。 信息增益：得知 特征X 的信息而使得类 Y 的信息的不确定性减少的程度，即经验">
 <meta property="og:type" content="article">
 <meta property="og:title" content="决策树">
 <meta property="og:url" content="http://shenlehan.github.io/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/index.html">
 <meta property="og:site_name" content="Lehan Shen&#39;s Blog">
-<meta property="og:description" content="1. 决策树学习算法 决策树的学习算法一共有三点： 特征选择，决策树生成，决策树剪枝  决策树的非叶子节点代表选择的一个划分标准（如，第 \(i\) 个分量 \(x^{(i)}\) 是否大于等于 \(0\)），每一个叶子节点代表一个类（样本属于这些类） 2. 特征选择 希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。 信息增益：得知 特征X 的信息而使得类 Y 的信息的不确定性减少的">
+<meta property="og:description" content="决策树学习算法 决策树的学习算法一共有三点： 特征选择，决策树生成，决策树剪枝  决策树的非叶子节点代表选择的一个划分标准（如，第 \(i\) 个分量 \(x^{(i)}\) 是否大于等于 \(0\)），每一个叶子节点代表一个类（样本属于这些类） 特征选择 希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。 信息增益：得知 特征X 的信息而使得类 Y 的信息的不确定性减少的程度，即经验">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-12-20T01:43:34.000Z">
-<meta property="article:modified_time" content="2025-12-20T02:07:47.901Z">
+<meta property="article:modified_time" content="2025-12-20T08:37:01.515Z">
 <meta property="article:author" content="Lehan Shen">
 <meta property="article:tag" content="决策树">
 <meta name="twitter:card" content="summary">
@@ -164,7 +164,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">1. 决策树学习算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9"><span class="nav-number">2.</span> <span class="nav-text">2. 特征选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E7%94%9F%E6%88%90"><span class="nav-number">3.</span> <span class="nav-text">3. 决策树生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E5%89%AA%E6%9E%9D"><span class="nav-number">4.</span> <span class="nav-text">4. 决策树剪枝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cart-%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">5.</span> <span class="nav-text">5. CART 决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.2.</span> <span class="nav-text">2. 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9E%E5%BD%92%E6%A0%91"><span class="nav-number">5.2.1.</span> <span class="nav-text">1. 回归树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E6%A0%91"><span class="nav-number">5.2.2.</span> <span class="nav-text">2. 分类树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%AA%E6%9E%9D"><span class="nav-number">5.3.</span> <span class="nav-text">3. 剪枝</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">决策树学习算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9"><span class="nav-number">2.</span> <span class="nav-text">特征选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E7%94%9F%E6%88%90"><span class="nav-number">3.</span> <span class="nav-text">决策树生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E5%89%AA%E6%9E%9D"><span class="nav-number">4.</span> <span class="nav-text">决策树剪枝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cart-%E5%86%B3%E7%AD%96%E6%A0%91"><span class="nav-number">5.</span> <span class="nav-text">CART 决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.2.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9E%E5%BD%92%E6%A0%91"><span class="nav-number">5.2.1.</span> <span class="nav-text">回归树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E6%A0%91"><span class="nav-number">5.2.2.</span> <span class="nav-text">分类树</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%AA%E6%9E%9D"><span class="nav-number">5.3.</span> <span class="nav-text">剪枝</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -193,6 +193,14 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenlehan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenlehan" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:shenlehan233@gmail.com" title="E-Mail → mailto:shenlehan233@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
 
         </div>
       </div>
@@ -245,7 +253,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-12-20 09:43:34 / Modified: 10:07:47" itemprop="dateCreated datePublished" datetime="2025-12-20T09:43:34+08:00">2025-12-20</time>
+      <time title="Created: 2025-12-20 09:43:34 / Modified: 16:37:01" itemprop="dateCreated datePublished" datetime="2025-12-20T09:43:34+08:00">2025-12-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -281,14 +289,14 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="决策树学习算法">1. 决策树学习算法</h2>
+    <div class="post-body" itemprop="articleBody"><h2 id="决策树学习算法">决策树学习算法</h2>
 <p>决策树的学习算法一共有三点： <div class="note primary"><p>特征选择，决策树生成，决策树剪枝</p>
 </div></p>
 <p>决策树的非叶子节点代表选择的一个划分标准（如，第 <span
 class="math inline">\(i\)</span> 个分量 <span
 class="math inline">\(x^{(i)}\)</span> 是否大于等于 <span
 class="math inline">\(0\)</span>），每一个叶子节点代表一个类（样本属于这些类）</p>
-<h2 id="特征选择">2. 特征选择</h2>
+<h2 id="特征选择">特征选择</h2>
 <p>希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。</p>
 <p>信息增益：得知 特征X 的信息而使得类 Y
 的信息的不确定性减少的程度，即经验熵的改变量。 定义为： <span
@@ -308,7 +316,7 @@ g_R(D, A)=\dfrac{g(D,A)}{H_A(D)}
 class="math inline">\(A\)</span> 的熵 <span class="math display">\[
 H_A(D)=-\sum_{i=1}^n \dfrac{|D_i|}{|D|}\log_2{\dfrac{|D_i|}{|D|}}
 \]</span></p>
-<h2 id="决策树生成">3. 决策树生成</h2>
+<h2 id="决策树生成">决策树生成</h2>
 <p>一共两种算法，ID3 和 C4.5</p>
 <p>ID3 算法依赖于信息增益，而 C4.5 则是信息增益比作为评价标准</p>
 <p>流程：</p>
@@ -327,7 +335,7 @@ class="math inline">\(D_i\)</span>，递归此过程，直到子节点全部属�
 class="math inline">\(A\)</span> 为空。</p></li>
 </ol>
 <p>这两个都容易产生过拟合的问题，故考虑剪枝</p>
-<h2 id="决策树剪枝">4. 决策树剪枝</h2>
+<h2 id="决策树剪枝">决策树剪枝</h2>
 <p>实质上就是一种正则化手段，利用经验熵作为损失函数，叶子节点数作为正则化项。</p>
 <p>定义决策树学习的损失函数为：</p>
 <p><span class="math display">\[
@@ -350,13 +358,13 @@ class="math inline">\(\alpha\)</span> 相当于限制（减小）模型复杂度
 <li><p>尝试将一个叶子节点缩到父节点，比较前后的经验熵，如果经验熵减小，说明可以直接剪枝，将父节点变为一个新的叶节点。</p></li>
 <li><p>回到2，继续操作</p></li>
 </ol>
-<h2 id="cart-决策树">5. CART 决策树</h2>
-<h3 id="概述">1. 概述</h3>
+<h2 id="cart-决策树">CART 决策树</h2>
+<h3 id="概述">概述</h3>
 <p>CART 是一种二叉决策树，每次提问都是 y/n；</p>
 <p>对于回归问题，使用平方误差作为损失函数；对于分类问题，使用 <span
 class="math inline">\(\text{Gini}\)</span> 系数；</p>
-<h3 id="模型">2. 模型</h3>
-<h4 id="回归树">1. 回归树</h4>
+<h3 id="模型">模型</h3>
+<h4 id="回归树">回归树</h4>
 <p><span class="math display">\[
 f(x)=\sum_{m=1}^M c_m \mathbb{I}(x\in R_m)
 \]</span></p>
@@ -381,7 +389,7 @@ R_1(j,s)=\{x|x^{(j)}\leq s\},R_2(j,s)=\{x|x^{(j)}&gt; s\}
 class="math inline">\(\hat{c}_1=\text{ave}(y_i|x_i\in
 R_1(j,s)),\hat{c}_2=\text{ave}(y_i|x_i\in R_2(j,s))\)</span></p>
 <p>重复这个过程，直到达到终止条件。</p>
-<h4 id="分类树">2. 分类树</h4>
+<h4 id="分类树">分类树</h4>
 <p>定义 <span class="math inline">\(\text{Gini}\)</span>
 系数，对于一个概率分布 <span class="math inline">\(p\)</span> 有</p>
 <p><span class="math display">\[
@@ -407,7 +415,7 @@ class="math inline">\(D_1\)</span>，<span
 class="math inline">\(D_2\)</span> 两部分，计算条件 <span
 class="math inline">\(\text{Gini}\)</span>
 系数；选择最小的作为分类，递归操作直到满足终止条件。</p>
-<h3 id="剪枝">3. 剪枝</h3>
+<h3 id="剪枝">剪枝</h3>
 <p>TODO</p>
 
     </div>
@@ -418,7 +426,7 @@ class="math inline">\(\text{Gini}\)</span>
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="tag"># 决策树</a>
+              <a href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="tag"><i class="fa fa-tag"></i> 决策树</a>
           </div>
 
         
@@ -471,7 +479,7 @@ class="math inline">\(\text{Gini}\)</span>
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">10 mins.</span>
+    <span title="Reading time total">9 mins.</span>
   </span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
