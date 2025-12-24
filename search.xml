@@ -1,142 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>决策树</title>
-    <url>/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/</url>
-    <content><![CDATA[<h2 id="决策树学习算法">决策树学习算法</h2>
-<p>决策树的学习算法一共有三点： <div class="note primary"><p>特征选择，决策树生成，决策树剪枝</p>
-</div></p>
-<p>决策树的非叶子节点代表选择的一个划分标准（如，第 <span
-class="math inline">\(i\)</span> 个分量 <span
-class="math inline">\(x^{(i)}\)</span> 是否大于等于 <span
-class="math inline">\(0\)</span>），每一个叶子节点代表一个类（样本属于这些类）</p>
-<h2 id="特征选择">特征选择</h2>
-<p>希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。</p>
-<p>信息增益：得知 特征X 的信息而使得类 Y
-的信息的不确定性减少的程度，即经验熵的改变量。 定义为： <span
-class="math display">\[
-g(D, A)=H(D)-H(D|A)
-\]</span> 其中 <span class="math inline">\(D\)</span> 为数据集，<span
-class="math inline">\(A\)</span> 为我们选择的特征，<span
-class="math inline">\(H\)</span> 为经验熵函数。</p>
-<p>我们希望 <span class="math inline">\(H\)</span> 越小越好，即每一步的
-<span class="math inline">\(g(D,A)\)</span> 要大。</p>
-<p>容易发现，当 <span class="math inline">\(A\)</span>
-表征的特征有更多选项时更容易被选中，所以引入信息增益比： <span
-class="math display">\[
-g_R(D, A)=\dfrac{g(D,A)}{H_A(D)}
-\]</span> 其中 <span class="math inline">\(H_A(D)\)</span> 为数据集
-<span class="math inline">\(D\)</span> 关于特征 <span
-class="math inline">\(A\)</span> 的熵 <span class="math display">\[
-H_A(D)=-\sum_{i=1}^n \dfrac{|D_i|}{|D|}\log_2{\dfrac{|D_i|}{|D|}}
+    <title>Mamba Architecture</title>
+    <url>/2025/12/24/Mamba-Architecture/Mamba-Architecture/</url>
+    <content><![CDATA[<h2 id="state-space-model">State Space Model</h2>
+<p>State Space
+Model/SSM，即状态空间模型，是用以处理序列问题的一种非常优秀的模型。</p>
+<p>其本质是“隐空间”/“状态空间”中的递推。</p>
+<h3 id="问题">问题</h3>
+<p>给定时间信号输入序列 <span
+class="math inline">\(x(t)\)</span>，以及输出序列 <span
+class="math inline">\(y(t)\)</span>，尝试给出预测模型。
+我们考虑一个隐状态空间 <span class="math inline">\(h(t)\in
+\mathbb{R}^N\)</span>，它由 <span class="math inline">\(x(t)\)</span>
+而来，控制了 <span class="math inline">\(y(t)\)</span> 的输出。
+从简化的角度考虑，给出线性模型：</p>
+<p><span class="math display">\[\begin{align}
+h&#39;(t) &amp;= \mathbf{A}h(t)+\mathbf{B}x(t) \\
+y(t)  &amp;= \mathbf{C}h&#39;(t)
+\end{align}
 \]</span></p>
-<h2 id="决策树生成">决策树生成</h2>
-<p>一共两种算法，ID3 和 C4.5</p>
-<p>ID3 算法依赖于信息增益，而 C4.5 则是信息增益比作为评价标准</p>
-<p>流程：</p>
-<ol type="1">
-<li><p>给定数据集 <span class="math inline">\(D\)</span> 以及特征集
-<span class="math inline">\(A\)</span> 阈值 <span
-class="math inline">\(\epsilon\)</span></p></li>
-<li><p>按照每一个特征，计算信息增益（比）；选取信息增益（比）最大的特征
-<span class="math inline">\(A\)</span>，如果节点全部都属于同一类 <span
-class="math inline">\(C_k\)</span>，则直接标记为<span
-class="math inline">\(C_k\)</span> 类并返回</p></li>
-<li><p>否则开始划分，按照 <span class="math inline">\(A\)</span>
-的每一个可能的值 <span class="math inline">\(a_i\)</span> 将划分为 <span
-class="math inline">\(D_i\)</span>，递归此过程，直到子节点全部属于一类或者信息增益（比）小于阈值
-<span class="math inline">\(\epsilon\)</span> 或者特征集 <span
-class="math inline">\(A\)</span> 为空。</p></li>
-</ol>
-<p>这两个都容易产生过拟合的问题，故考虑剪枝</p>
-<h2 id="决策树剪枝">决策树剪枝</h2>
-<p>实质上就是一种正则化手段，利用经验熵作为损失函数，叶子节点数作为正则化项。</p>
-<p>定义决策树学习的损失函数为：</p>
-<p><span class="math display">\[
-C_\alpha(T)=\sum_{t=1}^{|T|} N_tH_t(T)+\alpha|T|
-\]</span></p>
-<p>其中经验熵函数为</p>
-<p><span class="math display">\[
-H_t(T)=-\sum_k \dfrac{N_{tk}}{N_t}\log \dfrac{N_{tk}}{N_t}
-\]</span></p>
-<p>其中，<span class="math inline">\(|T|\)</span>
-为决策树的节点数（正则化项），<span class="math inline">\(t\)</span>
-是子节点编号，<span class="math inline">\(N_t\)</span>
-是每个叶节点的样本数，其中第 <span class="math inline">\(k\)</span>
-类的有 <span class="math inline">\(N_{tk}\)</span> 个。</p>
-<p>当 <span class="math inline">\(\alpha\)</span>
-很小的时候，说明选择损失函数最小的模型，调大 <span
-class="math inline">\(\alpha\)</span> 相当于限制（减小）模型复杂度。</p>
-<p>剪枝算法： 1. 递归，计算每一个叶节点的经验熵</p>
-<ol start="2" type="1">
-<li><p>尝试将一个叶子节点缩到父节点，比较前后的经验熵，如果经验熵减小，说明可以直接剪枝，将父节点变为一个新的叶节点。</p></li>
-<li><p>回到2，继续操作</p></li>
-</ol>
-<h2 id="cart-决策树">CART 决策树</h2>
-<h3 id="概述">概述</h3>
-<p>CART 是一种二叉决策树，每次提问都是 y/n；</p>
-<p>对于回归问题，使用平方误差作为损失函数；对于分类问题，使用 <span
-class="math inline">\(\text{Gini}\)</span> 系数；</p>
-<h3 id="模型">模型</h3>
-<h4 id="回归树">回归树</h4>
-<p><span class="math display">\[
-f(x)=\sum_{m=1}^M c_m \mathbb{I}(x\in R_m)
-\]</span></p>
-<p>其中，<span class="math inline">\(R_m\)</span>
-为提问所划分出的区域，<span class="math inline">\(c_m\)</span>
-为其上的代表值（固定的输出值）；</p>
-<p>通过平方误差计算时，容易知道 <span class="math inline">\(c_m\)</span>
-应该取 <span class="math inline">\(R_m\)</span> 的标签的平均值</p>
-<p>现在问题在于如何划分。</p>
-<p>采用启发式的方法，每次取一个方向 <span
-class="math inline">\(x^{(j)}\)</span>，考虑将 D
-按照这个方向上的一个数值 <span class="math inline">\(s\)</span>
-来划分</p>
-<p><span class="math display">\[
-R_1(j,s)=\{x|x^{(j)}\leq s\},R_2(j,s)=\{x|x^{(j)}&gt; s\}
-\]</span></p>
-<p>现在来求解</p>
-<p><span class="math display">\[
-\min_{j,s} \left\{ \min_{c_1} \sum_{x_i\in R_1(j,s)} (y_i-c)^2 +
-\sum_{x_i\in R_2(j,s)} (y_i-c)^2 \right\}
-\]</span> 固定 <span class="math inline">\(j\)</span> 有 <span
-class="math inline">\(\hat{c}_1=\text{ave}(y_i|x_i\in
-R_1(j,s)),\hat{c}_2=\text{ave}(y_i|x_i\in R_2(j,s))\)</span></p>
-<p>重复这个过程，直到达到终止条件。</p>
-<h4 id="分类树">分类树</h4>
-<p>定义 <span class="math inline">\(\text{Gini}\)</span>
-系数，对于一个概率分布 <span class="math inline">\(p\)</span> 有</p>
-<p><span class="math display">\[
-\text{Gini}(p)=\sum_{k=1}^K p_k(1-p_k)=1-\sum_{k=1}^K p_k^2
-\]</span></p>
-<p>容易发现它是一个凸函数。</p>
-<p>对于一个集合 D 及其划分 <span
-class="math inline">\(C_k\)</span>，类似有</p>
-<p><span class="math display">\[
-\text{Gini}(D)=\sum_{k=1}^K \dfrac{|C_k|}{|D|}
-\left(1-\dfrac{|C_k|}{|D|}\right)=1-\sum_{k=1}^K \left(
-\dfrac{|C_k|}{|D|} \right)^2
-\]</span></p>
-<p>类似条件经验熵函数，也可以定义条件 Gini 系数。</p>
-<p><span class="math inline">\(\text{Gini}\)</span>
-系数的概念非常类似经验熵函数，同样描述了数据的不确定程度。</p>
-<p>分类树则采用 <span class="math inline">\(\text{Gini}\)</span>
-系数，对于每一个特征 <span
-class="math inline">\(A\)</span>，对其所有可能值 <span
-class="math inline">\(a_i\)</span>，进行 y/n 分类，将 <span
-class="math inline">\(D\)</span> 划分为 <span
-class="math inline">\(D_1\)</span>，<span
-class="math inline">\(D_2\)</span> 两部分，计算条件 <span
-class="math inline">\(\text{Gini}\)</span>
-系数；选择最小的作为分类，递归操作直到满足终止条件。</p>
-<h3 id="剪枝">剪枝</h3>
-<p>TODO</p>
+<p>其中，<span class="math inline">\(\mathbf{A}\)</span>，<span
+class="math inline">\(\mathbf{B}\)</span>，<span
+class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
+parameter 和 projection
+parameter。第一个的作用是将隐空间中的状态逐步演化的最终态，后二者的作用是进行隐空间和实际输入/输出空间的映射。</p>
+<h2 id="mamba_ssm-中的-mamba"><code>mamba_ssm</code> 中的
+<code>Mamba</code></h2>
 ]]></content>
       <categories>
-        <category>Machine Learning</category>
+        <category>Deep Learning</category>
       </categories>
       <tags>
-        <tag>决策树</tag>
+        <tag>Mamba</tag>
       </tags>
   </entry>
   <entry>
@@ -349,6 +245,145 @@ P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
       </categories>
       <tags>
         <tag>EM 算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>决策树</title>
+    <url>/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/%E5%86%B3%E7%AD%96%E6%A0%91/</url>
+    <content><![CDATA[<h2 id="决策树学习算法">决策树学习算法</h2>
+<p>决策树的学习算法一共有三点： <div class="note primary"><p>特征选择，决策树生成，决策树剪枝</p>
+</div></p>
+<p>决策树的非叶子节点代表选择的一个划分标准（如，第 <span
+class="math inline">\(i\)</span> 个分量 <span
+class="math inline">\(x^{(i)}\)</span> 是否大于等于 <span
+class="math inline">\(0\)</span>），每一个叶子节点代表一个类（样本属于这些类）</p>
+<h2 id="特征选择">特征选择</h2>
+<p>希望每一步选择的特征都是良好的，引入一个指标来计算：信息增益。</p>
+<p>信息增益：得知 特征X 的信息而使得类 Y
+的信息的不确定性减少的程度，即经验熵的改变量。 定义为： <span
+class="math display">\[
+g(D, A)=H(D)-H(D|A)
+\]</span> 其中 <span class="math inline">\(D\)</span> 为数据集，<span
+class="math inline">\(A\)</span> 为我们选择的特征，<span
+class="math inline">\(H\)</span> 为经验熵函数。</p>
+<p>我们希望 <span class="math inline">\(H\)</span> 越小越好，即每一步的
+<span class="math inline">\(g(D,A)\)</span> 要大。</p>
+<p>容易发现，当 <span class="math inline">\(A\)</span>
+表征的特征有更多选项时更容易被选中，所以引入信息增益比： <span
+class="math display">\[
+g_R(D, A)=\dfrac{g(D,A)}{H_A(D)}
+\]</span> 其中 <span class="math inline">\(H_A(D)\)</span> 为数据集
+<span class="math inline">\(D\)</span> 关于特征 <span
+class="math inline">\(A\)</span> 的熵 <span class="math display">\[
+H_A(D)=-\sum_{i=1}^n \dfrac{|D_i|}{|D|}\log_2{\dfrac{|D_i|}{|D|}}
+\]</span></p>
+<h2 id="决策树生成">决策树生成</h2>
+<p>一共两种算法，ID3 和 C4.5</p>
+<p>ID3 算法依赖于信息增益，而 C4.5 则是信息增益比作为评价标准</p>
+<p>流程：</p>
+<ol type="1">
+<li><p>给定数据集 <span class="math inline">\(D\)</span> 以及特征集
+<span class="math inline">\(A\)</span> 阈值 <span
+class="math inline">\(\epsilon\)</span></p></li>
+<li><p>按照每一个特征，计算信息增益（比）；选取信息增益（比）最大的特征
+<span class="math inline">\(A\)</span>，如果节点全部都属于同一类 <span
+class="math inline">\(C_k\)</span>，则直接标记为<span
+class="math inline">\(C_k\)</span> 类并返回</p></li>
+<li><p>否则开始划分，按照 <span class="math inline">\(A\)</span>
+的每一个可能的值 <span class="math inline">\(a_i\)</span> 将划分为 <span
+class="math inline">\(D_i\)</span>，递归此过程，直到子节点全部属于一类或者信息增益（比）小于阈值
+<span class="math inline">\(\epsilon\)</span> 或者特征集 <span
+class="math inline">\(A\)</span> 为空。</p></li>
+</ol>
+<p>这两个都容易产生过拟合的问题，故考虑剪枝</p>
+<h2 id="决策树剪枝">决策树剪枝</h2>
+<p>实质上就是一种正则化手段，利用经验熵作为损失函数，叶子节点数作为正则化项。</p>
+<p>定义决策树学习的损失函数为：</p>
+<p><span class="math display">\[
+C_\alpha(T)=\sum_{t=1}^{|T|} N_tH_t(T)+\alpha|T|
+\]</span></p>
+<p>其中经验熵函数为</p>
+<p><span class="math display">\[
+H_t(T)=-\sum_k \dfrac{N_{tk}}{N_t}\log \dfrac{N_{tk}}{N_t}
+\]</span></p>
+<p>其中，<span class="math inline">\(|T|\)</span>
+为决策树的节点数（正则化项），<span class="math inline">\(t\)</span>
+是子节点编号，<span class="math inline">\(N_t\)</span>
+是每个叶节点的样本数，其中第 <span class="math inline">\(k\)</span>
+类的有 <span class="math inline">\(N_{tk}\)</span> 个。</p>
+<p>当 <span class="math inline">\(\alpha\)</span>
+很小的时候，说明选择损失函数最小的模型，调大 <span
+class="math inline">\(\alpha\)</span> 相当于限制（减小）模型复杂度。</p>
+<p>剪枝算法： 1. 递归，计算每一个叶节点的经验熵</p>
+<ol start="2" type="1">
+<li><p>尝试将一个叶子节点缩到父节点，比较前后的经验熵，如果经验熵减小，说明可以直接剪枝，将父节点变为一个新的叶节点。</p></li>
+<li><p>回到2，继续操作</p></li>
+</ol>
+<h2 id="cart-决策树">CART 决策树</h2>
+<h3 id="概述">概述</h3>
+<p>CART 是一种二叉决策树，每次提问都是 y/n；</p>
+<p>对于回归问题，使用平方误差作为损失函数；对于分类问题，使用 <span
+class="math inline">\(\text{Gini}\)</span> 系数；</p>
+<h3 id="模型">模型</h3>
+<h4 id="回归树">回归树</h4>
+<p><span class="math display">\[
+f(x)=\sum_{m=1}^M c_m \mathbb{I}(x\in R_m)
+\]</span></p>
+<p>其中，<span class="math inline">\(R_m\)</span>
+为提问所划分出的区域，<span class="math inline">\(c_m\)</span>
+为其上的代表值（固定的输出值）；</p>
+<p>通过平方误差计算时，容易知道 <span class="math inline">\(c_m\)</span>
+应该取 <span class="math inline">\(R_m\)</span> 的标签的平均值</p>
+<p>现在问题在于如何划分。</p>
+<p>采用启发式的方法，每次取一个方向 <span
+class="math inline">\(x^{(j)}\)</span>，考虑将 D
+按照这个方向上的一个数值 <span class="math inline">\(s\)</span>
+来划分</p>
+<p><span class="math display">\[
+R_1(j,s)=\{x|x^{(j)}\leq s\},R_2(j,s)=\{x|x^{(j)}&gt; s\}
+\]</span></p>
+<p>现在来求解</p>
+<p><span class="math display">\[
+\min_{j,s} \left\{ \min_{c_1} \sum_{x_i\in R_1(j,s)} (y_i-c)^2 +
+\sum_{x_i\in R_2(j,s)} (y_i-c)^2 \right\}
+\]</span> 固定 <span class="math inline">\(j\)</span> 有 <span
+class="math inline">\(\hat{c}_1=\text{ave}(y_i|x_i\in
+R_1(j,s)),\hat{c}_2=\text{ave}(y_i|x_i\in R_2(j,s))\)</span></p>
+<p>重复这个过程，直到达到终止条件。</p>
+<h4 id="分类树">分类树</h4>
+<p>定义 <span class="math inline">\(\text{Gini}\)</span>
+系数，对于一个概率分布 <span class="math inline">\(p\)</span> 有</p>
+<p><span class="math display">\[
+\text{Gini}(p)=\sum_{k=1}^K p_k(1-p_k)=1-\sum_{k=1}^K p_k^2
+\]</span></p>
+<p>容易发现它是一个凸函数。</p>
+<p>对于一个集合 D 及其划分 <span
+class="math inline">\(C_k\)</span>，类似有</p>
+<p><span class="math display">\[
+\text{Gini}(D)=\sum_{k=1}^K \dfrac{|C_k|}{|D|}
+\left(1-\dfrac{|C_k|}{|D|}\right)=1-\sum_{k=1}^K \left(
+\dfrac{|C_k|}{|D|} \right)^2
+\]</span></p>
+<p>类似条件经验熵函数，也可以定义条件 Gini 系数。</p>
+<p><span class="math inline">\(\text{Gini}\)</span>
+系数的概念非常类似经验熵函数，同样描述了数据的不确定程度。</p>
+<p>分类树则采用 <span class="math inline">\(\text{Gini}\)</span>
+系数，对于每一个特征 <span
+class="math inline">\(A\)</span>，对其所有可能值 <span
+class="math inline">\(a_i\)</span>，进行 y/n 分类，将 <span
+class="math inline">\(D\)</span> 划分为 <span
+class="math inline">\(D_1\)</span>，<span
+class="math inline">\(D_2\)</span> 两部分，计算条件 <span
+class="math inline">\(\text{Gini}\)</span>
+系数；选择最小的作为分类，递归操作直到满足终止条件。</p>
+<h3 id="剪枝">剪枝</h3>
+<p>TODO</p>
+]]></content>
+      <categories>
+        <category>Machine Learning</category>
+      </categories>
+      <tags>
+        <tag>决策树</tag>
       </tags>
   </entry>
 </search>
