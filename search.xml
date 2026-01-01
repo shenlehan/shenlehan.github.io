@@ -1,69 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>2026新年展望</title>
-    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
-    <content><![CDATA[<p>2026 就这么突然来了。</p>
-<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
-<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
-和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
-<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
-<p>去年寒假看了一半的
-CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
-倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
-<p>先争取活过这个无比劳碌的期末周吧。</p>
-<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
-TPAMI 上面的就最好了）。</p>
-<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
-<ol type="1">
-<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
-去做互联网码农也能用得上。
-其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
-<li><p>UCB CS168/Stanford CS144 Computer
-Networking：其实早在一年前就听完了 USTC
-的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
-看网上的建议，听 UCB 的课，然后把两个的实验都做了。
-还是得动手写点代码：（</p></li>
-<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
-ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
-<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
-的，先把上面的七七八八做完再考虑这个吧。</p></li>
-<li><p>学学 JavaScript</p></li>
-<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
-AI 需要的数学中的最后一块了。</p></li>
-</ol>
-<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
-<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
-<p>再见，2025；干杯，2026！</p>
+    <title>Mamba Architecture</title>
+    <url>/2025/12/24/Mamba-Architecture/Mamba-Architecture/</url>
+    <content><![CDATA[<h2 id="state-space-model">State Space Model</h2>
+<p>State Space
+Model/SSM，即状态空间模型，是用以处理序列问题的一种非常优秀的模型。</p>
+<p>其本质是“隐空间”/“状态空间”中的递推。</p>
+<h3 id="问题">问题</h3>
+<p>给定时间信号输入序列 <span
+class="math inline">\(x(t)\)</span>，以及输出序列 <span
+class="math inline">\(y(t)\)</span>，尝试给出预测模型。
+我们考虑一个隐状态空间 <span class="math inline">\(h(t)\in
+\mathbb{R}^N\)</span>，它由 <span class="math inline">\(x(t)\)</span>
+而来，控制了 <span class="math inline">\(y(t)\)</span> 的输出。
+从简化的角度考虑，给出线性模型：</p>
+<p><span class="math display">\[\begin{align}
+h&#39;(t) &amp;= \mathbf{A}h(t)+\mathbf{B}x(t) \\
+y(t)  &amp;= \mathbf{C}h&#39;(t)
+\end{align}
+\]</span></p>
+<p>其中，<span class="math inline">\(\mathbf{A}\)</span>，<span
+class="math inline">\(\mathbf{B}\)</span>，<span
+class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
+parameter 和 projection
+parameter。第一个的作用是将隐空间中的状态逐步演化的最终态，后二者的作用是进行隐空间和实际输入/输出空间的映射。</p>
+<h2 id="mamba_ssm-中的-mamba"><code>mamba_ssm</code> 中的
+<code>Mamba</code></h2>
 ]]></content>
       <categories>
-        <category>Others</category>
+        <category>Deep Learning</category>
       </categories>
-  </entry>
-  <entry>
-    <title>First Blog</title>
-    <url>/2025/12/19/First-Blog/First-Blog/</url>
-    <content><![CDATA[<p>Hello! This is my first blog.</p>
-<p>A math formula: <span class="math display">\[
-\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
-\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
-\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
-\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
-\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
-\]</span></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>尝试一下中文输入 This's my blog!</p>
-<ul>
-<li>todo 1</li>
-<li>todo 2</li>
-</ul>
-<h1 id="hello">Hello</h1>
-<h2 id="你好">你好</h2>
-<h3 id="foo"><code>foo</code></h3>
-<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
-<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
-<p><span class="math display">\[a+b\geq 3\]</span></p>
-]]></content>
+      <tags>
+        <tag>Mamba</tag>
+      </tags>
   </entry>
   <entry>
     <title>EM算法</title>
@@ -224,29 +194,65 @@ P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
       </tags>
   </entry>
   <entry>
-    <title>Hexo Blog 的一些技术细节</title>
-    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
-    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a
-href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
+    <title>First Blog</title>
+    <url>/2025/12/19/First-Blog/First-Blog/</url>
+    <content><![CDATA[<p>Hello! This is my first blog.</p>
+<p>A math formula: <span class="math display">\[
+\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
+\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
+\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
+\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
+\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
+\]</span></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>尝试一下中文输入 This's my blog!</p>
+<ul>
+<li>todo 1</li>
+<li>todo 2</li>
+</ul>
+<h1 id="hello">Hello</h1>
+<h2 id="你好">你好</h2>
+<h3 id="foo"><code>foo</code></h3>
+<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
+<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
+<p><span class="math display">\[a+b\geq 3\]</span></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>2026新年展望</title>
+    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
+    <content><![CDATA[<p>2026 就这么突然来了。</p>
+<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
+<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
+和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
+<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
+<p>去年寒假看了一半的
+CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
+倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
+<p>先争取活过这个无比劳碌的期末周吧。</p>
+<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
+TPAMI 什么的就最好了）。</p>
+<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
+<ol type="1">
+<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
+去做互联网码农也能用得上。
+其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
+<li><p>UCB CS168/Stanford CS144 Computer
+Networking：其实早在一年前就听完了 USTC
+的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
+看网上的建议，听 UCB 的课，然后把两个的实验都做了。
+还是得动手写点代码：（</p></li>
+<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
+ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
+<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
+的，先把上面的七七八八做完再考虑这个吧。</p></li>
+<li><p>学学 JavaScript</p></li>
+<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
+AI 需要的数学中的最后一块了。</p></li>
+</ol>
+<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
+<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
+<p>再见，2025；干杯，2026！</p>
 ]]></content>
       <categories>
         <category>Others</category>
@@ -392,38 +398,32 @@ class="math inline">\(\text{Gini}\)</span>
       </tags>
   </entry>
   <entry>
-    <title>Mamba Architecture</title>
-    <url>/2025/12/24/Mamba-Architecture/Mamba-Architecture/</url>
-    <content><![CDATA[<h2 id="state-space-model">State Space Model</h2>
-<p>State Space
-Model/SSM，即状态空间模型，是用以处理序列问题的一种非常优秀的模型。</p>
-<p>其本质是“隐空间”/“状态空间”中的递推。</p>
-<h3 id="问题">问题</h3>
-<p>给定时间信号输入序列 <span
-class="math inline">\(x(t)\)</span>，以及输出序列 <span
-class="math inline">\(y(t)\)</span>，尝试给出预测模型。
-我们考虑一个隐状态空间 <span class="math inline">\(h(t)\in
-\mathbb{R}^N\)</span>，它由 <span class="math inline">\(x(t)\)</span>
-而来，控制了 <span class="math inline">\(y(t)\)</span> 的输出。
-从简化的角度考虑，给出线性模型：</p>
-<p><span class="math display">\[\begin{align}
-h&#39;(t) &amp;= \mathbf{A}h(t)+\mathbf{B}x(t) \\
-y(t)  &amp;= \mathbf{C}h&#39;(t)
-\end{align}
-\]</span></p>
-<p>其中，<span class="math inline">\(\mathbf{A}\)</span>，<span
-class="math inline">\(\mathbf{B}\)</span>，<span
-class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
-parameter 和 projection
-parameter。第一个的作用是将隐空间中的状态逐步演化的最终态，后二者的作用是进行隐空间和实际输入/输出空间的映射。</p>
-<h2 id="mamba_ssm-中的-mamba"><code>mamba_ssm</code> 中的
-<code>Mamba</code></h2>
+    <title>Hexo Blog 的一些技术细节</title>
+    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
+    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
+<h2 id="数学公式渲染">数学公式渲染</h2>
+<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
+engine，同时将默认 <code>Markdown</code> 渲染器换成了
+<code>pandoc</code></p>
+<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
+<h2 id="英文引号变成中文">英文引号变成中文</h2>
+<p>我想写这篇文章的罪魁祸首。</p>
+<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
+<code>‘/“</code>，显示效果奇差无比</p>
+<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
+之类的操作</p>
+<p>Github 上比较常见的几个 <a
+href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
+<code>hexo-renderer-marked</code></p>
+<p>但是如上文所说，我换成了 <code>pandoc</code>
+之后依然有这个问题（有的文章说换 <code>pandoc</code>
+之后就好了），猜测也有一个类似的开关</p>
+<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
+<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
+扩展</p>
 ]]></content>
       <categories>
-        <category>Deep Learning</category>
+        <category>Others</category>
       </categories>
-      <tags>
-        <tag>Mamba</tag>
-      </tags>
   </entry>
 </search>
