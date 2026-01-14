@@ -41,6 +41,35 @@ AI 需要的数学中的最后一块了。</p></li>
       </categories>
   </entry>
   <entry>
+    <title>Hexo Blog 的一些技术细节</title>
+    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
+    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
+<h2 id="数学公式渲染">数学公式渲染</h2>
+<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
+engine，同时将默认 <code>Markdown</code> 渲染器换成了
+<code>pandoc</code></p>
+<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
+<h2 id="英文引号变成中文">英文引号变成中文</h2>
+<p>我想写这篇文章的罪魁祸首。</p>
+<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
+<code>‘/“</code>，显示效果奇差无比</p>
+<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
+之类的操作</p>
+<p>Github 上比较常见的几个 <a
+href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
+<code>hexo-renderer-marked</code></p>
+<p>但是如上文所说，我换成了 <code>pandoc</code>
+之后依然有这个问题（有的文章说换 <code>pandoc</code>
+之后就好了），猜测也有一个类似的开关</p>
+<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
+<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
+扩展</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+  </entry>
+  <entry>
     <title>EM算法</title>
     <url>/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h2 id="em-算法的目标">EM 算法的目标</h2>
@@ -224,41 +253,12 @@ P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
 ]]></content>
   </entry>
   <entry>
-    <title>Hexo Blog 的一些技术细节</title>
-    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
-    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a
-href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
-]]></content>
-      <categories>
-        <category>Others</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Mamba Architecture</title>
     <url>/2025/12/24/Mamba-Architecture/Mamba-Architecture/</url>
     <content><![CDATA[<p>Mamba 是一种 State Space
 Model/SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。</p>
 <p>其本质可以理解为“隐空间”/“状态空间”中的递推。</p>
-<h3 id="问题">问题</h3>
+<h2 id="问题">问题</h2>
 <p>给定时间信号输入序列 <span
 class="math inline">\(x(t)\)</span>，以及输出序列 <span
 class="math inline">\(y(t)\)</span>，尝试给出预测模型。
@@ -276,13 +276,13 @@ class="math inline">\(\mathbf{B}\)</span>，<span
 class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
 parameter 和 projection
 parameter。第一个的作用是将隐空间中的状态逐步演化的最终态，后二者的作用是进行隐空间和实际输入/输出空间的映射。</p>
-<h3 id="从连续时间到离散时间">从连续时间到离散时间</h3>
+<h2 id="从连续时间到离散时间">从连续时间到离散时间</h2>
 <p>上面的模型显然是一个连续时间模型，也就意味着是一个微分方程。</p>
 <p>但是在实际工程和应用中，我们不可能去解一个微分方程，因此我们考虑去将他离散化。其中，最重要的一种离散化方式被称作
 "Zero-Order Hold/ZOH" 规则。</p>
-<h4 id="zoh">ZOH</h4>
+<h3 id="zoh">ZOH</h3>
 <p>ZOH 的核心假设非常易于理解：</p>
-<div class="note "><h5 id="zero-order-hold">Zero-Order Hold</h5>
+<div class="note "><h4 id="zero-order-hold">Zero-Order Hold</h4>
 <p>在每个采样区间中，输入保持常数：</p>
 <p><span class="math display">\[
 u(t)=u_k\quad t\in [t_k,t_{k+1})
@@ -310,7 +310,7 @@ A},\bar{B}=\int_{t_k}^{t_{k+1}}e^{A(t_{k+1}-\tau)}B\mathrm{d}\tau
 <p>若 <span class="math inline">\(A\)</span> 可逆，则 <span
 class="math inline">\(B\)</span> 有闭式解 <span
 class="math inline">\(A^{-1}(e^{A\Delta}-I)B\)</span></p>
-<div class="note info"><h5 id="矩阵指数">矩阵指数</h5>
+<div class="note info"><h4 id="矩阵指数">矩阵指数</h4>
 <p><span class="math inline">\(B=e^{A}\)</span> 并不是 <span
 class="math inline">\(B_{ij}=\exp\{a_{ij}\}\)</span>，而是采用泰勒展开：
 <span class="math display">\[
@@ -325,7 +325,7 @@ A=P \text{diag}(a_1,\dots,a_n) P^{-1} \Rightarrow
 e^A=P\text{diag}(e^{a_1},\dots,e^{a_n})P^{-1}
 \]</span></p>
 </div>
-<h4 id="递推">递推</h4>
+<h3 id="递推">递推</h3>
 <p>基于 ZOH 假设，我们可以快速写出以下式子（<span
 class="math inline">\(M\)</span> 是序列长度）： <span
 class="math display">\[
@@ -335,7 +335,7 @@ C\bar{A}^{M-1}\bar{B})\\
 y &amp;= x * \bar{K}
 \end{align}
 \]</span></p>
-<h3 id="一个-mamba-block">一个 Mamba Block</h3>
+<h2 id="一个-mamba-block">一个 Mamba Block</h2>
 <p>一个 Mamba Block
 做一次完整的我们上述的递推操作，也就是对于每个位置提取一次上下文理解。</p>
 <p>和 Transformer 类似，我们也可以把多个 Mamba Block
@@ -345,6 +345,63 @@ Mamba Block 蕴含了越丰富的、越抽象的信息。</p>
 x^{(0)}\xrightarrow{\text{Mamba Block 1}}
 x^{(1)}\xrightarrow{\text{Mamba Block 2}}\dots \xrightarrow{\text{Mamba
 Block M}} x^{(M)}
+\]</span></p>
+<h2 id="具体实现">具体实现</h2>
+<h3 id="algorithm-1parameters-function">Algorithm 1：Parameters
+Function</h3>
+<p>根据我们上文的描述，从给定的序列 <span
+class="math inline">\(\{x\}\)</span> 中生成 <span
+class="math inline">\(\bar{A}, \bar{B}, C\)</span>。</p>
+<p><span class="math display">\[
+\begin{aligned}
+\textbf{Algorithm 1: Parameters Function}\\
+\textbf{Require: } x&#39; \in \mathbb{R}^{(B,N,P)}\\
+\textbf{Ensure: } \bar A \in \mathbb{R}^{(B,N,P,K)},\ \bar B \in
+\mathbb{R}^{(B,N,P,K)},\ C \in \mathbb{R}^{(B,N,K)}\\[4pt]
+\begin{array}{ll}
+1: &amp; B \in \mathbb{R}^{(B,N,K)} \leftarrow
+\mathrm{Linear}^{B}(x&#39;)\\
+2: &amp; C \in \mathbb{R}^{(B,N,K)} \leftarrow
+\mathrm{Linear}^{C}(x&#39;)\\
+3: &amp; \Delta \in \mathbb{R}^{(B,N,P)} \leftarrow
+\log\!\Big(1+\exp(\mathrm{Linear}^{\Delta}(x&#39;)+\mathrm{Parameter}^{\Delta})\Big)\\
+4: &amp; \text{// } \mathrm{Parameter}^{A} \in \mathbb{R}^{(P,K)}\\
+5: &amp; \bar A \in \mathbb{R}^{(B,N,P,K)} \leftarrow \Delta \otimes
+\mathrm{Parameter}^{A}\\
+6: &amp; \bar B \in \mathbb{R}^{(B,N,P,K)} \leftarrow \Delta \otimes B\\
+\textbf{Return:} &amp; \bar A,\ \bar B,\ C
+\end{array}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\textbf{Algorithm 2: Mamba Block}\\
+\textbf{Require: } T_{l-1} \in \mathbb{R}^{(B,N,C)}\\
+\textbf{Ensure: } T_{l} \in \mathbb{R}^{(B,N,C)}\\[4pt]
+\begin{array}{ll}
+1: &amp; \text{// Apply layer normalization to } T_{l-1}\\
+2: &amp; T&#39;_{l-1} \in \mathbb{R}^{(B,N,C)} \leftarrow
+\mathrm{Norm}(T_{l-1})\\
+3: &amp; x \in \mathbb{R}^{(B,N,P)} \leftarrow
+\mathrm{Linear}^{x}(T&#39;_{l-1})\\
+4: &amp; z \in \mathbb{R}^{(B,N,P)} \leftarrow
+\mathrm{Linear}^{z}(T&#39;_{l-1})\\
+5: &amp; \text{// Process the input sequence}\\
+6: &amp; x&#39; \in \mathbb{R}^{(B,N,P)} \leftarrow
+\mathrm{SiLU}(\mathrm{Conv1d}(x))\\
+7: &amp; \bar A,\ \bar B,\ C \leftarrow
+\mathrm{ParametersFunction}(x&#39;)\\
+8: &amp; y \in \mathbb{R}^{(B,N,P)} \leftarrow \mathrm{SSM}(\bar A,\bar
+B,C)(x&#39;)\\
+9: &amp; \text{// Obtain gated } y\\
+10: &amp; y&#39; \in \mathbb{R}^{(B,N,P)} \leftarrow y \odot
+\mathrm{SiLU}(z)\\
+11: &amp; \text{// Residual connection}\\
+12: &amp; T_{l} \in \mathbb{R}^{(B,N,C)} \leftarrow
+\mathrm{Linear}^{T}(y&#39;) + T_{l-1}\\
+\textbf{Return:} &amp; T_{l}
+\end{array}
+\end{aligned}
 \]</span></p>
 ]]></content>
       <categories>
