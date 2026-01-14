@@ -1,73 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>2026新年展望</title>
-    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
-    <content><![CDATA[<p>2026 就这么突然来了。</p>
-<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
-<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
-和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
-<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
-<p>去年寒假看了一半的
-CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
-倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
-<p>先争取活过这个无比劳碌的期末周吧。</p>
-<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
-TPAMI 什么的就最好了）。</p>
-<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
+    <title>Computer Networking</title>
+    <url>/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/</url>
+    <content><![CDATA[<h2 id="概览">概览</h2>
+<p>我们将网络架构自顶向下地分成 5
+层。每一层只需要做好自己的工作就可以了。</p>
+<p>由于历史原因，最顶层被叫做 "Layer 7"</p>
+<figure>
+<img src="layers.png" alt="Layers of the Internet" />
+<figcaption aria-hidden="true">Layers of the Internet</figcaption>
+</figure>
+<h2 id="layers-of-the-internet">Layers of the Internet</h2>
+<h3 id="physical-layer">Physical Layer</h3>
+<p>In the Internet, we’re looking for a way to signal bits (1s and 0s)
+across space.</p>
+<p>The technology could be voltages on an electrical wire, wireless
+radio waves, light pulses along optical fiber cables, among others.</p>
+<p>Physical Layer 数据的基本单位是<strong>bit</strong>。</p>
+<h3 id="link-layer">Link Layer</h3>
+<p>Link Layer cares about how to send the data using Physical Layer.</p>
+<p>Link Layer
+只负责相邻节点之间的通信，其单位是<strong>frame/帧</strong>。</p>
+<h3 id="internet-layer">Internet Layer</h3>
+<p>Internet Layer 是路由器工作的最高层，负责决定 next
+hop，即把数据转发给谁。其基本单位是<strong>packet/包</strong>。</p>
+<p>IP 协议就是在这一层工作的。</p>
+<h3 id="transport-layer">Transport Layer</h3>
+<p>Transport Layer 负责决定数据传输的可靠性，也就是 TCP/UDP
+协议，以及“端到端通信”。</p>
+<p>也就是说，他通过端口区分应用的数据的来/去。</p>
+<p>其基本单位是<strong>段/segment</strong>。</p>
+<h3 id="application-layer">Application Layer</h3>
+<p>只负责考虑如何使用网络。它的基本数据单位被称作
+<strong>message</strong>。</p>
+<h2 id="headers">Headers</h2>
+<p>每一层都会把从更低层拿来的数据加上对应的 Header。</p>
+<p>Header 是只给这一层看的信息（同时，每一层也只能看自己层级的
+header），它指明了信息传输的各种附加信息（采取的协议、收件人/发件人等等）。</p>
+<p>在传输过程中，Header 不断被 peel off，然后又被加上新的。</p>
+<p>由于 Header 的存在，每一层相当于仅仅和自己同层的 peer
+进行通信，因此也要求相同层级采用的协议必须相同。</p>
+<p><img src="header1.png" alt="Header Demo" /> <img src="header2.png"
+alt="Header Demo" /> <img src="Header.png" alt="Header" /></p>
+<h2 id="resource-sharing">Resource Sharing</h2>
+<p>网络的总容量是有限度的，因此如何分配资源是一个重要的问题。</p>
+<p>我们先考虑两个问题：</p>
 <ol type="1">
-<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
-去做互联网码农也能用得上。
-其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
-<li><p>UCB CS168/Stanford CS144 Computer
-Networking：其实早在一年前就听完了 USTC
-的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
-看网上的建议，听 UCB 的课，然后把两个的实验都做了。
-还是得动手写点代码：（</p></li>
-<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
-ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
-<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
-的，先把上面的七七八八做完再考虑这个吧。</p></li>
-<li><p>学学 JavaScript</p></li>
-<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
-AI 需要的数学中的最后一块了。</p></li>
+<li><p>要保证网络正常工作，我们至少要多大的容量？</p></li>
+<li><p>我们如何分配我们的容量？</p></li>
 </ol>
-<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
-<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
-<p>再见，2025；干杯，2026！</p>
+<p>第一个问题的解决方案被称作 statistical multiplexing，其原理非常直观：
+<img src="sm.png" alt="sm" /> <img src="sm1.png" alt="sm" /></p>
+<p>第二个问题有两种解决办法，一种被称作 <strong>best
+effort</strong>，通俗而言就是所有人都只管发送信息，并且 "hope for the
+best"，其对应的策略被称作 packet switching</p>
+<p>另一种被称作
+<strong>reservation</strong>，也就是在通信前会先在网络中预留出容量，其对应的策略被称作
+Circuit Switching <img src="reservation.png" alt="reservation" /> <img
+src="reservation1.png" alt="reservation" /></p>
+<h2 id="properties-of-links">Properties of Links</h2>
+<p>The <strong>bandwidth</strong> of a link tells us how many bits we
+can send on the link per unit time. Intuitively, this is the speed of
+the link. If you think of a link as a pipe carrying water, the bandwidth
+is the width of the pipe. A wider pipe lets us feed more water into the
+pipe per second. We usually measure bandwidth in bits per second (e.g. 5
+Gbps = 5 billion bits per second).</p>
+<p>The <strong>propagation delay</strong> of a link tells us how long it
+takes for a bit to travel along the link. In the pipe analogy, this is
+the length of the link. A shorter pipe means that water spends less time
+in the pipe before arriving at the other end. Propagation delay is
+measured in time (e.g. nanoseconds, milliseconds).</p>
+<p>If we multiply the bandwidth and the propagation delay, we get the
+<strong>bandwidth-delay product (BDP)</strong>. Intuitively, this is the
+<strong>capacity</strong> of the link, or the number of bits that exist
+on the link at any given instant. In the pipe analogy, if we fill up the
+pipe and freeze time, the capacity of the pipe is how much water is in
+the pipe in that instant.</p>
+<p>注意，bandwidth/带宽是指“一秒内发射的 bit 数量”，而 bit
+必须是一个一个发射出去的。所以一个 bit 的发射用时是 <span
+class="math inline">\(\frac{1}{\text{bandwidth}}\)</span>。</p>
+<p>注意区分 delay（或者用全称，propagation delay） 和这个发射用时
+<strong>（也就是上文的 transmission delay）</strong> 的区别。前者是 bit
+在物理链路里面传播(propagation)的时间，后者是终端发送一个 packet 所有
+bit 的时间。这从我们下文的例子就可以看出来。</p>
+<figure>
+<img src="bandwidth.png" alt="bandwidth" />
+<figcaption aria-hidden="true">bandwidth</figcaption>
+</figure>
+<h3 id="timing-diagram">Timing Diagram</h3>
+<p>Suppose we have a link with bandwidth 1 Mbps = 1 million bits per
+second, and propagation delay of 1 ms = 0.001 seconds.</p>
+<p>We want to send a 100 byte = 800 bit packet along this link. How long
+does it take to send this packet, from the time the first bit is sent,
+to the time the last bit is received?</p>
+<p>To answer this question, we can draw a timing diagram. The left bar
+is the sender, and the right bar is the recipient. Time starts at 0 and
+increases as we move down the diagram. <img src="timing_diagram.png"
+alt="timing diagram" /></p>
+<p>Let’s focus on the first bit. We can put 1,000,000 bits on the link
+per second (bandwidth), so it takes 1/1,000,000 = 0.000001 seconds to
+put a single bit on the link. At time 0.000001 seconds, the link has a
+single bit on it, at the sender end.</p>
+<p>It then takes 0.001 seconds for this bit to travel across the link
+(propagation delay), so at time 0.000001 + 0.001 seconds, the very first
+bit arrives at the recipient.</p>
+<figure>
+<img src="timing_diagram1.png" alt="alt text" />
+<figcaption aria-hidden="true">alt text</figcaption>
+</figure>
+<p>Now let’s think about the last bit. From before, it takes 0.000001 to
+put a bit on the link. We have 800 bits to send, so the last bit is
+placed on the link at time <span
+class="math inline">\(800*0.000001=0.0008\)</span> seconds.</p>
+<p>It then takes 0.001 seconds for the last bit to travel across the
+link, so at time 0.0008 + 0.001 seconds, the very last bit arrives at
+the recipient. This is the time when we can say the packet has arrived
+at the recipient.</p>
+<figure>
+<img src="timing_diagram2.png" alt="alt text" />
+<figcaption aria-hidden="true">alt text</figcaption>
+</figure>
+<h3 id="packet-delay">Packet Delay</h3>
+<p>从上文例子可以看出，一个完整的 packet 发送的延迟就是 <span
+class="math inline">\(\text{transmission delay + propagation
+delay}\)</span></p>
+<h3 id="pipe-diagram">Pipe Diagram</h3>
+<p>To draw the link, we can imagine the link is a pipe (similar to the
+water analogy) and draw the pipe as a rectangle, where the width is the
+propagation delay, and the height is the bandwidth. The area of the pipe
+is the capacity of the link.</p>
+<p><img src="pipe1.png" alt="Pipe" /> <img src="pipe2.png"
+alt="Pipe1" /> <img src="pipe3.png" alt="Pipe2" /> <img src="pipe4.png"
+alt="Pipe3" /></p>
+<p>Pipe diagrams can be useful for comparing different links. Let’s look
+at the exact same packets traveling through three different links.</p>
+<figure>
+<img src="pipe5.png" alt="Pipe4" />
+<figcaption aria-hidden="true">Pipe4</figcaption>
+</figure>
+<h3 id="overloaded-links">Overloaded Links</h3>
+<p>In the long term, we have enough capacity to send all the outgoing
+packets, but at this very instant in time, we have two packets arriving
+simultaneously, and we can only send out one. This is called transient
+overload, and it’s extremely common at switches in the Internet.</p>
+<p>To cope with transient overload, the switch maintains a queue of
+packets. If two packets arrive simultaneously, the switch queues one of
+them and sends out the other one.</p>
+<p><img src="queue1.png" alt="queue" /> <img src="queue2.png"
+alt="queue" /></p>
+<p>At any given time, the switch could choose to send a packet from one
+of the incoming links, or send a packet from the queue. This choice is
+determined by a packet scheduling algorithm, and there are lots of
+different designs that we’ll look at.</p>
+<p>Now that we have a notion of queuing, we need to go back and update
+our packet delay formula. <strong>Now, packet delay is the sum of
+transmission delay, propagation delay, and queuing delay</strong>.</p>
 ]]></content>
-      <categories>
-        <category>Others</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Hexo Blog 的一些技术细节</title>
-    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
-    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a
-href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
-]]></content>
-      <categories>
-        <category>Others</category>
-      </categories>
   </entry>
   <entry>
     <title>EM算法</title>
@@ -226,31 +315,6 @@ P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
       <tags>
         <tag>EM 算法</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>First Blog</title>
-    <url>/2025/12/19/First-Blog/First-Blog/</url>
-    <content><![CDATA[<p>Hello! This is my first blog.</p>
-<p>A math formula: <span class="math display">\[
-\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
-\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
-\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
-\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
-\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
-\]</span></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>尝试一下中文输入 This's my blog!</p>
-<ul>
-<li>todo 1</li>
-<li>todo 2</li>
-</ul>
-<h1 id="hello">Hello</h1>
-<h2 id="你好">你好</h2>
-<h3 id="foo"><code>foo</code></h3>
-<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
-<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
-<p><span class="math display">\[a+b\geq 3\]</span></p>
-]]></content>
   </entry>
   <entry>
     <title>Mamba Architecture</title>
@@ -412,6 +476,71 @@ B,C)(x&#39;)\\
       </tags>
   </entry>
   <entry>
+    <title>2026新年展望</title>
+    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
+    <content><![CDATA[<p>2026 就这么突然来了。</p>
+<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
+<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
+和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
+<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
+<p>去年寒假看了一半的
+CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
+倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
+<p>先争取活过这个无比劳碌的期末周吧。</p>
+<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
+TPAMI 什么的就最好了）。</p>
+<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
+<ol type="1">
+<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
+去做互联网码农也能用得上。
+其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
+<li><p>UCB CS168/Stanford CS144 Computer
+Networking：其实早在一年前就听完了 USTC
+的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
+看网上的建议，听 UCB 的课，然后把两个的实验都做了。
+还是得动手写点代码：（</p></li>
+<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
+ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
+<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
+的，先把上面的七七八八做完再考虑这个吧。</p></li>
+<li><p>学学 JavaScript</p></li>
+<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
+AI 需要的数学中的最后一块了。</p></li>
+</ol>
+<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
+<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
+<p>再见，2025；干杯，2026！</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>First Blog</title>
+    <url>/2025/12/19/First-Blog/First-Blog/</url>
+    <content><![CDATA[<p>Hello! This is my first blog.</p>
+<p>A math formula: <span class="math display">\[
+\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
+\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
+\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
+\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
+\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
+\]</span></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>尝试一下中文输入 This's my blog!</p>
+<ul>
+<li>todo 1</li>
+<li>todo 2</li>
+</ul>
+<h1 id="hello">Hello</h1>
+<h2 id="你好">你好</h2>
+<h3 id="foo"><code>foo</code></h3>
+<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
+<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
+<p><span class="math display">\[a+b\geq 3\]</span></p>
+]]></content>
+  </entry>
+  <entry>
     <title>决策树</title>
     <url>/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/%E5%86%B3%E7%AD%96%E6%A0%91/</url>
     <content><![CDATA[<h2 id="决策树学习算法">决策树学习算法</h2>
@@ -549,5 +678,34 @@ class="math inline">\(\text{Gini}\)</span>
       <tags>
         <tag>决策树</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hexo Blog 的一些技术细节</title>
+    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
+    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
+<h2 id="数学公式渲染">数学公式渲染</h2>
+<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
+engine，同时将默认 <code>Markdown</code> 渲染器换成了
+<code>pandoc</code></p>
+<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
+<h2 id="英文引号变成中文">英文引号变成中文</h2>
+<p>我想写这篇文章的罪魁祸首。</p>
+<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
+<code>‘/“</code>，显示效果奇差无比</p>
+<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
+之类的操作</p>
+<p>Github 上比较常见的几个 <a
+href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
+<code>hexo-renderer-marked</code></p>
+<p>但是如上文所说，我换成了 <code>pandoc</code>
+之后依然有这个问题（有的文章说换 <code>pandoc</code>
+之后就好了），猜测也有一个类似的开关</p>
+<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
+<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
+扩展</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
   </entry>
 </search>
