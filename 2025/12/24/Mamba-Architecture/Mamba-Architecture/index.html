@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="State Space Model State Space Model&#x2F;SSM，即状态空间模型，是用以处理序列问题的一种非常优秀的模型。 其本质是“隐空间”&#x2F;“状态空间”中的递推。 问题 给定时间信号输入序列 \(x(t)\)，以及输出序列 \(y(t)\)，尝试给出预测模型。 我们考虑一个隐状态空间 \(h(t)\in \mathbb{R}^N\)，它由 \(x(t)\) 而来，控制了 \(y(">
+    <meta name="description" content="Mamba 是一种 State Space Model&#x2F;SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。 其本质可以理解为“隐空间”&#x2F;“状态空间”中的递推。 问题 给定时间信号输入序列 \(x(t)\)，以及输出序列 \(y(t)\)，尝试给出预测模型。 我们考虑一个隐状态空间 \(h(t)\in \mathbb{R}^N\)，它由 \(x(t)\) 而来，控制了 \(y(t)\">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mamba Architecture">
 <meta property="og:url" content="http://shenlehan.github.io/2025/12/24/Mamba-Architecture/Mamba-Architecture/index.html">
 <meta property="og:site_name" content="Lehan Shen&#39;s Blog">
-<meta property="og:description" content="State Space Model State Space Model&#x2F;SSM，即状态空间模型，是用以处理序列问题的一种非常优秀的模型。 其本质是“隐空间”&#x2F;“状态空间”中的递推。 问题 给定时间信号输入序列 \(x(t)\)，以及输出序列 \(y(t)\)，尝试给出预测模型。 我们考虑一个隐状态空间 \(h(t)\in \mathbb{R}^N\)，它由 \(x(t)\) 而来，控制了 \(y(">
+<meta property="og:description" content="Mamba 是一种 State Space Model&#x2F;SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。 其本质可以理解为“隐空间”&#x2F;“状态空间”中的递推。 问题 给定时间信号输入序列 \(x(t)\)，以及输出序列 \(y(t)\)，尝试给出预测模型。 我们考虑一个隐状态空间 \(h(t)\in \mathbb{R}^N\)，它由 \(x(t)\) 而来，控制了 \(y(t)\">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-12-24T14:18:28.000Z">
-<meta property="article:modified_time" content="2025-12-24T14:36:50.669Z">
+<meta property="article:modified_time" content="2026-01-14T02:45:11.469Z">
 <meta property="article:author" content="Lehan Shen">
 <meta property="article:tag" content="Mamba">
 <meta name="twitter:card" content="summary">
@@ -164,8 +164,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#state-space-model"><span class="nav-number">1.</span> <span class="nav-text">State Space Model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mamba_ssm-%E4%B8%AD%E7%9A%84-mamba"><span class="nav-number">2.</span> <span class="nav-text">mamba_ssm 中的
-Mamba</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E8%BF%9E%E7%BB%AD%E6%97%B6%E9%97%B4%E5%88%B0%E7%A6%BB%E6%95%A3%E6%97%B6%E9%97%B4"><span class="nav-number">2.</span> <span class="nav-text">从连续时间到离散时间</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#zoh"><span class="nav-number">2.1.</span> <span class="nav-text">ZOH</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#zero-order-hold"><span class="nav-number">2.1.1.</span> <span class="nav-text">Zero-Order Hold</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E6%8C%87%E6%95%B0"><span class="nav-number">2.1.2.</span> <span class="nav-text">矩阵指数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%92%E6%8E%A8"><span class="nav-number">2.2.</span> <span class="nav-text">递推</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA-mamba-block"><span class="nav-number">3.</span> <span class="nav-text">一个 Mamba Block</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -252,9 +251,15 @@ Mamba</span></a></li></ol></div>
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2025-12-24 22:18:28 / Modified: 22:36:50" itemprop="dateCreated datePublished" datetime="2025-12-24T22:18:28+08:00">2025-12-24</time>
+      <time title="Created: 2025-12-24 22:18:28" itemprop="dateCreated datePublished" datetime="2025-12-24T22:18:28+08:00">2025-12-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-01-14 10:45:11" itemprop="dateModified" datetime="2026-01-14T10:45:11+08:00">2026-01-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -273,14 +278,14 @@ Mamba</span></a></li></ol></div>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>215</span>
+      <span>773</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>3 mins.</span>
     </span>
 </div>
 
@@ -290,10 +295,9 @@ Mamba</span></a></li></ol></div>
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="state-space-model">State Space Model</h2>
-<p>State Space
-Model/SSM，即状态空间模型，是用以处理序列问题的一种非常优秀的模型。</p>
-<p>其本质是“隐空间”/“状态空间”中的递推。</p>
+    <div class="post-body" itemprop="articleBody"><p>Mamba 是一种 State Space
+Model/SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。</p>
+<p>其本质可以理解为“隐空间”/“状态空间”中的递推。</p>
 <h3 id="问题">问题</h3>
 <p>给定时间信号输入序列 <span
 class="math inline">\(x(t)\)</span>，以及输出序列 <span
@@ -312,8 +316,76 @@ class="math inline">\(\mathbf{B}\)</span>，<span
 class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
 parameter 和 projection
 parameter。第一个的作用是将隐空间中的状态逐步演化的最终态，后二者的作用是进行隐空间和实际输入/输出空间的映射。</p>
-<h2 id="mamba_ssm-中的-mamba"><code>mamba_ssm</code> 中的
-<code>Mamba</code></h2>
+<h3 id="从连续时间到离散时间">从连续时间到离散时间</h3>
+<p>上面的模型显然是一个连续时间模型，也就意味着是一个微分方程。</p>
+<p>但是在实际工程和应用中，我们不可能去解一个微分方程，因此我们考虑去将他离散化。其中，最重要的一种离散化方式被称作
+"Zero-Order Hold/ZOH" 规则。</p>
+<h4 id="zoh">ZOH</h4>
+<p>ZOH 的核心假设非常易于理解：</p>
+<div class="note "><h5 id="zero-order-hold">Zero-Order Hold</h5>
+<p>在每个采样区间中，输入保持常数：</p>
+<p><span class="math display">\[
+u(t)=u_k\quad t\in [t_k,t_{k+1})
+\]</span></p>
+<p>其中，采样步长 <span
+class="math inline">\(\Delta&gt;0\)</span>，<span
+class="math inline">\(t_k=k\Delta\)</span></p>
+</div>
+<p>我们希望得到离散递推公式： <span class="math display">\[
+x_{k+1}=\bar{A}x_k+\bar{B}u_k
+\]</span></p>
+<p>所以，也就是去解这个微分方程（和普通的微分方程一样，先不考虑是矩阵的情况）：
+<span class="math display">\[
+\frac{\mathrm{d}x}{\mathrm{d}t}=Ax+Bu
+\]</span></p>
+<p>注意，这里 <span class="math inline">\(x\)</span> 是状态，<span
+class="math inline">\(u\)</span> 是输入。</p>
+<p>将系统重写为 <span class="math display">\[
+\dot{x}(t)-Ax(t)=Bu(t)
+\]</span></p>
+<p>解之即有： <span class="math display">\[
+\bar{A}=e^{\Delta
+A},\bar{B}=\int_{t_k}^{t_{k+1}}e^{A(t_{k+1}-\tau)}B\mathrm{d}\tau
+\]</span></p>
+<p>若 <span class="math inline">\(A\)</span> 可逆，则 <span
+class="math inline">\(B\)</span> 有闭式解 <span
+class="math inline">\(A^{-1}(e^{A\Delta}-I)B\)</span></p>
+<div class="note info"><h5 id="矩阵指数">矩阵指数</h5>
+<p><span class="math inline">\(B=e^{A}\)</span> 并不是 <span
+class="math inline">\(B_{ij}=\exp\{a_{ij}\}\)</span>，而是采用泰勒展开：
+<span class="math display">\[
+e^A=\sum_{i=0}^{\infin} \frac{A^k}{k!}
+\]</span></p>
+<p>对于对角矩阵，退化为上面的直觉的形式： <span class="math display">\[
+A=\text{diag}(a_1,\dots,a_n) \Rightarrow
+e^A=\text{diag}(e^{a_1},\dots,e^{a_n})
+\]</span></p>
+<p>类似，对于可对角化矩阵，也有： <span class="math display">\[
+A=P \text{diag}(a_1,\dots,a_n) P^{-1} \Rightarrow
+e^A=P\text{diag}(e^{a_1},\dots,e^{a_n})P^{-1}
+\]</span></p>
+</div>
+<h4 id="递推">递推</h4>
+<p>基于 ZOH 假设，我们可以快速写出以下式子（<span
+class="math inline">\(M\)</span> 是序列长度）： <span
+class="math display">\[
+\begin{align}
+\bar{K} &amp;= (C\bar{B}, C\bar{A}\bar{B}, C\bar{A}^2\bar{B},\dots,
+C\bar{A}^{M-1}\bar{B})\\
+y &amp;= x * \bar{K}
+\end{align}
+\]</span></p>
+<h3 id="一个-mamba-block">一个 Mamba Block</h3>
+<p>一个 Mamba Block
+做一次完整的我们上述的递推操作，也就是对于每个位置提取一次上下文理解。</p>
+<p>和 Transformer 类似，我们也可以把多个 Mamba Block
+叠起来，进行更深度的信息提取，也就是<strong>逐层抽象</strong>，越靠后的
+Mamba Block 蕴含了越丰富的、越抽象的信息。</p>
+<p><span class="math display">\[
+x^{(0)}\xrightarrow{\text{Mamba Block 1}}
+x^{(1)}\xrightarrow{\text{Mamba Block 2}}\dots \xrightarrow{\text{Mamba
+Block M}} x^{(M)}
+\]</span></p>
 
     </div>
 
@@ -369,14 +441,14 @@ parameter。第一个的作用是将隐空间中的状态逐步演化的最终�
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Word count total: </span>
-    <span title="Word count total">3k</span>
+    <span title="Word count total">4k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">13 mins.</span>
+    <span title="Reading time total">15 mins.</span>
   </span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
