@@ -20,36 +20,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="概览 我们将网络架构自顶向下地分成 5 层。每一层只需要做好自己的工作就可以了。 由于历史原因，最顶层被叫做 &quot;Layer 7&quot;   Layers of the Internet  Layers of the Internet Physical Layer In the Internet, we’re looking for a way to signal bits (1s and 0s) acr">
+    <meta name="description" content="概览 我们将网络架构自顶向下地分成 5 层。每一层只需要做好自己的工作就可以了。 由于历史原因，最顶层被叫做 &quot;Layer 7&quot;  Layers of the Internet Physical Layer In the Internet, we’re looking for a way to signal bits (1s and 0s) across space. The technology">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Computer Networking">
 <meta property="og:url" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/index.html">
 <meta property="og:site_name" content="Lehan Shen&#39;s Blog">
-<meta property="og:description" content="概览 我们将网络架构自顶向下地分成 5 层。每一层只需要做好自己的工作就可以了。 由于历史原因，最顶层被叫做 &quot;Layer 7&quot;   Layers of the Internet  Layers of the Internet Physical Layer In the Internet, we’re looking for a way to signal bits (1s and 0s) acr">
+<meta property="og:description" content="概览 我们将网络架构自顶向下地分成 5 层。每一层只需要做好自己的工作就可以了。 由于历史原因，最顶层被叫做 &quot;Layer 7&quot;  Layers of the Internet Physical Layer In the Internet, we’re looking for a way to signal bits (1s and 0s) across space. The technology">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/layers.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/header1.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/header2.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/Header.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/sm.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/sm1.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/reservation.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/bandwidth.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/timing_diagram.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/timing_diagram1.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/timing_diagram2.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/pipe1.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/pipe2.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/pipe3.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/pipe4.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/pipe5.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/queue1.png">
-<meta property="og:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/queue2.png">
 <meta property="article:published_time" content="2026-01-14T05:16:06.000Z">
-<meta property="article:modified_time" content="2026-01-14T06:43:20.575Z">
+<meta property="article:modified_time" content="2026-01-14T07:01:17.715Z">
 <meta property="article:author" content="Lehan Shen">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/layers.png">
 
 
 <link rel="canonical" href="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/">
@@ -271,7 +252,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-01-14 13:16:06 / Modified: 14:43:20" itemprop="dateCreated datePublished" datetime="2026-01-14T13:16:06+08:00">2026-01-14</time>
+      <time title="Created: 2026-01-14 13:16:06 / Modified: 15:01:17" itemprop="dateCreated datePublished" datetime="2026-01-14T13:16:06+08:00">2026-01-14</time>
     </span>
 
   
@@ -302,10 +283,7 @@
 <p>我们将网络架构自顶向下地分成 5
 层。每一层只需要做好自己的工作就可以了。</p>
 <p>由于历史原因，最顶层被叫做 "Layer 7"</p>
-<figure>
-<img src="layers.png" alt="Layers of the Internet" />
-<figcaption aria-hidden="true">Layers of the Internet</figcaption>
-</figure>
+
 <h2 id="layers-of-the-internet">Layers of the Internet</h2>
 <h3 id="physical-layer">Physical Layer</h3>
 <p>In the Internet, we’re looking for a way to signal bits (1s and 0s)
@@ -336,8 +314,9 @@ header），它指明了信息传输的各种附加信息（采取的协议、�
 <p>在传输过程中，Header 不断被 peel off，然后又被加上新的。</p>
 <p>由于 Header 的存在，每一层相当于仅仅和自己同层的 peer
 进行通信，因此也要求相同层级采用的协议必须相同。</p>
-<p><img src="header1.png" alt="Header Demo" /> <img src="header2.png"
-alt="Header Demo" /> <img src="Header.png" alt="Header" /></p>
+
+
+
 <h2 id="resource-sharing">Resource Sharing</h2>
 <p>网络的总容量是有限度的，因此如何分配资源是一个重要的问题。</p>
 <p>我们先考虑两个问题：</p>
@@ -345,15 +324,18 @@ alt="Header Demo" /> <img src="Header.png" alt="Header" /></p>
 <li><p>要保证网络正常工作，我们至少要多大的容量？</p></li>
 <li><p>我们如何分配我们的容量？</p></li>
 </ol>
-<p>第一个问题的解决方案被称作 statistical multiplexing，其原理非常直观：
-<img src="sm.png" alt="sm" /> <img src="sm1.png" alt="sm" /></p>
+<p>第一个问题的解决方案被称作 statistical
+multiplexing，其原理非常直观：</p>
+
+
 <p>第二个问题有两种解决办法，一种被称作 <strong>best
 effort</strong>，通俗而言就是所有人都只管发送信息，并且 "hope for the
 best"，其对应的策略被称作 packet switching</p>
 <p>另一种被称作
 <strong>reservation</strong>，也就是在通信前会先在网络中预留出容量，其对应的策略被称作
-Circuit Switching <img src="reservation.png" alt="reservation" /> <img
-src="reservation1.png" alt="reservation" /></p>
+Circuit Switching</p>
+
+
 <h2 id="properties-of-links">Properties of Links</h2>
 <p>The <strong>bandwidth</strong> of a link tells us how many bits we
 can send on the link per unit time. Intuitively, this is the speed of
@@ -379,10 +361,7 @@ class="math inline">\(\frac{1}{\text{bandwidth}}\)</span>。</p>
 <strong>（也就是上文的 transmission delay）</strong> 的区别。前者是 bit
 在物理链路里面传播(propagation)的时间，后者是终端发送一个 packet 所有
 bit 的时间。这从我们下文的例子就可以看出来。</p>
-<figure>
-<img src="bandwidth.png" alt="bandwidth" />
-<figcaption aria-hidden="true">bandwidth</figcaption>
-</figure>
+
 <h3 id="timing-diagram">Timing Diagram</h3>
 <p>Suppose we have a link with bandwidth 1 Mbps = 1 million bits per
 second, and propagation delay of 1 ms = 0.001 seconds.</p>
@@ -391,8 +370,8 @@ does it take to send this packet, from the time the first bit is sent,
 to the time the last bit is received?</p>
 <p>To answer this question, we can draw a timing diagram. The left bar
 is the sender, and the right bar is the recipient. Time starts at 0 and
-increases as we move down the diagram. <img src="timing_diagram.png"
-alt="timing diagram" /></p>
+increases as we move down the diagram.</p>
+
 <p>Let’s focus on the first bit. We can put 1,000,000 bits on the link
 per second (bandwidth), so it takes 1/1,000,000 = 0.000001 seconds to
 put a single bit on the link. At time 0.000001 seconds, the link has a
@@ -400,10 +379,7 @@ single bit on it, at the sender end.</p>
 <p>It then takes 0.001 seconds for this bit to travel across the link
 (propagation delay), so at time 0.000001 + 0.001 seconds, the very first
 bit arrives at the recipient.</p>
-<figure>
-<img src="timing_diagram1.png" alt="alt text" />
-<figcaption aria-hidden="true">alt text</figcaption>
-</figure>
+
 <p>Now let’s think about the last bit. From before, it takes 0.000001 to
 put a bit on the link. We have 800 bits to send, so the last bit is
 placed on the link at time <span
@@ -412,10 +388,7 @@ class="math inline">\(800*0.000001=0.0008\)</span> seconds.</p>
 link, so at time 0.0008 + 0.001 seconds, the very last bit arrives at
 the recipient. This is the time when we can say the packet has arrived
 at the recipient.</p>
-<figure>
-<img src="timing_diagram2.png" alt="alt text" />
-<figcaption aria-hidden="true">alt text</figcaption>
-</figure>
+
 <h3 id="packet-delay">Packet Delay</h3>
 <p>从上文例子可以看出，一个完整的 packet 发送的延迟就是 <span
 class="math inline">\(\text{transmission delay + propagation
@@ -425,15 +398,13 @@ delay}\)</span></p>
 water analogy) and draw the pipe as a rectangle, where the width is the
 propagation delay, and the height is the bandwidth. The area of the pipe
 is the capacity of the link.</p>
-<p><img src="pipe1.png" alt="Pipe" /> <img src="pipe2.png"
-alt="Pipe1" /> <img src="pipe3.png" alt="Pipe2" /> <img src="pipe4.png"
-alt="Pipe3" /></p>
+
+
+
+
 <p>Pipe diagrams can be useful for comparing different links. Let’s look
 at the exact same packets traveling through three different links.</p>
-<figure>
-<img src="pipe5.png" alt="Pipe4" />
-<figcaption aria-hidden="true">Pipe4</figcaption>
-</figure>
+
 <h3 id="overloaded-links">Overloaded Links</h3>
 <p>In the long term, we have enough capacity to send all the outgoing
 packets, but at this very instant in time, we have two packets arriving
@@ -442,8 +413,8 @@ overload, and it’s extremely common at switches in the Internet.</p>
 <p>To cope with transient overload, the switch maintains a queue of
 packets. If two packets arrive simultaneously, the switch queues one of
 them and sends out the other one.</p>
-<p><img src="queue1.png" alt="queue" /> <img src="queue2.png"
-alt="queue" /></p>
+
+
 <p>At any given time, the switch could choose to send a packet from one
 of the incoming links, or send a packet from the queue. This choice is
 determined by a packet scheduling algorithm, and there are lots of
