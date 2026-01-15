@@ -246,7 +246,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-01-15 21:19:39 / Modified: 21:35:08" itemprop="dateCreated datePublished" datetime="2026-01-15T21:19:39+08:00">2026-01-15</time>
+      <time title="Created: 2026-01-15 21:19:39 / Modified: 21:41:53" itemprop="dateCreated datePublished" datetime="2026-01-15T21:19:39+08:00">2026-01-15</time>
     </span>
 
   
@@ -256,7 +256,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>86</span>
+      <span>244</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -275,15 +275,29 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="what-is-routing">What is Routing?</h2>
-<h1 id="end-host-and-router">End Host and Router</h1>
+<h3 id="end-host-and-router">End Host and Router</h3>
 <p>我们先说明 End Host 和 Router 的区别。</p>
 <p>前者是网络中一条线路的端点，他只负责接受、发送自己的信息，而不负责“传送”任务。
 后者则相反，仅仅起到中介的作用。</p>
 <h3 id="packets">Packets</h3>
 <p>我们之前说过，Packets 是 Internet Layer 传送的基本单元。</p>
+<p>为了正确地在互联网中传送数据，我们显然需要指明 Source 和
+Destination。 他们需要一个唯一的标识符。</p>
+<p>这个标识符是怎么来的，姑且先不考虑。在有了这个标识符之后，我们便在
+packet 的头部加上 Source Address 和 Destination Address 两个元素。</p>
 <figure>
 <img src="/.io//packets.png" alt="Packets">
 <figcaption aria-hidden="true">Packets</figcaption>
+</figure>
+<h2 id="routing-states">Routing States</h2>
+<h3 id="what-is-rouing-state">What is Rouing State</h3>
+<p>Routing States 最简单的说，是一种策略。即当 router 接收到一个 packet
+的时候，根据这些策略，便能成功地把信息传送到目的地。</p>
+<p>其中，最重要的、也是最泛用的策略被称作转发表/Forward Table</p>
+<h3 id="forwarding-table">Forwarding Table</h3>
+<figure>
+<img src="/.io//ft.png" alt="Forwarding Table">
+<figcaption aria-hidden="true">Forwarding Table</figcaption>
 </figure>
 
       

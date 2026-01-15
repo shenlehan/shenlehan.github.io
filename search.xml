@@ -1,135 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>EM算法</title>
-    <url>/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="em-算法的目标">EM 算法的目标</h2>
-<p>先考虑著名的三硬币问题： <div class="note primary"><p>假设三枚硬币 A, B, C，其正面朝上的概率分别为 <span class="math inline">\(\pi,p,q\)</span>。</p>
-<p>先抛 A，若正面朝上抛 B，反之则抛 C。</p>
-<p>只记录抛 B，C 的结果，得到一个 01 序列。</p>
-<p>要求给出此模型的参数 <span class="math inline">\(\theta=(\pi,p,q)\)</span></p>
-</div></p>
-<p>抽象出问题实质：</p>
-<p>给出观测数据 <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span>
-以及隐变量 <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span>，则给出似然估计：
-<span class="math display">\[
-P(Y|\theta) =\sum_Z P(Y|Z,\theta) P(Z|\theta)
-\]</span></p>
-<p>此问题中可以化简为：</p>
-<p><span class="math display">\[
-P(Y|\theta) =\prod_{j=1}^n \left[\pi p^{y_j} (1-p)^{1-y_j} +(1-\pi)
-q^{y_j} (1-q)^{1-y_j}  \right]
-\]</span> 希望给出</p>
-<p><span class="math display">\[
-\hat{\theta}=\arg \max_{\theta} \log(P(Y|\theta))
-\]</span></p>
-<p>下面给出一个用语的约定：</p>
-<ul>
-<li><p><strong>观测数据</strong>/<strong>不完全数据</strong> <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span></p></li>
-<li><p>隐变量/<strong>未观测数据</strong>/ <span class="math inline">\(\text{Latent Variables}\)</span> <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span></p></li>
-<li><p>完全数据：<span class="math inline">\(P(Y,Z|\theta)\)</span></p></li>
-<li><p>完全数据的对数似然函数：<span class="math inline">\(\log
-P(Y,Z|\theta)\)</span></p></li>
-</ul>
-<h2 id="em-算法的导出">EM 算法的导出</h2>
-<p>设 <span class="math display">\[
-\begin{align}
-L(\theta) &amp;=P(Y|\theta)=\sum_Z P(Y|Z,\theta) P(Z|\theta) \\
-&amp;=\log \left( \sum_Z P(Y|Z,\theta) P(Z|\theta) \right)
-\end{align}
-\]</span></p>
-<p>我们逐步迭代去求出最优化的 <span class="math inline">\(\theta\)</span>，设第 <span class="math inline">\(i\)</span> 次求出的解是 <span class="math inline">\(\theta^{(i)}\)</span>，则： <span class="math display">\[
-\begin{align}
-L(\theta)-L(\theta^{(i)})&amp;=\log \left( \sum_Z P(Y|Z,\theta)
-P(Z|\theta) \right)-\log P(Y|\theta^{(i)})
-\\
-&amp;= \log \left(\sum_Z P(Z|Y,\theta^{(i)}) \dfrac{  P(Y|Z,\theta)
-P(Z|\theta) }
-{P(Z|Y,\theta^{(i)})} \right)-\log P(Y|\theta^{(i)})\\
-&amp;\geq \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
-P(Z|\theta) }
-{P(Z|Y,\theta^{(i)})}   \right)-\log P(Y|\theta^{(i)})\\
-&amp;= \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
-P(Z|\theta) }
-{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right)\\
-\end{align}
-\]</span></p>
-<p>不等号是Jensen不等式给出的</p>
-<p>设 <span class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
-P(Z|Y,\theta^{(i)})\log \left( \dfrac{ P(Y|Z,\theta) P(Z|\theta)
-}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})} \right)\)</span></p>
-<p>显然有 <span class="math inline">\(L(\theta)\geq
-B(\theta,\theta^{(i)})\)</span>，即 <span class="math inline">\(B\)</span> 为原本函数的一个下界，且 <span class="math inline">\(\theta=\theta^{(i)}\)</span> 时取等。
-故可以考虑最大化 <span class="math inline">\(B\)</span>，从而使得 <span class="math inline">\(L\)</span> 最大。</p>
-<p>即： <span class="math display">\[
-\begin{align}
-\theta^{(i+1)} &amp;= \arg \max _{\theta} B(\theta,\theta^{(i)})  \\
-&amp;=\arg \max_{\theta} \left( L(\theta^{(i)})+\sum_Z
-P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta) P(Z|\theta)
-}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right) \right)
-\\
-&amp;=\arg \max_{\theta} \left( \sum_Z P(Z|Y,\theta^{(i)})\log
-\left(   P(Y|Z,\theta) P(Z|\theta) \right) \right)\\
-&amp;=\arg \max_{\theta} \sum_Z P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)
-\end{align}
-\]</span> 上面的等号都是去掉了常数项（上面的变量只有 <span class="math inline">\(\theta\)</span>，<span class="math inline">\(\theta^{(i)}\)</span>固定） 令 <span class="math inline">\(Q(\theta,\theta^{(i)})=\sum_Z
-P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)\)</span>，则 Q 函数即为：</p>
-<p>完全似然函数 <span class="math inline">\(\log P(Y,Z|\theta)\)</span>
-关于在给定观测数据 <span class="math inline">\(Y\)</span>
-和当前参数估计<span class="math inline">\(\theta^{(i)}\)</span>
-下，对于未观测数据 <span class="math inline">\(Z\)</span> 的条件概率分布
-<span class="math inline">\(P(Z|Y,\theta^{(i)})\)</span> 的期望。</p>
-<p>EM 算法实质上就是找一个凸函数 <span class="math inline">\(B/Q\)</span>，让它在 <span class="math inline">\(\theta^{(i)}\)</span> 处严格等于对数似然函数 <span class="math inline">\(\log
-P(Y,Z|\theta)\)</span>，但始终在似然函数下方。我们通过不断增大 B
-函数，迫使似然函数上升。</p>
-<div class="note info"><p>关于 Q 函数更直观的认知，见 <a href="https://chat.qwen.ai/c/41591c41-69ab-4005-8cbd-a9db5412b27b">Qwen</a></p>
-</div>
-<h2 id="em-算法的流程">EM 算法的流程</h2>
-<ol type="1">
-<li>初始化 <span class="math inline">\(\theta^{(0)}\)</span></li>
-<li>E(Expectation): 求出 Q 函数</li>
-<li>M(Maximization): 最大化 Q 函数，求出下一轮的 <span class="math inline">\(\theta^{(i+1)}\)</span></li>
-<li>重复 E-M 步，直到收敛为止</li>
-</ol>
-<h2 id="gmm">GMM</h2>
-<p>GMM，即 Gaussian Mixture Model，刻画了如下的问题： <div class="note "><p>有 K 个 Gaussian，分别服从 <span class="math inline">\(\theta_k=(\mu_k,\sigma_k)\)</span>；第 <span class="math inline">\(k\)</span> 个模型被选择的概率是 <span class="math inline">\(\alpha_k\)</span></p>
-<p>即 <span class="math inline">\(P(y)=\sum_{k=1}^K \alpha_k
-\phi(\mu_k,\sigma_k)\)</span></p>
-</div></p>
-<p>现在你既不知道各个Gaussian的具体参数，也不知道选择的概率 <span class="math inline">\(\alpha_k\)</span>，任务就是根据观测的序列 <span class="math inline">\(y=(y_1,\dots,y_N)\)</span> 求出 <span class="math inline">\(\theta=(\alpha_1,\dots,\alpha_K;\theta_1,\dots,\theta_K)\)</span></p>
-<p>使用 EM 算法完成这个任务，逐步分析：</p>
-<h3 id="明确隐变量">明确隐变量</h3>
-<p>设 <span class="math display">\[
-\gamma_{jk}=
-\begin{cases}
-1 &amp; 第 j 个观测来自第 k 个模型\\
-0 &amp; 反之
-\end{cases}
-\]</span></p>
-<p>有了观测数据 <span class="math inline">\(y_j\)</span>
-之后，那么完全数据就是</p>
-<p><span class="math display">\[
-(y_j,\gamma_{j1},\dots,\gamma_{jk})
-\]</span></p>
-<p>后面整体算作上文的 <span class="math inline">\(Z\)</span></p>
-<p>写出似然函数：</p>
-<p>$$ <span class="math display">\[\begin{align}
-P(y,\gamma|\theta) &amp;= \prod_{j=1}^N
-P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
-
-&amp;= \prod_{j=1}^N \prod_{k=1}^K [\alpha_k
-\phi(y_j|\theta_k)]^{\gamma_{jk}}\\
-
-\end{align}\]</span> $$</p>
-]]></content>
-      <categories>
-        <category>Machine Learning</category>
-      </categories>
-      <tags>
-        <tag>EM 算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Computer Networking 1--Introduction</title>
     <url>/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/</url>
     <content><![CDATA[<h2 id="概览">概览</h2>
@@ -275,20 +146,133 @@ transmission delay, propagation delay, and queuing delay</strong>.</p>
 ]]></content>
   </entry>
   <entry>
-    <title>Computer Networking 2--Routing</title>
-    <url>/2026/01/15/Computer-Networking-2-Routing/Computer-Networking-2-Routing/</url>
-    <content><![CDATA[<h2 id="what-is-routing">What is Routing?</h2>
-<h1 id="end-host-and-router">End Host and Router</h1>
-<p>我们先说明 End Host 和 Router 的区别。</p>
-<p>前者是网络中一条线路的端点，他只负责接受、发送自己的信息，而不负责“传送”任务。
-后者则相反，仅仅起到中介的作用。</p>
-<h3 id="packets">Packets</h3>
-<p>我们之前说过，Packets 是 Internet Layer 传送的基本单元。</p>
-<figure>
-<img src="/.io//packets.png" alt="Packets">
-<figcaption aria-hidden="true">Packets</figcaption>
-</figure>
+    <title>EM算法</title>
+    <url>/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="em-算法的目标">EM 算法的目标</h2>
+<p>先考虑著名的三硬币问题： <div class="note primary"><p>假设三枚硬币 A, B, C，其正面朝上的概率分别为 <span class="math inline">\(\pi,p,q\)</span>。</p>
+<p>先抛 A，若正面朝上抛 B，反之则抛 C。</p>
+<p>只记录抛 B，C 的结果，得到一个 01 序列。</p>
+<p>要求给出此模型的参数 <span class="math inline">\(\theta=(\pi,p,q)\)</span></p>
+</div></p>
+<p>抽象出问题实质：</p>
+<p>给出观测数据 <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span>
+以及隐变量 <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span>，则给出似然估计：
+<span class="math display">\[
+P(Y|\theta) =\sum_Z P(Y|Z,\theta) P(Z|\theta)
+\]</span></p>
+<p>此问题中可以化简为：</p>
+<p><span class="math display">\[
+P(Y|\theta) =\prod_{j=1}^n \left[\pi p^{y_j} (1-p)^{1-y_j} +(1-\pi)
+q^{y_j} (1-q)^{1-y_j}  \right]
+\]</span> 希望给出</p>
+<p><span class="math display">\[
+\hat{\theta}=\arg \max_{\theta} \log(P(Y|\theta))
+\]</span></p>
+<p>下面给出一个用语的约定：</p>
+<ul>
+<li><p><strong>观测数据</strong>/<strong>不完全数据</strong> <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span></p></li>
+<li><p>隐变量/<strong>未观测数据</strong>/ <span class="math inline">\(\text{Latent Variables}\)</span> <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span></p></li>
+<li><p>完全数据：<span class="math inline">\(P(Y,Z|\theta)\)</span></p></li>
+<li><p>完全数据的对数似然函数：<span class="math inline">\(\log
+P(Y,Z|\theta)\)</span></p></li>
+</ul>
+<h2 id="em-算法的导出">EM 算法的导出</h2>
+<p>设 <span class="math display">\[
+\begin{align}
+L(\theta) &amp;=P(Y|\theta)=\sum_Z P(Y|Z,\theta) P(Z|\theta) \\
+&amp;=\log \left( \sum_Z P(Y|Z,\theta) P(Z|\theta) \right)
+\end{align}
+\]</span></p>
+<p>我们逐步迭代去求出最优化的 <span class="math inline">\(\theta\)</span>，设第 <span class="math inline">\(i\)</span> 次求出的解是 <span class="math inline">\(\theta^{(i)}\)</span>，则： <span class="math display">\[
+\begin{align}
+L(\theta)-L(\theta^{(i)})&amp;=\log \left( \sum_Z P(Y|Z,\theta)
+P(Z|\theta) \right)-\log P(Y|\theta^{(i)})
+\\
+&amp;= \log \left(\sum_Z P(Z|Y,\theta^{(i)}) \dfrac{  P(Y|Z,\theta)
+P(Z|\theta) }
+{P(Z|Y,\theta^{(i)})} \right)-\log P(Y|\theta^{(i)})\\
+&amp;\geq \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
+P(Z|\theta) }
+{P(Z|Y,\theta^{(i)})}   \right)-\log P(Y|\theta^{(i)})\\
+&amp;= \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
+P(Z|\theta) }
+{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right)\\
+\end{align}
+\]</span></p>
+<p>不等号是Jensen不等式给出的</p>
+<p>设 <span class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
+P(Z|Y,\theta^{(i)})\log \left( \dfrac{ P(Y|Z,\theta) P(Z|\theta)
+}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})} \right)\)</span></p>
+<p>显然有 <span class="math inline">\(L(\theta)\geq
+B(\theta,\theta^{(i)})\)</span>，即 <span class="math inline">\(B\)</span> 为原本函数的一个下界，且 <span class="math inline">\(\theta=\theta^{(i)}\)</span> 时取等。
+故可以考虑最大化 <span class="math inline">\(B\)</span>，从而使得 <span class="math inline">\(L\)</span> 最大。</p>
+<p>即： <span class="math display">\[
+\begin{align}
+\theta^{(i+1)} &amp;= \arg \max _{\theta} B(\theta,\theta^{(i)})  \\
+&amp;=\arg \max_{\theta} \left( L(\theta^{(i)})+\sum_Z
+P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta) P(Z|\theta)
+}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right) \right)
+\\
+&amp;=\arg \max_{\theta} \left( \sum_Z P(Z|Y,\theta^{(i)})\log
+\left(   P(Y|Z,\theta) P(Z|\theta) \right) \right)\\
+&amp;=\arg \max_{\theta} \sum_Z P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)
+\end{align}
+\]</span> 上面的等号都是去掉了常数项（上面的变量只有 <span class="math inline">\(\theta\)</span>，<span class="math inline">\(\theta^{(i)}\)</span>固定） 令 <span class="math inline">\(Q(\theta,\theta^{(i)})=\sum_Z
+P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)\)</span>，则 Q 函数即为：</p>
+<p>完全似然函数 <span class="math inline">\(\log P(Y,Z|\theta)\)</span>
+关于在给定观测数据 <span class="math inline">\(Y\)</span>
+和当前参数估计<span class="math inline">\(\theta^{(i)}\)</span>
+下，对于未观测数据 <span class="math inline">\(Z\)</span> 的条件概率分布
+<span class="math inline">\(P(Z|Y,\theta^{(i)})\)</span> 的期望。</p>
+<p>EM 算法实质上就是找一个凸函数 <span class="math inline">\(B/Q\)</span>，让它在 <span class="math inline">\(\theta^{(i)}\)</span> 处严格等于对数似然函数 <span class="math inline">\(\log
+P(Y,Z|\theta)\)</span>，但始终在似然函数下方。我们通过不断增大 B
+函数，迫使似然函数上升。</p>
+<div class="note info"><p>关于 Q 函数更直观的认知，见 <a href="https://chat.qwen.ai/c/41591c41-69ab-4005-8cbd-a9db5412b27b">Qwen</a></p>
+</div>
+<h2 id="em-算法的流程">EM 算法的流程</h2>
+<ol type="1">
+<li>初始化 <span class="math inline">\(\theta^{(0)}\)</span></li>
+<li>E(Expectation): 求出 Q 函数</li>
+<li>M(Maximization): 最大化 Q 函数，求出下一轮的 <span class="math inline">\(\theta^{(i+1)}\)</span></li>
+<li>重复 E-M 步，直到收敛为止</li>
+</ol>
+<h2 id="gmm">GMM</h2>
+<p>GMM，即 Gaussian Mixture Model，刻画了如下的问题： <div class="note "><p>有 K 个 Gaussian，分别服从 <span class="math inline">\(\theta_k=(\mu_k,\sigma_k)\)</span>；第 <span class="math inline">\(k\)</span> 个模型被选择的概率是 <span class="math inline">\(\alpha_k\)</span></p>
+<p>即 <span class="math inline">\(P(y)=\sum_{k=1}^K \alpha_k
+\phi(\mu_k,\sigma_k)\)</span></p>
+</div></p>
+<p>现在你既不知道各个Gaussian的具体参数，也不知道选择的概率 <span class="math inline">\(\alpha_k\)</span>，任务就是根据观测的序列 <span class="math inline">\(y=(y_1,\dots,y_N)\)</span> 求出 <span class="math inline">\(\theta=(\alpha_1,\dots,\alpha_K;\theta_1,\dots,\theta_K)\)</span></p>
+<p>使用 EM 算法完成这个任务，逐步分析：</p>
+<h3 id="明确隐变量">明确隐变量</h3>
+<p>设 <span class="math display">\[
+\gamma_{jk}=
+\begin{cases}
+1 &amp; 第 j 个观测来自第 k 个模型\\
+0 &amp; 反之
+\end{cases}
+\]</span></p>
+<p>有了观测数据 <span class="math inline">\(y_j\)</span>
+之后，那么完全数据就是</p>
+<p><span class="math display">\[
+(y_j,\gamma_{j1},\dots,\gamma_{jk})
+\]</span></p>
+<p>后面整体算作上文的 <span class="math inline">\(Z\)</span></p>
+<p>写出似然函数：</p>
+<p>$$ <span class="math display">\[\begin{align}
+P(y,\gamma|\theta) &amp;= \prod_{j=1}^N
+P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
+
+&amp;= \prod_{j=1}^N \prod_{k=1}^K [\alpha_k
+\phi(y_j|\theta_k)]^{\gamma_{jk}}\\
+
+\end{align}\]</span> $$</p>
 ]]></content>
+      <categories>
+        <category>Machine Learning</category>
+      </categories>
+      <tags>
+        <tag>EM 算法</tag>
+      </tags>
   </entry>
   <entry>
     <title>2026新年展望</title>
@@ -331,57 +315,34 @@ AI 需要的数学中的最后一块了。</p></li>
       </categories>
   </entry>
   <entry>
-    <title>First Blog</title>
-    <url>/2025/12/19/First-Blog/First-Blog/</url>
-    <content><![CDATA[<p>Hello! This is my first blog.</p>
-<p>A math formula: <span class="math display">\[
-\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
-\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
-\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
-\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
-\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
-\]</span></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>尝试一下中文输入 This's my blog!</p>
-<ul>
-<li>todo 1</li>
-<li>todo 2</li>
-</ul>
-<h1 id="hello">Hello</h1>
-<h2 id="你好">你好</h2>
-<h3 id="foo"><code>foo</code></h3>
-<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
-<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
-<p><span class="math display">\[a+b\geq 3\]</span></p>
+    <title>Computer Networking 2--Routing</title>
+    <url>/2026/01/15/Computer-Networking-2-Routing/Computer-Networking-2-Routing/</url>
+    <content><![CDATA[<h2 id="what-is-routing">What is Routing?</h2>
+<h3 id="end-host-and-router">End Host and Router</h3>
+<p>我们先说明 End Host 和 Router 的区别。</p>
+<p>前者是网络中一条线路的端点，他只负责接受、发送自己的信息，而不负责“传送”任务。
+后者则相反，仅仅起到中介的作用。</p>
+<h3 id="packets">Packets</h3>
+<p>我们之前说过，Packets 是 Internet Layer 传送的基本单元。</p>
+<p>为了正确地在互联网中传送数据，我们显然需要指明 Source 和
+Destination。 他们需要一个唯一的标识符。</p>
+<p>这个标识符是怎么来的，姑且先不考虑。在有了这个标识符之后，我们便在
+packet 的头部加上 Source Address 和 Destination Address 两个元素。</p>
+<figure>
+<img src="/.io//packets.png" alt="Packets">
+<figcaption aria-hidden="true">Packets</figcaption>
+</figure>
+<h2 id="routing-states">Routing States</h2>
+<h3 id="what-is-rouing-state">What is Rouing State</h3>
+<p>Routing States 最简单的说，是一种策略。即当 router 接收到一个 packet
+的时候，根据这些策略，便能成功地把信息传送到目的地。</p>
+<p>其中，最重要的、也是最泛用的策略被称作转发表/Forward Table</p>
+<h3 id="forwarding-table">Forwarding Table</h3>
+<figure>
+<img src="/.io//ft.png" alt="Forwarding Table">
+<figcaption aria-hidden="true">Forwarding Table</figcaption>
+</figure>
 ]]></content>
-  </entry>
-  <entry>
-    <title>Hexo Blog 的一些技术细节</title>
-    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
-    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
-]]></content>
-      <categories>
-        <category>Others</category>
-      </categories>
   </entry>
   <entry>
     <title>Mamba Architecture</title>
@@ -529,10 +490,69 @@ B,C)(x&#39;)\\
       </tags>
   </entry>
   <entry>
+    <title>First Blog</title>
+    <url>/2025/12/19/First-Blog/First-Blog/</url>
+    <content><![CDATA[<p>Hello! This is my first blog.</p>
+<p>A math formula: <span class="math display">\[
+\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
+\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
+\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
+\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
+\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
+\]</span></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>尝试一下中文输入 This's my blog!</p>
+<ul>
+<li>todo 1</li>
+<li>todo 2</li>
+</ul>
+<h1 id="hello">Hello</h1>
+<h2 id="你好">你好</h2>
+<h3 id="foo"><code>foo</code></h3>
+<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
+<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
+<p><span class="math display">\[a+b\geq 3\]</span></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Vision Mamba源码导读</title>
+    <url>/2026/01/15/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/</url>
+    <content><![CDATA[
+]]></content>
+  </entry>
+  <entry>
     <title>Pre-norm and Post-norm</title>
     <url>/2026/01/14/Pre-norm-and-Post-norm/Pre-norm-and-Post-norm/</url>
     <content><![CDATA[
 ]]></content>
+  </entry>
+  <entry>
+    <title>Hexo Blog 的一些技术细节</title>
+    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
+    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
+<h2 id="数学公式渲染">数学公式渲染</h2>
+<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
+engine，同时将默认 <code>Markdown</code> 渲染器换成了
+<code>pandoc</code></p>
+<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
+<h2 id="英文引号变成中文">英文引号变成中文</h2>
+<p>我想写这篇文章的罪魁祸首。</p>
+<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
+<code>‘/“</code>，显示效果奇差无比</p>
+<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
+之类的操作</p>
+<p>Github 上比较常见的几个 <a href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
+<code>hexo-renderer-marked</code></p>
+<p>但是如上文所说，我换成了 <code>pandoc</code>
+之后依然有这个问题（有的文章说换 <code>pandoc</code>
+之后就好了），猜测也有一个类似的开关</p>
+<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
+<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
+扩展</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
   </entry>
   <entry>
     <title>决策树</title>
@@ -648,11 +668,5 @@ R_1(j,s)),\hat{c}_2=\text{ave}(y_i|x_i\in R_2(j,s))\)</span></p>
       <tags>
         <tag>决策树</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Vision Mamba源码导读</title>
-    <url>/2026/01/15/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/</url>
-    <content><![CDATA[
-]]></content>
   </entry>
 </search>
