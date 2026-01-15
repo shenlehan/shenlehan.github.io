@@ -177,7 +177,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -290,17 +290,14 @@
     
     
     <div class="post-body" itemprop="articleBody"><h2 id="em-算法的目标">EM 算法的目标</h2>
-<p>先考虑著名的三硬币问题： <div class="note primary"><p>假设三枚硬币 A, B, C，其正面朝上的概率分别为 <span
-class="math inline">\(\pi,p,q\)</span>。</p>
+<p>先考虑著名的三硬币问题： <div class="note primary"><p>假设三枚硬币 A, B, C，其正面朝上的概率分别为 <span class="math inline">\(\pi,p,q\)</span>。</p>
 <p>先抛 A，若正面朝上抛 B，反之则抛 C。</p>
 <p>只记录抛 B，C 的结果，得到一个 01 序列。</p>
-<p>要求给出此模型的参数 <span
-class="math inline">\(\theta=(\pi,p,q)\)</span></p>
+<p>要求给出此模型的参数 <span class="math inline">\(\theta=(\pi,p,q)\)</span></p>
 </div></p>
 <p>抽象出问题实质：</p>
 <p>给出观测数据 <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span>
-以及隐变量 <span
-class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span>，则给出似然估计：
+以及隐变量 <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span>，则给出似然估计：
 <span class="math display">\[
 P(Y|\theta) =\sum_Z P(Y|Z,\theta) P(Z|\theta)
 \]</span></p>
@@ -314,13 +311,9 @@ q^{y_j} (1-q)^{1-y_j}  \right]
 \]</span></p>
 <p>下面给出一个用语的约定：</p>
 <ul>
-<li><p><strong>观测数据</strong>/<strong>不完全数据</strong> <span
-class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span></p></li>
-<li><p>隐变量/<strong>未观测数据</strong>/ <span
-class="math inline">\(\text{Latent Variables}\)</span> <span
-class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span></p></li>
-<li><p>完全数据：<span
-class="math inline">\(P(Y,Z|\theta)\)</span></p></li>
+<li><p><strong>观测数据</strong>/<strong>不完全数据</strong> <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span></p></li>
+<li><p>隐变量/<strong>未观测数据</strong>/ <span class="math inline">\(\text{Latent Variables}\)</span> <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span></p></li>
+<li><p>完全数据：<span class="math inline">\(P(Y,Z|\theta)\)</span></p></li>
 <li><p>完全数据的对数似然函数：<span class="math inline">\(\log
 P(Y,Z|\theta)\)</span></p></li>
 </ul>
@@ -331,11 +324,7 @@ L(\theta) &amp;=P(Y|\theta)=\sum_Z P(Y|Z,\theta) P(Z|\theta) \\
 &amp;=\log \left( \sum_Z P(Y|Z,\theta) P(Z|\theta) \right)
 \end{align}
 \]</span></p>
-<p>我们逐步迭代去求出最优化的 <span
-class="math inline">\(\theta\)</span>，设第 <span
-class="math inline">\(i\)</span> 次求出的解是 <span
-class="math inline">\(\theta^{(i)}\)</span>，则： <span
-class="math display">\[
+<p>我们逐步迭代去求出最优化的 <span class="math inline">\(\theta\)</span>，设第 <span class="math inline">\(i\)</span> 次求出的解是 <span class="math inline">\(\theta^{(i)}\)</span>，则： <span class="math display">\[
 \begin{align}
 L(\theta)-L(\theta^{(i)})&amp;=\log \left( \sum_Z P(Y|Z,\theta)
 P(Z|\theta) \right)-\log P(Y|\theta^{(i)})
@@ -352,16 +341,12 @@ P(Z|\theta) }
 \end{align}
 \]</span></p>
 <p>不等号是Jensen不等式给出的</p>
-<p>设 <span
-class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
+<p>设 <span class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
 P(Z|Y,\theta^{(i)})\log \left( \dfrac{ P(Y|Z,\theta) P(Z|\theta)
 }{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})} \right)\)</span></p>
 <p>显然有 <span class="math inline">\(L(\theta)\geq
-B(\theta,\theta^{(i)})\)</span>，即 <span
-class="math inline">\(B\)</span> 为原本函数的一个下界，且 <span
-class="math inline">\(\theta=\theta^{(i)}\)</span> 时取等。
-故可以考虑最大化 <span class="math inline">\(B\)</span>，从而使得 <span
-class="math inline">\(L\)</span> 最大。</p>
+B(\theta,\theta^{(i)})\)</span>，即 <span class="math inline">\(B\)</span> 为原本函数的一个下界，且 <span class="math inline">\(\theta=\theta^{(i)}\)</span> 时取等。
+故可以考虑最大化 <span class="math inline">\(B\)</span>，从而使得 <span class="math inline">\(L\)</span> 最大。</p>
 <p>即： <span class="math display">\[
 \begin{align}
 \theta^{(i+1)} &amp;= \arg \max _{\theta} B(\theta,\theta^{(i)})  \\
@@ -373,45 +358,31 @@ P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta) P(Z|\theta)
 \left(   P(Y|Z,\theta) P(Z|\theta) \right) \right)\\
 &amp;=\arg \max_{\theta} \sum_Z P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)
 \end{align}
-\]</span> 上面的等号都是去掉了常数项（上面的变量只有 <span
-class="math inline">\(\theta\)</span>，<span
-class="math inline">\(\theta^{(i)}\)</span>固定） 令 <span
-class="math inline">\(Q(\theta,\theta^{(i)})=\sum_Z
+\]</span> 上面的等号都是去掉了常数项（上面的变量只有 <span class="math inline">\(\theta\)</span>，<span class="math inline">\(\theta^{(i)}\)</span>固定） 令 <span class="math inline">\(Q(\theta,\theta^{(i)})=\sum_Z
 P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)\)</span>，则 Q 函数即为：</p>
 <p>完全似然函数 <span class="math inline">\(\log P(Y,Z|\theta)\)</span>
 关于在给定观测数据 <span class="math inline">\(Y\)</span>
 和当前参数估计<span class="math inline">\(\theta^{(i)}\)</span>
 下，对于未观测数据 <span class="math inline">\(Z\)</span> 的条件概率分布
 <span class="math inline">\(P(Z|Y,\theta^{(i)})\)</span> 的期望。</p>
-<p>EM 算法实质上就是找一个凸函数 <span
-class="math inline">\(B/Q\)</span>，让它在 <span
-class="math inline">\(\theta^{(i)}\)</span> 处严格等于对数似然函数 <span
-class="math inline">\(\log
+<p>EM 算法实质上就是找一个凸函数 <span class="math inline">\(B/Q\)</span>，让它在 <span class="math inline">\(\theta^{(i)}\)</span> 处严格等于对数似然函数 <span class="math inline">\(\log
 P(Y,Z|\theta)\)</span>，但始终在似然函数下方。我们通过不断增大 B
 函数，迫使似然函数上升。</p>
-<div class="note info"><p>关于 Q 函数更直观的认知，见 <a
-target="_blank" rel="noopener" href="https://chat.qwen.ai/c/41591c41-69ab-4005-8cbd-a9db5412b27b">Qwen</a></p>
+<div class="note info"><p>关于 Q 函数更直观的认知，见 <a target="_blank" rel="noopener" href="https://chat.qwen.ai/c/41591c41-69ab-4005-8cbd-a9db5412b27b">Qwen</a></p>
 </div>
 <h2 id="em-算法的流程">EM 算法的流程</h2>
 <ol type="1">
 <li>初始化 <span class="math inline">\(\theta^{(0)}\)</span></li>
 <li>E(Expectation): 求出 Q 函数</li>
-<li>M(Maximization): 最大化 Q 函数，求出下一轮的 <span
-class="math inline">\(\theta^{(i+1)}\)</span></li>
+<li>M(Maximization): 最大化 Q 函数，求出下一轮的 <span class="math inline">\(\theta^{(i+1)}\)</span></li>
 <li>重复 E-M 步，直到收敛为止</li>
 </ol>
 <h2 id="gmm">GMM</h2>
-<p>GMM，即 Gaussian Mixture Model，刻画了如下的问题： <div class="note "><p>有 K 个 Gaussian，分别服从 <span
-class="math inline">\(\theta_k=(\mu_k,\sigma_k)\)</span>；第 <span
-class="math inline">\(k\)</span> 个模型被选择的概率是 <span
-class="math inline">\(\alpha_k\)</span></p>
+<p>GMM，即 Gaussian Mixture Model，刻画了如下的问题： <div class="note "><p>有 K 个 Gaussian，分别服从 <span class="math inline">\(\theta_k=(\mu_k,\sigma_k)\)</span>；第 <span class="math inline">\(k\)</span> 个模型被选择的概率是 <span class="math inline">\(\alpha_k\)</span></p>
 <p>即 <span class="math inline">\(P(y)=\sum_{k=1}^K \alpha_k
 \phi(\mu_k,\sigma_k)\)</span></p>
 </div></p>
-<p>现在你既不知道各个Gaussian的具体参数，也不知道选择的概率 <span
-class="math inline">\(\alpha_k\)</span>，任务就是根据观测的序列 <span
-class="math inline">\(y=(y_1,\dots,y_N)\)</span> 求出 <span
-class="math inline">\(\theta=(\alpha_1,\dots,\alpha_K;\theta_1,\dots,\theta_K)\)</span></p>
+<p>现在你既不知道各个Gaussian的具体参数，也不知道选择的概率 <span class="math inline">\(\alpha_k\)</span>，任务就是根据观测的序列 <span class="math inline">\(y=(y_1,\dots,y_N)\)</span> 求出 <span class="math inline">\(\theta=(\alpha_1,\dots,\alpha_K;\theta_1,\dots,\theta_K)\)</span></p>
 <p>使用 EM 算法完成这个任务，逐步分析：</p>
 <h3 id="明确隐变量">明确隐变量</h3>
 <p>设 <span class="math display">\[
@@ -498,7 +469,7 @@ P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">21 mins.</span>
+    <span title="Reading time total">22 mins.</span>
   </span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
