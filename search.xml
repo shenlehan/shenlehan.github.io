@@ -1,6 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Computer Networking 2--Routing</title>
+    <url>/2026/01/15/Computer-Networking-2-Routing/Computer-Networking-2-Routing/</url>
+    <content><![CDATA[<h2 id="what-is-routing">What is Routing?</h2>
+<h3 id="end-host-and-router">End Host and Router</h3>
+<p>我们先说明 End Host 和 Router 的区别。</p>
+<p>前者是网络中一条线路的端点，他只负责接受、发送自己的信息，而不负责“传送”任务。
+后者则相反，仅仅起到中介的作用。</p>
+<h3 id="packets">Packets</h3>
+<p>我们之前说过，Packets 是 Internet Layer 传送的基本单元。</p>
+<p>为了正确地在互联网中传送数据，我们显然需要指明 Source 和
+Destination。 他们需要一个唯一的标识符。</p>
+<p>这个标识符是怎么来的，姑且先不考虑。在有了这个标识符之后，我们便在
+packet 的头部加上 Source Address 和 Destination Address 两个元素。</p>
+<figure>
+<img src="/.io//packets.png" alt="Packets">
+<figcaption aria-hidden="true">Packets</figcaption>
+</figure>
+<h2 id="routing-states">Routing States</h2>
+<h3 id="what-is-rouing-state">What is Rouing State</h3>
+<p>Routing States 最简单的说，是一种策略。即当 router 接收到一个 packet
+的时候，根据这些策略，便能成功地把信息传送到目的地。</p>
+<p>其中，最重要的、也是最泛用的策略被称作转发表/Forward Table</p>
+<h3 id="forwarding-table">Forwarding Table</h3>
+<p>理论上而言，我们可以建立一张表：这张表直白的告诉我们，如果我想把一个
+packet 送到一个地方，我的 next hop 应该是什么。</p>
+<figure>
+<img src="/.io//ft.png" alt="Forwarding Table">
+<figcaption aria-hidden="true">Forwarding Table</figcaption>
+</figure>
+<p>在现实中，next hop 往往不是指一个抽象的地点，而是指物理上的一个
+port</p>
+<figure>
+<img src="/.io//ft1.png" alt="Port">
+<figcaption aria-hidden="true">Port</figcaption>
+</figure>
+<h3 id="routing-vs.-forwarding">Routing vs. Forwarding</h3>
+<p>我们现在区分两个概念：routing 本身指的是填充 forwarding table
+的过程，而 forwarding 指的才是转发 packet 的过程。</p>
+<p>因此，forwarding 本身并不需要知道 forwarding table
+是如何计算的，故它是一个局部的动作。</p>
+<p>相反，routing
+本身要求我们必须对于整个网络结构有一个认知，因此这是一个全局的过程。</p>
+<h2 id="distance-vector-protocols">Distance Vector Protocols</h2>
+<p>Distance Vector Protocols 的主要内容如下：</p>
+<p>{ % note % }</p>
+<p>For each destination:</p>
+<ul>
+<li>If you hear an advertisement for that destination, update the table
+and reset the TTL if:
+<ul>
+<li>The destination isn’t in the table.</li>
+<li>The advertised cost, plus the link cost to the neighbor, is better
+than the best-known cost.</li>
+<li>The advertisement is from the current next-hop. Includes poison
+advertisements.</li>
+</ul></li>
+<li>Advertise to all your neighbors when the table updates, and
+periodically (advertisement interval).
+<ul>
+<li>But don’t advertise back to the next-hop.</li>
+<li>…Or, advertise poison back to the next-hop.</li>
+<li>Any cost greater than or equal to 16 is advertised as infinity.</li>
+</ul></li>
+<li>If a table entry expires, make the entry poison and advertise
+it.</li>
+</ul>
+<p>{ % endnote % }</p>
+<p>我们分条来看。</p>
+<h3 id="update-rules">Update Rules</h3>
+<p>我们如果从毗邻的节点接收到一条 <code>(from, to, cost, TTL)</code>
+的信息，我们进行如下的判定来决定要不要更新我们的 forwarding table:</p>
+<ol type="1">
+<li>最明显的，如果我根本没有到 to 的路径，那我肯定要加上这条</li>
+<li>这条路径比我现在手上有的要更快，我肯定选择它更好</li>
+<li>这条路径是从我当前的最优的 next hop 发来的，这说明 next hop
+有更新，它到 to
+的距离发生了变化，有可能不再是最优解。为了保证正确性，我现在先更新这条，等后面别人广播的时候自然会更新成正确答案。</li>
+<li>或者，如果是 <code>poison</code> 的，也就是 “我无法到达某个目的地”
+的信息，那么我收到的 Cost 就是无穷大，类似 3，我也要更新。</li>
+</ol>
+<h3 id="advertise-rules">Advertise Rules</h3>
+<p>我们通过不停广播自己的信息来使得这个网络达到收敛态/converge</p>
+<ol type="1">
+<li>首先，我们必须定时广播信息，告诉我的邻居们我还在线，以及我到某个目的地的最小
+cost 是多少</li>
+<li>但是注意，我们不能反向告诉 next hop，否则，如果 next hop
+失效（不再能够到达目的地），它会误以为通过我还能抵达目的地，造成死循环（这被称作
+Split Horizon 原则）</li>
+<li>或者，我们定时广播时，反向告诉 next hop，我不可以到达 A（即，我是从
+next hop 来的，我不能把 packet 再返回给你）。这被称作 Poison
+Reverse，往往是比 Split Horizon 更有效的广播方式</li>
+<li>如果我们已经有一个死循环了，我们该怎么办？方法很简单，给定一个上限，如果
+cost 超过了这个上限，我们就认为他是无穷大/不可达的。</li>
+</ol>
+
+<h2 id="link-state-protocols">Link-State Protocols</h2>
+<h3 id="overview">Overview</h3>
+<div class="note "><p>Link-state protocols in one sentence: Every router <strong>learns the
+full network graph</strong>, and then <strong>runs shortest-paths on the
+graph</strong> to populate the forwarding table.</p>
+</div>
+<p>直白地说，Link-state
+协议通过让所有路由器都有全局信息，使得他们并行计算（通过
+Bellman-Ford/Dijkstra 等最短路算法）出自己的next hop
+但这显然引起了一个问题，如果 A 计算的最短路径和 B
+计算出的路径不一致怎么办呢？</p>
+<p>因此，我们做出以下 4 条约定：</p>
+<div class="note "><ol type="1">
+<li><p>All routers have to agree on the network topology. Suppose a link
+failed, but only one router knows about it. Then different routers are
+computing paths on totally different graphs, and might produce
+inconsistent results.</p></li>
+<li><p>All routers are finding least-cost paths through the path. If one
+router preferred more expensive paths for some reason, we would get
+inconsistent results.</p></li>
+<li><p>All costs are positive. Negative costs could produce
+negative-weight cycles.</p></li>
+<li><p>All routers use the same tiebreaking rules. If we assumed
+shortest paths are unique, then the previous two conditions are
+sufficient to ensure everybody picks the same path. This condition
+additionally ensures that if there are multiple paths tied as the
+shortest, everyone chooses the same one.</p></li>
+</ol>
+</div>
+<h3 id="learning-about-graph-topology">Learning About Graph
+Topology</h3>
+]]></content>
+  </entry>
+  <entry>
     <title>Computer Networking 1--Introduction</title>
     <url>/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/</url>
     <content><![CDATA[<h2 id="概览">概览</h2>
@@ -146,6 +275,46 @@ transmission delay, propagation delay, and queuing delay</strong>.</p>
 ]]></content>
   </entry>
   <entry>
+    <title>2026新年展望</title>
+    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
+    <content><![CDATA[<p>2026 就这么突然来了。</p>
+<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
+<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
+和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
+<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
+<p>去年寒假看了一半的
+CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
+倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
+<p>先争取活过这个无比劳碌的期末周吧。</p>
+<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
+TPAMI 什么的就最好了）。</p>
+<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
+<ol type="1">
+<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
+去做互联网码农也能用得上。
+其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
+<li><p>UCB CS168/Stanford CS144 Computer
+Networking：其实早在一年前就听完了 USTC
+的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
+看网上的建议，听 UCB 的课，然后把两个的实验都做了。
+还是得动手写点代码：（</p></li>
+<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
+ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
+<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
+的，先把上面的七七八八做完再考虑这个吧。</p></li>
+<li><p>学学 JavaScript</p></li>
+<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
+AI 需要的数学中的最后一块了。</p></li>
+</ol>
+<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
+<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
+<p>再见，2025；干杯，2026！</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+  </entry>
+  <entry>
     <title>EM算法</title>
     <url>/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h2 id="em-算法的目标">EM 算法的目标</h2>
@@ -275,73 +444,37 @@ P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
       </tags>
   </entry>
   <entry>
-    <title>2026新年展望</title>
-    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
-    <content><![CDATA[<p>2026 就这么突然来了。</p>
-<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
-<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
-和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
-<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
-<p>去年寒假看了一半的
-CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
-倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
-<p>先争取活过这个无比劳碌的期末周吧。</p>
-<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
-TPAMI 什么的就最好了）。</p>
-<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
-<ol type="1">
-<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
-去做互联网码农也能用得上。
-其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
-<li><p>UCB CS168/Stanford CS144 Computer
-Networking：其实早在一年前就听完了 USTC
-的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
-看网上的建议，听 UCB 的课，然后把两个的实验都做了。
-还是得动手写点代码：（</p></li>
-<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
-ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
-<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
-的，先把上面的七七八八做完再考虑这个吧。</p></li>
-<li><p>学学 JavaScript</p></li>
-<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
-AI 需要的数学中的最后一块了。</p></li>
-</ol>
-<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
-<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
-<p>再见，2025；干杯，2026！</p>
+    <title>Hexo Blog 的一些技术细节</title>
+    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
+    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
+<h2 id="数学公式渲染">数学公式渲染</h2>
+<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
+engine，同时将默认 <code>Markdown</code> 渲染器换成了
+<code>pandoc</code></p>
+<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
+<h2 id="英文引号变成中文">英文引号变成中文</h2>
+<p>我想写这篇文章的罪魁祸首。</p>
+<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
+<code>‘/“</code>，显示效果奇差无比</p>
+<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
+之类的操作</p>
+<p>Github 上比较常见的几个 <a href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
+<code>hexo-renderer-marked</code></p>
+<p>但是如上文所说，我换成了 <code>pandoc</code>
+之后依然有这个问题（有的文章说换 <code>pandoc</code>
+之后就好了），猜测也有一个类似的开关</p>
+<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
+<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
+扩展</p>
 ]]></content>
       <categories>
         <category>Others</category>
       </categories>
   </entry>
   <entry>
-    <title>Computer Networking 2--Routing</title>
-    <url>/2026/01/15/Computer-Networking-2-Routing/Computer-Networking-2-Routing/</url>
-    <content><![CDATA[<h2 id="what-is-routing">What is Routing?</h2>
-<h3 id="end-host-and-router">End Host and Router</h3>
-<p>我们先说明 End Host 和 Router 的区别。</p>
-<p>前者是网络中一条线路的端点，他只负责接受、发送自己的信息，而不负责“传送”任务。
-后者则相反，仅仅起到中介的作用。</p>
-<h3 id="packets">Packets</h3>
-<p>我们之前说过，Packets 是 Internet Layer 传送的基本单元。</p>
-<p>为了正确地在互联网中传送数据，我们显然需要指明 Source 和
-Destination。 他们需要一个唯一的标识符。</p>
-<p>这个标识符是怎么来的，姑且先不考虑。在有了这个标识符之后，我们便在
-packet 的头部加上 Source Address 和 Destination Address 两个元素。</p>
-<figure>
-<img src="/.io//packets.png" alt="Packets">
-<figcaption aria-hidden="true">Packets</figcaption>
-</figure>
-<h2 id="routing-states">Routing States</h2>
-<h3 id="what-is-rouing-state">What is Rouing State</h3>
-<p>Routing States 最简单的说，是一种策略。即当 router 接收到一个 packet
-的时候，根据这些策略，便能成功地把信息传送到目的地。</p>
-<p>其中，最重要的、也是最泛用的策略被称作转发表/Forward Table</p>
-<h3 id="forwarding-table">Forwarding Table</h3>
-<figure>
-<img src="/.io//ft.png" alt="Forwarding Table">
-<figcaption aria-hidden="true">Forwarding Table</figcaption>
-</figure>
+    <title>Pre-norm and Post-norm</title>
+    <url>/2026/01/14/Pre-norm-and-Post-norm/Pre-norm-and-Post-norm/</url>
+    <content><![CDATA[
 ]]></content>
   </entry>
   <entry>
@@ -519,40 +652,6 @@ B,C)(x&#39;)\\
     <url>/2026/01/15/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/</url>
     <content><![CDATA[
 ]]></content>
-  </entry>
-  <entry>
-    <title>Pre-norm and Post-norm</title>
-    <url>/2026/01/14/Pre-norm-and-Post-norm/Pre-norm-and-Post-norm/</url>
-    <content><![CDATA[
-]]></content>
-  </entry>
-  <entry>
-    <title>Hexo Blog 的一些技术细节</title>
-    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
-    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
-]]></content>
-      <categories>
-        <category>Others</category>
-      </categories>
   </entry>
   <entry>
     <title>决策树</title>

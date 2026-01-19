@@ -244,9 +244,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2026-01-15 21:19:39 / Modified: 21:41:53" itemprop="dateCreated datePublished" datetime="2026-01-15T21:19:39+08:00">2026-01-15</time>
+      <time title="Created: 2026-01-15 21:19:39" itemprop="dateCreated datePublished" datetime="2026-01-15T21:19:39+08:00">2026-01-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-01-19 12:22:13" itemprop="dateModified" datetime="2026-01-19T12:22:13+08:00">2026-01-19</time>
     </span>
 
   
@@ -256,14 +262,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>244</span>
+      <span>1.3k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
+      <span>5 mins.</span>
     </span>
 </div>
 
@@ -295,10 +301,109 @@ packet 的头部加上 Source Address 和 Destination Address 两个元素。</p
 的时候，根据这些策略，便能成功地把信息传送到目的地。</p>
 <p>其中，最重要的、也是最泛用的策略被称作转发表/Forward Table</p>
 <h3 id="forwarding-table">Forwarding Table</h3>
+<p>理论上而言，我们可以建立一张表：这张表直白的告诉我们，如果我想把一个
+packet 送到一个地方，我的 next hop 应该是什么。</p>
 <figure>
 <img src="/.io//ft.png" alt="Forwarding Table">
 <figcaption aria-hidden="true">Forwarding Table</figcaption>
 </figure>
+<p>在现实中，next hop 往往不是指一个抽象的地点，而是指物理上的一个
+port</p>
+<figure>
+<img src="/.io//ft1.png" alt="Port">
+<figcaption aria-hidden="true">Port</figcaption>
+</figure>
+<h3 id="routing-vs.-forwarding">Routing vs. Forwarding</h3>
+<p>我们现在区分两个概念：routing 本身指的是填充 forwarding table
+的过程，而 forwarding 指的才是转发 packet 的过程。</p>
+<p>因此，forwarding 本身并不需要知道 forwarding table
+是如何计算的，故它是一个局部的动作。</p>
+<p>相反，routing
+本身要求我们必须对于整个网络结构有一个认知，因此这是一个全局的过程。</p>
+<h2 id="distance-vector-protocols">Distance Vector Protocols</h2>
+<p>Distance Vector Protocols 的主要内容如下：</p>
+<p>{ % note % }</p>
+<p>For each destination:</p>
+<ul>
+<li>If you hear an advertisement for that destination, update the table
+and reset the TTL if:
+<ul>
+<li>The destination isn’t in the table.</li>
+<li>The advertised cost, plus the link cost to the neighbor, is better
+than the best-known cost.</li>
+<li>The advertisement is from the current next-hop. Includes poison
+advertisements.</li>
+</ul></li>
+<li>Advertise to all your neighbors when the table updates, and
+periodically (advertisement interval).
+<ul>
+<li>But don’t advertise back to the next-hop.</li>
+<li>…Or, advertise poison back to the next-hop.</li>
+<li>Any cost greater than or equal to 16 is advertised as infinity.</li>
+</ul></li>
+<li>If a table entry expires, make the entry poison and advertise
+it.</li>
+</ul>
+<p>{ % endnote % }</p>
+<p>我们分条来看。</p>
+<h3 id="update-rules">Update Rules</h3>
+<p>我们如果从毗邻的节点接收到一条 <code>(from, to, cost, TTL)</code>
+的信息，我们进行如下的判定来决定要不要更新我们的 forwarding table:</p>
+<ol type="1">
+<li>最明显的，如果我根本没有到 to 的路径，那我肯定要加上这条</li>
+<li>这条路径比我现在手上有的要更快，我肯定选择它更好</li>
+<li>这条路径是从我当前的最优的 next hop 发来的，这说明 next hop
+有更新，它到 to
+的距离发生了变化，有可能不再是最优解。为了保证正确性，我现在先更新这条，等后面别人广播的时候自然会更新成正确答案。</li>
+<li>或者，如果是 <code>poison</code> 的，也就是 “我无法到达某个目的地”
+的信息，那么我收到的 Cost 就是无穷大，类似 3，我也要更新。</li>
+</ol>
+<h3 id="advertise-rules">Advertise Rules</h3>
+<p>我们通过不停广播自己的信息来使得这个网络达到收敛态/converge</p>
+<ol type="1">
+<li>首先，我们必须定时广播信息，告诉我的邻居们我还在线，以及我到某个目的地的最小
+cost 是多少</li>
+<li>但是注意，我们不能反向告诉 next hop，否则，如果 next hop
+失效（不再能够到达目的地），它会误以为通过我还能抵达目的地，造成死循环（这被称作
+Split Horizon 原则）</li>
+<li>或者，我们定时广播时，反向告诉 next hop，我不可以到达 A（即，我是从
+next hop 来的，我不能把 packet 再返回给你）。这被称作 Poison
+Reverse，往往是比 Split Horizon 更有效的广播方式</li>
+<li>如果我们已经有一个死循环了，我们该怎么办？方法很简单，给定一个上限，如果
+cost 超过了这个上限，我们就认为他是无穷大/不可达的。</li>
+</ol>
+
+<h2 id="link-state-protocols">Link-State Protocols</h2>
+<h3 id="overview">Overview</h3>
+<div class="note "><p>Link-state protocols in one sentence: Every router <strong>learns the
+full network graph</strong>, and then <strong>runs shortest-paths on the
+graph</strong> to populate the forwarding table.</p>
+</div>
+<p>直白地说，Link-state
+协议通过让所有路由器都有全局信息，使得他们并行计算（通过
+Bellman-Ford/Dijkstra 等最短路算法）出自己的next hop
+但这显然引起了一个问题，如果 A 计算的最短路径和 B
+计算出的路径不一致怎么办呢？</p>
+<p>因此，我们做出以下 4 条约定：</p>
+<div class="note "><ol type="1">
+<li><p>All routers have to agree on the network topology. Suppose a link
+failed, but only one router knows about it. Then different routers are
+computing paths on totally different graphs, and might produce
+inconsistent results.</p></li>
+<li><p>All routers are finding least-cost paths through the path. If one
+router preferred more expensive paths for some reason, we would get
+inconsistent results.</p></li>
+<li><p>All costs are positive. Negative costs could produce
+negative-weight cycles.</p></li>
+<li><p>All routers use the same tiebreaking rules. If we assumed
+shortest paths are unique, then the previous two conditions are
+sufficient to ensure everybody picks the same path. This condition
+additionally ensures that if there are multiple paths tied as the
+shortest, everyone chooses the same one.</p></li>
+</ol>
+</div>
+<h3 id="learning-about-graph-topology">Learning About Graph
+Topology</h3>
 
       
     </div>
@@ -1719,14 +1824,14 @@ engine，同时将默认 <code>Markdown</code> 渲染器换成了
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Word count total: </span>
-    <span title="Word count total">6k</span>
+    <span title="Word count total">7k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">22 mins.</span>
+    <span title="Reading time total">26 mins.</span>
   </span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
