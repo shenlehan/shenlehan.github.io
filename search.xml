@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2026新年展望</title>
+    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
+    <content><![CDATA[<p>2026 就这么突然来了。</p>
+<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
+<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
+和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
+<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
+<p>去年寒假看了一半的
+CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
+倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
+<p>先争取活过这个无比劳碌的期末周吧。</p>
+<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
+TPAMI 什么的就最好了）。</p>
+<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
+<ol type="1">
+<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
+去做互联网码农也能用得上。
+其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
+<li><p>UCB CS168/Stanford CS144 Computer
+Networking：其实早在一年前就听完了 USTC
+的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
+看网上的建议，听 UCB 的课，然后把两个的实验都做了。
+还是得动手写点代码：（</p></li>
+<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
+ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
+<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
+的，先把上面的七七八八做完再考虑这个吧。</p></li>
+<li><p>学学 JavaScript</p></li>
+<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
+AI 需要的数学中的最后一块了。</p></li>
+</ol>
+<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
+<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
+<p>再见，2025；干杯，2026！</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Computer Networking 2--Routing</title>
-    <url>/2026/01/15/Computer-Networking-2-Routing/Computer-Networking-2-Routing/</url>
+    <url>/2026/01/15/Computer-Networking-2-Routing/</url>
     <content><![CDATA[<h2 id="what-is-routing">What is Routing?</h2>
 <h3 id="end-host-and-router">End Host and Router</h3>
 <p>我们先说明 End Host 和 Router 的区别。</p>
@@ -94,7 +134,7 @@ Reverse，往往是比 Split Horizon 更有效的广播方式</li>
 <li>如果我们已经有一个死循环了，我们该怎么办？方法很简单，给定一个上限，如果
 cost 超过了这个上限，我们就认为他是无穷大/不可达的。</li>
 </ol>
-
+<img src="/.io//01/15/Computer-Networking-2-Routing/advertise.png" class title="advertise">
 <h2 id="link-state-protocols">Link-State Protocols</h2>
 <h3 id="overview">Overview</h3>
 <div class="note "><p>Link-state protocols in one sentence: Every router <strong>learns the
@@ -175,53 +215,13 @@ see that same message again, don’t send it a second time.</li>
       </tags>
   </entry>
   <entry>
-    <title>2026新年展望</title>
-    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
-    <content><![CDATA[<p>2026 就这么突然来了。</p>
-<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
-<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
-和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
-<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
-<p>去年寒假看了一半的
-CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
-倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
-<p>先争取活过这个无比劳碌的期末周吧。</p>
-<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
-TPAMI 什么的就最好了）。</p>
-<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
-<ol type="1">
-<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
-去做互联网码农也能用得上。
-其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
-<li><p>UCB CS168/Stanford CS144 Computer
-Networking：其实早在一年前就听完了 USTC
-的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
-看网上的建议，听 UCB 的课，然后把两个的实验都做了。
-还是得动手写点代码：（</p></li>
-<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
-ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
-<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
-的，先把上面的七七八八做完再考虑这个吧。</p></li>
-<li><p>学学 JavaScript</p></li>
-<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
-AI 需要的数学中的最后一块了。</p></li>
-</ol>
-<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
-<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
-<p>再见，2025；干杯，2026！</p>
-]]></content>
-      <categories>
-        <category>Others</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Computer Networking 1--Introduction</title>
-    <url>/2026/01/14/Computer-Networking-1-Introduction/Computer-Networking-1-Introduction/</url>
+    <url>/2026/01/14/Computer-Networking-1-Introduction/</url>
     <content><![CDATA[<h2 id="概览">概览</h2>
 <p>我们将网络架构自顶向下地分成 5
 层。每一层只需要做好自己的工作就可以了。</p>
 <p>由于历史原因，最顶层被叫做 "Layer 7"</p>
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/layers.png" class>
 <h2 id="layers-of-the-internet">Layers of the Internet</h2>
 <h3 id="physical-layer">Physical Layer</h3>
 <p>In the Internet, we’re looking for a way to signal bits (1s and 0s)
@@ -252,9 +252,9 @@ header），它指明了信息传输的各种附加信息（采取的协议、�
 <p>在传输过程中，Header 不断被 peel off，然后又被加上新的。</p>
 <p>由于 Header 的存在，每一层相当于仅仅和自己同层的 peer
 进行通信，因此也要求相同层级采用的协议必须相同。</p>
-
-
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/header1.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/header2.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/Header.png" class>
 <h2 id="resource-sharing">Resource Sharing</h2>
 <p>网络的总容量是有限度的，因此如何分配资源是一个重要的问题。</p>
 <p>我们先考虑两个问题：</p>
@@ -264,16 +264,16 @@ header），它指明了信息传输的各种附加信息（采取的协议、�
 </ol>
 <p>第一个问题的解决方案被称作 statistical
 multiplexing，其原理非常直观：</p>
-
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/sm.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/sm1.png" class>
 <p>第二个问题有两种解决办法，一种被称作 <strong>best
 effort</strong>，通俗而言就是所有人都只管发送信息，并且 "hope for the
 best"，其对应的策略被称作 packet switching</p>
 <p>另一种被称作
 <strong>reservation</strong>，也就是在通信前会先在网络中预留出容量，其对应的策略被称作
 Circuit Switching</p>
-
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/reservation.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/reservation1.png" class>
 <h2 id="properties-of-links">Properties of Links</h2>
 <p>The <strong>bandwidth</strong> of a link tells us how many bits we
 can send on the link per unit time. Intuitively, this is the speed of
@@ -298,7 +298,7 @@ the pipe in that instant.</p>
 <strong>（也就是上文的 transmission delay）</strong> 的区别。前者是 bit
 在物理链路里面传播(propagation)的时间，后者是终端发送一个 packet 所有
 bit 的时间。这从我们下文的例子就可以看出来。</p>
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/bandwidth.png" class>
 <h3 id="timing-diagram">Timing Diagram</h3>
 <p>Suppose we have a link with bandwidth 1 Mbps = 1 million bits per
 second, and propagation delay of 1 ms = 0.001 seconds.</p>
@@ -308,7 +308,7 @@ to the time the last bit is received?</p>
 <p>To answer this question, we can draw a timing diagram. The left bar
 is the sender, and the right bar is the recipient. Time starts at 0 and
 increases as we move down the diagram.</p>
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/timing_diagram.png" class>
 <p>Let’s focus on the first bit. We can put 1,000,000 bits on the link
 per second (bandwidth), so it takes 1/1,000,000 = 0.000001 seconds to
 put a single bit on the link. At time 0.000001 seconds, the link has a
@@ -316,7 +316,7 @@ single bit on it, at the sender end.</p>
 <p>It then takes 0.001 seconds for this bit to travel across the link
 (propagation delay), so at time 0.000001 + 0.001 seconds, the very first
 bit arrives at the recipient.</p>
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/timing_diagram1.png" class>
 <p>Now let’s think about the last bit. From before, it takes 0.000001 to
 put a bit on the link. We have 800 bits to send, so the last bit is
 placed on the link at time <span class="math inline">\(800*0.000001=0.0008\)</span> seconds.</p>
@@ -324,7 +324,7 @@ placed on the link at time <span class="math inline">\(800*0.000001=0.0008\)</sp
 link, so at time 0.0008 + 0.001 seconds, the very last bit arrives at
 the recipient. This is the time when we can say the packet has arrived
 at the recipient.</p>
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/timing_diagram2.png" class>
 <h3 id="packet-delay">Packet Delay</h3>
 <p>从上文例子可以看出，一个完整的 packet 发送的延迟就是 <span class="math inline">\(\text{transmission delay + propagation
 delay}\)</span></p>
@@ -333,13 +333,13 @@ delay}\)</span></p>
 water analogy) and draw the pipe as a rectangle, where the width is the
 propagation delay, and the height is the bandwidth. The area of the pipe
 is the capacity of the link.</p>
-
-
-
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe1.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe2.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe3.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe4.png" class>
 <p>Pipe diagrams can be useful for comparing different links. Let’s look
 at the exact same packets traveling through three different links.</p>
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe5.png" class>
 <h3 id="overloaded-links">Overloaded Links</h3>
 <p>In the long term, we have enough capacity to send all the outgoing
 packets, but at this very instant in time, we have two packets arriving
@@ -348,8 +348,8 @@ overload, and it’s extremely common at switches in the Internet.</p>
 <p>To cope with transient overload, the switch maintains a queue of
 packets. If two packets arrive simultaneously, the switch queues one of
 them and sends out the other one.</p>
-
-
+<img src="/.io//01/14/Computer-Networking-1-Introduction/queue1.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/queue2.png" class>
 <p>At any given time, the switch could choose to send a packet from one
 of the incoming links, or send a packet from the queue. This choice is
 determined by a packet scheduling algorithm, and there are lots of
@@ -366,137 +366,8 @@ transmission delay, propagation delay, and queuing delay</strong>.</p>
       </tags>
   </entry>
   <entry>
-    <title>EM算法</title>
-    <url>/2025/12/20/EM%E7%AE%97%E6%B3%95/EM%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="em-算法的目标">EM 算法的目标</h2>
-<p>先考虑著名的三硬币问题： <div class="note primary"><p>假设三枚硬币 A, B, C，其正面朝上的概率分别为 <span class="math inline">\(\pi,p,q\)</span>。</p>
-<p>先抛 A，若正面朝上抛 B，反之则抛 C。</p>
-<p>只记录抛 B，C 的结果，得到一个 01 序列。</p>
-<p>要求给出此模型的参数 <span class="math inline">\(\theta=(\pi,p,q)\)</span></p>
-</div></p>
-<p>抽象出问题实质：</p>
-<p>给出观测数据 <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span>
-以及隐变量 <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span>，则给出似然估计：
-<span class="math display">\[
-P(Y|\theta) =\sum_Z P(Y|Z,\theta) P(Z|\theta)
-\]</span></p>
-<p>此问题中可以化简为：</p>
-<p><span class="math display">\[
-P(Y|\theta) =\prod_{j=1}^n \left[\pi p^{y_j} (1-p)^{1-y_j} +(1-\pi)
-q^{y_j} (1-q)^{1-y_j}  \right]
-\]</span> 希望给出</p>
-<p><span class="math display">\[
-\hat{\theta}=\arg \max_{\theta} \log(P(Y|\theta))
-\]</span></p>
-<p>下面给出一个用语的约定：</p>
-<ul>
-<li><p><strong>观测数据</strong>/<strong>不完全数据</strong> <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span></p></li>
-<li><p>隐变量/<strong>未观测数据</strong>/ <span class="math inline">\(\text{Latent Variables}\)</span> <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span></p></li>
-<li><p>完全数据：<span class="math inline">\(P(Y,Z|\theta)\)</span></p></li>
-<li><p>完全数据的对数似然函数：<span class="math inline">\(\log
-P(Y,Z|\theta)\)</span></p></li>
-</ul>
-<h2 id="em-算法的导出">EM 算法的导出</h2>
-<p>设 <span class="math display">\[
-\begin{align}
-L(\theta) &amp;=P(Y|\theta)=\sum_Z P(Y|Z,\theta) P(Z|\theta) \\
-&amp;=\log \left( \sum_Z P(Y|Z,\theta) P(Z|\theta) \right)
-\end{align}
-\]</span></p>
-<p>我们逐步迭代去求出最优化的 <span class="math inline">\(\theta\)</span>，设第 <span class="math inline">\(i\)</span> 次求出的解是 <span class="math inline">\(\theta^{(i)}\)</span>，则： <span class="math display">\[
-\begin{align}
-L(\theta)-L(\theta^{(i)})&amp;=\log \left( \sum_Z P(Y|Z,\theta)
-P(Z|\theta) \right)-\log P(Y|\theta^{(i)})
-\\
-&amp;= \log \left(\sum_Z P(Z|Y,\theta^{(i)}) \dfrac{  P(Y|Z,\theta)
-P(Z|\theta) }
-{P(Z|Y,\theta^{(i)})} \right)-\log P(Y|\theta^{(i)})\\
-&amp;\geq \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
-P(Z|\theta) }
-{P(Z|Y,\theta^{(i)})}   \right)-\log P(Y|\theta^{(i)})\\
-&amp;= \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
-P(Z|\theta) }
-{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right)\\
-\end{align}
-\]</span></p>
-<p>不等号是Jensen不等式给出的</p>
-<p>设 <span class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
-P(Z|Y,\theta^{(i)})\log \left( \dfrac{ P(Y|Z,\theta) P(Z|\theta)
-}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})} \right)\)</span></p>
-<p>显然有 <span class="math inline">\(L(\theta)\geq
-B(\theta,\theta^{(i)})\)</span>，即 <span class="math inline">\(B\)</span> 为原本函数的一个下界，且 <span class="math inline">\(\theta=\theta^{(i)}\)</span> 时取等。
-故可以考虑最大化 <span class="math inline">\(B\)</span>，从而使得 <span class="math inline">\(L\)</span> 最大。</p>
-<p>即： <span class="math display">\[
-\begin{align}
-\theta^{(i+1)} &amp;= \arg \max _{\theta} B(\theta,\theta^{(i)})  \\
-&amp;=\arg \max_{\theta} \left( L(\theta^{(i)})+\sum_Z
-P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta) P(Z|\theta)
-}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right) \right)
-\\
-&amp;=\arg \max_{\theta} \left( \sum_Z P(Z|Y,\theta^{(i)})\log
-\left(   P(Y|Z,\theta) P(Z|\theta) \right) \right)\\
-&amp;=\arg \max_{\theta} \sum_Z P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)
-\end{align}
-\]</span> 上面的等号都是去掉了常数项（上面的变量只有 <span class="math inline">\(\theta\)</span>，<span class="math inline">\(\theta^{(i)}\)</span>固定） 令 <span class="math inline">\(Q(\theta,\theta^{(i)})=\sum_Z
-P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)\)</span>，则 Q 函数即为：</p>
-<p>完全似然函数 <span class="math inline">\(\log P(Y,Z|\theta)\)</span>
-关于在给定观测数据 <span class="math inline">\(Y\)</span>
-和当前参数估计<span class="math inline">\(\theta^{(i)}\)</span>
-下，对于未观测数据 <span class="math inline">\(Z\)</span> 的条件概率分布
-<span class="math inline">\(P(Z|Y,\theta^{(i)})\)</span> 的期望。</p>
-<p>EM 算法实质上就是找一个凸函数 <span class="math inline">\(B/Q\)</span>，让它在 <span class="math inline">\(\theta^{(i)}\)</span> 处严格等于对数似然函数 <span class="math inline">\(\log
-P(Y,Z|\theta)\)</span>，但始终在似然函数下方。我们通过不断增大 B
-函数，迫使似然函数上升。</p>
-<div class="note info"><p>关于 Q 函数更直观的认知，见 <a href="https://chat.qwen.ai/c/41591c41-69ab-4005-8cbd-a9db5412b27b">Qwen</a></p>
-</div>
-<h2 id="em-算法的流程">EM 算法的流程</h2>
-<ol type="1">
-<li>初始化 <span class="math inline">\(\theta^{(0)}\)</span></li>
-<li>E(Expectation): 求出 Q 函数</li>
-<li>M(Maximization): 最大化 Q 函数，求出下一轮的 <span class="math inline">\(\theta^{(i+1)}\)</span></li>
-<li>重复 E-M 步，直到收敛为止</li>
-</ol>
-<h2 id="gmm">GMM</h2>
-<p>GMM，即 Gaussian Mixture Model，刻画了如下的问题： <div class="note "><p>有 K 个 Gaussian，分别服从 <span class="math inline">\(\theta_k=(\mu_k,\sigma_k)\)</span>；第 <span class="math inline">\(k\)</span> 个模型被选择的概率是 <span class="math inline">\(\alpha_k\)</span></p>
-<p>即 <span class="math inline">\(P(y)=\sum_{k=1}^K \alpha_k
-\phi(\mu_k,\sigma_k)\)</span></p>
-</div></p>
-<p>现在你既不知道各个Gaussian的具体参数，也不知道选择的概率 <span class="math inline">\(\alpha_k\)</span>，任务就是根据观测的序列 <span class="math inline">\(y=(y_1,\dots,y_N)\)</span> 求出 <span class="math inline">\(\theta=(\alpha_1,\dots,\alpha_K;\theta_1,\dots,\theta_K)\)</span></p>
-<p>使用 EM 算法完成这个任务，逐步分析：</p>
-<h3 id="明确隐变量">明确隐变量</h3>
-<p>设 <span class="math display">\[
-\gamma_{jk}=
-\begin{cases}
-1 &amp; 第 j 个观测来自第 k 个模型\\
-0 &amp; 反之
-\end{cases}
-\]</span></p>
-<p>有了观测数据 <span class="math inline">\(y_j\)</span>
-之后，那么完全数据就是</p>
-<p><span class="math display">\[
-(y_j,\gamma_{j1},\dots,\gamma_{jk})
-\]</span></p>
-<p>后面整体算作上文的 <span class="math inline">\(Z\)</span></p>
-<p>写出似然函数：</p>
-<p>$$ <span class="math display">\[\begin{align}
-P(y,\gamma|\theta) &amp;= \prod_{j=1}^N
-P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
-
-&amp;= \prod_{j=1}^N \prod_{k=1}^K [\alpha_k
-\phi(y_j|\theta_k)]^{\gamma_{jk}}\\
-
-\end{align}\]</span> $$</p>
-]]></content>
-      <categories>
-        <category>Machine Learning</category>
-      </categories>
-      <tags>
-        <tag>EM 算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Computer Networking 3--Transport</title>
-    <url>/2026/01/20/Computer-Networking-3-Transport/Computer-Networking-3-Transport/</url>
+    <url>/2026/01/20/Computer-Networking-3-Transport/</url>
     <content><![CDATA[<h2 id="overview">Overview</h2>
 <h3 id="demultiplexing-with-ports">Demultiplexing with Ports</h3>
 <p>IP 协议只能看到 IP。如果一台主机上同时有两个应用在和一个 server
@@ -528,7 +399,7 @@ to the operating system’s network stack.</p>
   </entry>
   <entry>
     <title>First Blog</title>
-    <url>/2025/12/19/First-Blog/First-Blog/</url>
+    <url>/2025/12/19/First-Blog/</url>
     <content><![CDATA[<p>Hello! This is my first blog.</p>
 <p>A math formula: <span class="math display">\[
 \frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
@@ -552,8 +423,36 @@ to the operating system’s network stack.</p>
 ]]></content>
   </entry>
   <entry>
+    <title>Hexo Blog 的一些技术细节</title>
+    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/</url>
+    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
+<h2 id="数学公式渲染">数学公式渲染</h2>
+<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
+engine，同时将默认 <code>Markdown</code> 渲染器换成了
+<code>pandoc</code></p>
+<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
+<h2 id="英文引号变成中文">英文引号变成中文</h2>
+<p>我想写这篇文章的罪魁祸首。</p>
+<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
+<code>‘/“</code>，显示效果奇差无比</p>
+<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
+之类的操作</p>
+<p>Github 上比较常见的几个 <a href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
+<code>hexo-renderer-marked</code></p>
+<p>但是如上文所说，我换成了 <code>pandoc</code>
+之后依然有这个问题（有的文章说换 <code>pandoc</code>
+之后就好了），猜测也有一个类似的开关</p>
+<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
+<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
+扩展</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Mamba Architecture</title>
-    <url>/2025/12/24/Mamba-Architecture/Mamba-Architecture/</url>
+    <url>/2025/12/24/Mamba-Architecture/</url>
     <content><![CDATA[<p>Mamba 是一种 State Space
 Model/SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。</p>
 <p>其本质可以理解为“隐空间”/“状态空间”中的递推。</p>
@@ -697,48 +596,149 @@ B,C)(x&#39;)\\
       </tags>
   </entry>
   <entry>
+    <title>EM算法</title>
+    <url>/2025/12/20/EM%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="em-算法的目标">EM 算法的目标</h2>
+<p>先考虑著名的三硬币问题： <div class="note primary"><p>假设三枚硬币 A, B, C，其正面朝上的概率分别为 <span class="math inline">\(\pi,p,q\)</span>。</p>
+<p>先抛 A，若正面朝上抛 B，反之则抛 C。</p>
+<p>只记录抛 B，C 的结果，得到一个 01 序列。</p>
+<p>要求给出此模型的参数 <span class="math inline">\(\theta=(\pi,p,q)\)</span></p>
+</div></p>
+<p>抽象出问题实质：</p>
+<p>给出观测数据 <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span>
+以及隐变量 <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span>，则给出似然估计：
+<span class="math display">\[
+P(Y|\theta) =\sum_Z P(Y|Z,\theta) P(Z|\theta)
+\]</span></p>
+<p>此问题中可以化简为：</p>
+<p><span class="math display">\[
+P(Y|\theta) =\prod_{j=1}^n \left[\pi p^{y_j} (1-p)^{1-y_j} +(1-\pi)
+q^{y_j} (1-q)^{1-y_j}  \right]
+\]</span> 希望给出</p>
+<p><span class="math display">\[
+\hat{\theta}=\arg \max_{\theta} \log(P(Y|\theta))
+\]</span></p>
+<p>下面给出一个用语的约定：</p>
+<ul>
+<li><p><strong>观测数据</strong>/<strong>不完全数据</strong> <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span></p></li>
+<li><p>隐变量/<strong>未观测数据</strong>/ <span class="math inline">\(\text{Latent Variables}\)</span> <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span></p></li>
+<li><p>完全数据：<span class="math inline">\(P(Y,Z|\theta)\)</span></p></li>
+<li><p>完全数据的对数似然函数：<span class="math inline">\(\log
+P(Y,Z|\theta)\)</span></p></li>
+</ul>
+<h2 id="em-算法的导出">EM 算法的导出</h2>
+<p>设 <span class="math display">\[
+\begin{align}
+L(\theta) &amp;=P(Y|\theta)=\sum_Z P(Y|Z,\theta) P(Z|\theta) \\
+&amp;=\log \left( \sum_Z P(Y|Z,\theta) P(Z|\theta) \right)
+\end{align}
+\]</span></p>
+<p>我们逐步迭代去求出最优化的 <span class="math inline">\(\theta\)</span>，设第 <span class="math inline">\(i\)</span> 次求出的解是 <span class="math inline">\(\theta^{(i)}\)</span>，则： <span class="math display">\[
+\begin{align}
+L(\theta)-L(\theta^{(i)})&amp;=\log \left( \sum_Z P(Y|Z,\theta)
+P(Z|\theta) \right)-\log P(Y|\theta^{(i)})
+\\
+&amp;= \log \left(\sum_Z P(Z|Y,\theta^{(i)}) \dfrac{  P(Y|Z,\theta)
+P(Z|\theta) }
+{P(Z|Y,\theta^{(i)})} \right)-\log P(Y|\theta^{(i)})\\
+&amp;\geq \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
+P(Z|\theta) }
+{P(Z|Y,\theta^{(i)})}   \right)-\log P(Y|\theta^{(i)})\\
+&amp;= \sum_Z P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta)
+P(Z|\theta) }
+{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right)\\
+\end{align}
+\]</span></p>
+<p>不等号是Jensen不等式给出的</p>
+<p>设 <span class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
+P(Z|Y,\theta^{(i)})\log \left( \dfrac{ P(Y|Z,\theta) P(Z|\theta)
+}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})} \right)\)</span></p>
+<p>显然有 <span class="math inline">\(L(\theta)\geq
+B(\theta,\theta^{(i)})\)</span>，即 <span class="math inline">\(B\)</span> 为原本函数的一个下界，且 <span class="math inline">\(\theta=\theta^{(i)}\)</span> 时取等。
+故可以考虑最大化 <span class="math inline">\(B\)</span>，从而使得 <span class="math inline">\(L\)</span> 最大。</p>
+<p>即： <span class="math display">\[
+\begin{align}
+\theta^{(i+1)} &amp;= \arg \max _{\theta} B(\theta,\theta^{(i)})  \\
+&amp;=\arg \max_{\theta} \left( L(\theta^{(i)})+\sum_Z
+P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta) P(Z|\theta)
+}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}   \right) \right)
+\\
+&amp;=\arg \max_{\theta} \left( \sum_Z P(Z|Y,\theta^{(i)})\log
+\left(   P(Y|Z,\theta) P(Z|\theta) \right) \right)\\
+&amp;=\arg \max_{\theta} \sum_Z P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)
+\end{align}
+\]</span> 上面的等号都是去掉了常数项（上面的变量只有 <span class="math inline">\(\theta\)</span>，<span class="math inline">\(\theta^{(i)}\)</span>固定） 令 <span class="math inline">\(Q(\theta,\theta^{(i)})=\sum_Z
+P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)\)</span>，则 Q 函数即为：</p>
+<p>完全似然函数 <span class="math inline">\(\log P(Y,Z|\theta)\)</span>
+关于在给定观测数据 <span class="math inline">\(Y\)</span>
+和当前参数估计<span class="math inline">\(\theta^{(i)}\)</span>
+下，对于未观测数据 <span class="math inline">\(Z\)</span> 的条件概率分布
+<span class="math inline">\(P(Z|Y,\theta^{(i)})\)</span> 的期望。</p>
+<p>EM 算法实质上就是找一个凸函数 <span class="math inline">\(B/Q\)</span>，让它在 <span class="math inline">\(\theta^{(i)}\)</span> 处严格等于对数似然函数 <span class="math inline">\(\log
+P(Y,Z|\theta)\)</span>，但始终在似然函数下方。我们通过不断增大 B
+函数，迫使似然函数上升。</p>
+<div class="note info"><p>关于 Q 函数更直观的认知，见 <a href="https://chat.qwen.ai/c/41591c41-69ab-4005-8cbd-a9db5412b27b">Qwen</a></p>
+</div>
+<h2 id="em-算法的流程">EM 算法的流程</h2>
+<ol type="1">
+<li>初始化 <span class="math inline">\(\theta^{(0)}\)</span></li>
+<li>E(Expectation): 求出 Q 函数</li>
+<li>M(Maximization): 最大化 Q 函数，求出下一轮的 <span class="math inline">\(\theta^{(i+1)}\)</span></li>
+<li>重复 E-M 步，直到收敛为止</li>
+</ol>
+<h2 id="gmm">GMM</h2>
+<p>GMM，即 Gaussian Mixture Model，刻画了如下的问题： <div class="note "><p>有 K 个 Gaussian，分别服从 <span class="math inline">\(\theta_k=(\mu_k,\sigma_k)\)</span>；第 <span class="math inline">\(k\)</span> 个模型被选择的概率是 <span class="math inline">\(\alpha_k\)</span></p>
+<p>即 <span class="math inline">\(P(y)=\sum_{k=1}^K \alpha_k
+\phi(\mu_k,\sigma_k)\)</span></p>
+</div></p>
+<p>现在你既不知道各个Gaussian的具体参数，也不知道选择的概率 <span class="math inline">\(\alpha_k\)</span>，任务就是根据观测的序列 <span class="math inline">\(y=(y_1,\dots,y_N)\)</span> 求出 <span class="math inline">\(\theta=(\alpha_1,\dots,\alpha_K;\theta_1,\dots,\theta_K)\)</span></p>
+<p>使用 EM 算法完成这个任务，逐步分析：</p>
+<h3 id="明确隐变量">明确隐变量</h3>
+<p>设 <span class="math display">\[
+\gamma_{jk}=
+\begin{cases}
+1 &amp; 第 j 个观测来自第 k 个模型\\
+0 &amp; 反之
+\end{cases}
+\]</span></p>
+<p>有了观测数据 <span class="math inline">\(y_j\)</span>
+之后，那么完全数据就是</p>
+<p><span class="math display">\[
+(y_j,\gamma_{j1},\dots,\gamma_{jk})
+\]</span></p>
+<p>后面整体算作上文的 <span class="math inline">\(Z\)</span></p>
+<p>写出似然函数：</p>
+<p>$$ <span class="math display">\[\begin{align}
+P(y,\gamma|\theta) &amp;= \prod_{j=1}^N
+P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
+
+&amp;= \prod_{j=1}^N \prod_{k=1}^K [\alpha_k
+\phi(y_j|\theta_k)]^{\gamma_{jk}}\\
+
+\end{align}\]</span> $$</p>
+]]></content>
+      <categories>
+        <category>Machine Learning</category>
+      </categories>
+      <tags>
+        <tag>EM 算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Pre-norm and Post-norm</title>
-    <url>/2026/01/14/Pre-norm-and-Post-norm/Pre-norm-and-Post-norm/</url>
+    <url>/2026/01/14/Pre-norm-and-Post-norm/</url>
     <content><![CDATA[
 ]]></content>
   </entry>
   <entry>
     <title>RWKV 初探</title>
-    <url>/2026/01/27/RWKV-%E5%88%9D%E6%8E%A2/RWKV-%E5%88%9D%E6%8E%A2/</url>
+    <url>/2026/01/27/RWKV-%E5%88%9D%E6%8E%A2/</url>
     <content><![CDATA[
 ]]></content>
   </entry>
   <entry>
-    <title>Hexo Blog 的一些技术细节</title>
-    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/</url>
-    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
-]]></content>
-      <categories>
-        <category>Others</category>
-      </categories>
-  </entry>
-  <entry>
     <title>UCB CS168 lab2 Routing 小记</title>
-    <url>/2026/01/27/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/</url>
+    <url>/2026/01/27/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/</url>
     <content><![CDATA[<p>简单记录一下我做下来的一些小坑。</p>
 <h2 id="stage-2">Stage 2</h2>
 <h3 id="正确的端口">正确的端口</h3>
@@ -793,13 +793,13 @@ KeyError。 但 defaultdict(dict) 自带默认值：</p>
   </entry>
   <entry>
     <title>Vision Mamba源码导读</title>
-    <url>/2026/01/15/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/</url>
+    <url>/2026/01/15/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/</url>
     <content><![CDATA[
 ]]></content>
   </entry>
   <entry>
     <title>决策树</title>
-    <url>/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/%E5%86%B3%E7%AD%96%E6%A0%91/</url>
+    <url>/2025/12/20/%E5%86%B3%E7%AD%96%E6%A0%91/</url>
     <content><![CDATA[<h2 id="决策树学习算法">决策树学习算法</h2>
 <p>决策树的学习算法一共有三点： <div class="note primary"><p>特征选择，决策树生成，决策树剪枝</p>
 </div></p>

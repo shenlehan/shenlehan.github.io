@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Fira+Code:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概览 我们将网络架构自顶向下地分成 5 层。每一层只需要做好自己的工作就可以了。 由于历史原因，最顶层被叫做 &quot;Layer 7&quot;  Layers of the Internet Physical Layer In the Internet, we’re looking for a way to signal bits (1s and 0s) across space. The technology">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Computer Networking 1--Introduction">
+<meta property="og:url" content="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/index.html">
+<meta property="og:site_name" content="Lehan Shen&#39;s Blog">
+<meta property="og:description" content="概览 我们将网络架构自顶向下地分成 5 层。每一层只需要做好自己的工作就可以了。 由于历史原因，最顶层被叫做 &quot;Layer 7&quot;  Layers of the Internet Physical Layer In the Internet, we’re looking for a way to signal bits (1s and 0s) across space. The technology">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/layers.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/header1.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/header2.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/Header.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/sm.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/sm1.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/reservation.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/reservation1.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/bandwidth.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/timing_diagram.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/timing_diagram1.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/timing_diagram2.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/pipe1.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/pipe2.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/pipe3.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/pipe4.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/pipe5.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/queue1.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/queue2.png">
+<meta property="article:published_time" content="2026-01-14T05:16:06.000Z">
+<meta property="article:modified_time" content="2026-01-27T06:36:20.639Z">
+<meta property="article:author" content="Lehan Shen">
+<meta property="article:tag" content="CS168">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://shenlehan.github.io/.io//01/14/Computer-Networking-1-Introduction/layers.png">
+
+
+<link rel="canonical" href="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/","path":"2026/01/14/Computer-Networking-1-Introduction/","title":"Computer Networking 1--Introduction"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Computer Networking 1--Introduction | Lehan Shen's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js" defer></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lehan Shen's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%A7%88"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#layers-of-the-internet"><span class="nav-number">2.</span> <span class="nav-text">Layers of the Internet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#physical-layer"><span class="nav-number">2.1.</span> <span class="nav-text">Physical Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#link-layer"><span class="nav-number">2.2.</span> <span class="nav-text">Link Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#internet-layer"><span class="nav-number">2.3.</span> <span class="nav-text">Internet Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transport-layer"><span class="nav-number">2.4.</span> <span class="nav-text">Transport Layer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#application-layer"><span class="nav-number">2.5.</span> <span class="nav-text">Application Layer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#headers"><span class="nav-number">3.</span> <span class="nav-text">Headers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#resource-sharing"><span class="nav-number">4.</span> <span class="nav-text">Resource Sharing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#properties-of-links"><span class="nav-number">5.</span> <span class="nav-text">Properties of Links</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#timing-diagram"><span class="nav-number">5.1.</span> <span class="nav-text">Timing Diagram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#packet-delay"><span class="nav-number">5.2.</span> <span class="nav-text">Packet Delay</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pipe-diagram"><span class="nav-number">5.3.</span> <span class="nav-text">Pipe Diagram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#overloaded-links"><span class="nav-number">5.4.</span> <span class="nav-text">Overloaded Links</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lehan Shen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shenlehan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shenlehan" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:shenlehan233@gmail.com" title="E-Mail → mailto:shenlehan233@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2026/01/14/Computer-Networking-1-Introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lehan Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lehan Shen's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Computer Networking 1--Introduction | Lehan Shen's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Computer Networking 1--Introduction
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-01-14 13:16:06" itemprop="dateCreated datePublished" datetime="2026-01-14T13:16:06+08:00">2026-01-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-01-27 14:36:20" itemprop="dateModified" datetime="2026-01-27T14:36:20+08:00">2026-01-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer-Network/" itemprop="url" rel="index"><span itemprop="name">Computer Network</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>5 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="概览">概览</h2>
+<p>我们将网络架构自顶向下地分成 5
+层。每一层只需要做好自己的工作就可以了。</p>
+<p>由于历史原因，最顶层被叫做 "Layer 7"</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/layers.png" class>
+<h2 id="layers-of-the-internet">Layers of the Internet</h2>
+<h3 id="physical-layer">Physical Layer</h3>
+<p>In the Internet, we’re looking for a way to signal bits (1s and 0s)
+across space.</p>
+<p>The technology could be voltages on an electrical wire, wireless
+radio waves, light pulses along optical fiber cables, among others.</p>
+<p>Physical Layer 数据的基本单位是<strong>bit</strong>。</p>
+<h3 id="link-layer">Link Layer</h3>
+<p>Link Layer cares about how to send the data using Physical Layer.</p>
+<p>Link Layer
+只负责相邻节点之间的通信，其单位是<strong>frame/帧</strong>。</p>
+<h3 id="internet-layer">Internet Layer</h3>
+<p>Internet Layer 是路由器工作的最高层，负责决定 next
+hop，即把数据转发给谁。其基本单位是<strong>packet/包</strong>。</p>
+<p>IP 协议就是在这一层工作的。</p>
+<h3 id="transport-layer">Transport Layer</h3>
+<p>Transport Layer 负责决定数据传输的可靠性，也就是 TCP/UDP
+协议，以及“端到端通信”。</p>
+<p>也就是说，他通过端口区分应用的数据的来/去。</p>
+<p>其基本单位是<strong>段/segment</strong>。</p>
+<h3 id="application-layer">Application Layer</h3>
+<p>只负责考虑如何使用网络。它的基本数据单位被称作
+<strong>message</strong>。</p>
+<h2 id="headers">Headers</h2>
+<p>每一层都会把从更低层拿来的数据加上对应的 Header。</p>
+<p>Header 是只给这一层看的信息（同时，每一层也只能看自己层级的
+header），它指明了信息传输的各种附加信息（采取的协议、收件人/发件人等等）。</p>
+<p>在传输过程中，Header 不断被 peel off，然后又被加上新的。</p>
+<p>由于 Header 的存在，每一层相当于仅仅和自己同层的 peer
+进行通信，因此也要求相同层级采用的协议必须相同。</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/header1.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/header2.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/Header.png" class>
+<h2 id="resource-sharing">Resource Sharing</h2>
+<p>网络的总容量是有限度的，因此如何分配资源是一个重要的问题。</p>
+<p>我们先考虑两个问题：</p>
+<ol type="1">
+<li><p>要保证网络正常工作，我们至少要多大的容量？</p></li>
+<li><p>我们如何分配我们的容量？</p></li>
+</ol>
+<p>第一个问题的解决方案被称作 statistical
+multiplexing，其原理非常直观：</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/sm.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/sm1.png" class>
+<p>第二个问题有两种解决办法，一种被称作 <strong>best
+effort</strong>，通俗而言就是所有人都只管发送信息，并且 "hope for the
+best"，其对应的策略被称作 packet switching</p>
+<p>另一种被称作
+<strong>reservation</strong>，也就是在通信前会先在网络中预留出容量，其对应的策略被称作
+Circuit Switching</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/reservation.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/reservation1.png" class>
+<h2 id="properties-of-links">Properties of Links</h2>
+<p>The <strong>bandwidth</strong> of a link tells us how many bits we
+can send on the link per unit time. Intuitively, this is the speed of
+the link. If you think of a link as a pipe carrying water, the bandwidth
+is the width of the pipe. A wider pipe lets us feed more water into the
+pipe per second. We usually measure bandwidth in bits per second (e.g. 5
+Gbps = 5 billion bits per second).</p>
+<p>The <strong>propagation delay</strong> of a link tells us how long it
+takes for a bit to travel along the link. In the pipe analogy, this is
+the length of the link. A shorter pipe means that water spends less time
+in the pipe before arriving at the other end. Propagation delay is
+measured in time (e.g. nanoseconds, milliseconds).</p>
+<p>If we multiply the bandwidth and the propagation delay, we get the
+<strong>bandwidth-delay product (BDP)</strong>. Intuitively, this is the
+<strong>capacity</strong> of the link, or the number of bits that exist
+on the link at any given instant. In the pipe analogy, if we fill up the
+pipe and freeze time, the capacity of the pipe is how much water is in
+the pipe in that instant.</p>
+<p>注意，bandwidth/带宽是指“一秒内发射的 bit 数量”，而 bit
+必须是一个一个发射出去的。所以一个 bit 的发射用时是 <span class="math inline">\(\frac{1}{\text{bandwidth}}\)</span>。</p>
+<p>注意区分 delay（或者用全称，propagation delay） 和这个发射用时
+<strong>（也就是上文的 transmission delay）</strong> 的区别。前者是 bit
+在物理链路里面传播(propagation)的时间，后者是终端发送一个 packet 所有
+bit 的时间。这从我们下文的例子就可以看出来。</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/bandwidth.png" class>
+<h3 id="timing-diagram">Timing Diagram</h3>
+<p>Suppose we have a link with bandwidth 1 Mbps = 1 million bits per
+second, and propagation delay of 1 ms = 0.001 seconds.</p>
+<p>We want to send a 100 byte = 800 bit packet along this link. How long
+does it take to send this packet, from the time the first bit is sent,
+to the time the last bit is received?</p>
+<p>To answer this question, we can draw a timing diagram. The left bar
+is the sender, and the right bar is the recipient. Time starts at 0 and
+increases as we move down the diagram.</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/timing_diagram.png" class>
+<p>Let’s focus on the first bit. We can put 1,000,000 bits on the link
+per second (bandwidth), so it takes 1/1,000,000 = 0.000001 seconds to
+put a single bit on the link. At time 0.000001 seconds, the link has a
+single bit on it, at the sender end.</p>
+<p>It then takes 0.001 seconds for this bit to travel across the link
+(propagation delay), so at time 0.000001 + 0.001 seconds, the very first
+bit arrives at the recipient.</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/timing_diagram1.png" class>
+<p>Now let’s think about the last bit. From before, it takes 0.000001 to
+put a bit on the link. We have 800 bits to send, so the last bit is
+placed on the link at time <span class="math inline">\(800*0.000001=0.0008\)</span> seconds.</p>
+<p>It then takes 0.001 seconds for the last bit to travel across the
+link, so at time 0.0008 + 0.001 seconds, the very last bit arrives at
+the recipient. This is the time when we can say the packet has arrived
+at the recipient.</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/timing_diagram2.png" class>
+<h3 id="packet-delay">Packet Delay</h3>
+<p>从上文例子可以看出，一个完整的 packet 发送的延迟就是 <span class="math inline">\(\text{transmission delay + propagation
+delay}\)</span></p>
+<h3 id="pipe-diagram">Pipe Diagram</h3>
+<p>To draw the link, we can imagine the link is a pipe (similar to the
+water analogy) and draw the pipe as a rectangle, where the width is the
+propagation delay, and the height is the bandwidth. The area of the pipe
+is the capacity of the link.</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe1.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe2.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe3.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe4.png" class>
+<p>Pipe diagrams can be useful for comparing different links. Let’s look
+at the exact same packets traveling through three different links.</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe5.png" class>
+<h3 id="overloaded-links">Overloaded Links</h3>
+<p>In the long term, we have enough capacity to send all the outgoing
+packets, but at this very instant in time, we have two packets arriving
+simultaneously, and we can only send out one. This is called transient
+overload, and it’s extremely common at switches in the Internet.</p>
+<p>To cope with transient overload, the switch maintains a queue of
+packets. If two packets arrive simultaneously, the switch queues one of
+them and sends out the other one.</p>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/queue1.png" class>
+<img src="/.io//01/14/Computer-Networking-1-Introduction/queue2.png" class>
+<p>At any given time, the switch could choose to send a packet from one
+of the incoming links, or send a packet from the queue. This choice is
+determined by a packet scheduling algorithm, and there are lots of
+different designs that we’ll look at.</p>
+<p>Now that we have a notion of queuing, we need to go back and update
+our packet delay formula. <strong>Now, packet delay is the sum of
+transmission delay, propagation delay, and queuing delay</strong>.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CS168/" rel="tag"><i class="fa fa-tag"></i> CS168</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/" rel="prev" title="2026新年展望">
+                  <i class="fa fa-angle-left"></i> 2026新年展望
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/01/14/Pre-norm-and-Post-norm/" rel="next" title="Pre-norm and Post-norm">
+                  Pre-norm and Post-norm <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Lehan Shen</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>Word count total: </span>
+    <span title="Word count total">8k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>Reading time total &asymp;</span>
+    <span title="Reading time total">30 mins.</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

@@ -20,22 +20,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Lehan Shen&#39;s Blog">
-<meta property="og:url" content="http://shenlehan.github.io/categories/Computer-Network/index.html">
+    <meta name="description" content="Overview Demultiplexing with Ports IP 协议只能看到 IP。如果一台主机上同时有两个应用在和一个 server 通信，那么二者在 IP 层面是完全一样的（有相同的 source&#x2F;destination IP） 我们该如何区分这两个应用，将数据正确的交给他们？ 解决方案就是 port，每个应用走不同的 port 出去。   port    port  Becaus">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Computer Networking 3--Transport">
+<meta property="og:url" content="http://shenlehan.github.io/2026/01/20/Computer-Networking-3-Transport/index.html">
 <meta property="og:site_name" content="Lehan Shen&#39;s Blog">
+<meta property="og:description" content="Overview Demultiplexing with Ports IP 协议只能看到 IP。如果一台主机上同时有两个应用在和一个 server 通信，那么二者在 IP 层面是完全一样的（有相同的 source&#x2F;destination IP） 我们该如何区分这两个应用，将数据正确的交给他们？ 解决方案就是 port，每个应用走不同的 port 出去。   port    port  Becaus">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://shenlehan.github.io/.io//port1.png">
+<meta property="og:image" content="http://shenlehan.github.io/.io//port2.png">
+<meta property="article:published_time" content="2026-01-20T13:16:45.000Z">
+<meta property="article:modified_time" content="2026-01-27T06:36:31.057Z">
 <meta property="article:author" content="Lehan Shen">
+<meta property="article:tag" content="CS168">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://shenlehan.github.io/.io//port1.png">
 
 
-<link rel="canonical" href="http://shenlehan.github.io/categories/Computer-Network/">
+<link rel="canonical" href="http://shenlehan.github.io/2026/01/20/Computer-Networking-3-Transport/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"en","comments":"","permalink":"","path":"categories/Computer-Network/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://shenlehan.github.io/2026/01/20/Computer-Networking-3-Transport/","path":"2026/01/20/Computer-Networking-3-Transport/","title":"Computer Networking 3--Transport"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Category: Computer Network | Lehan Shen's Blog</title>
+<title>Computer Networking 3--Transport | Lehan Shen's Blog</title>
   
 
 
@@ -146,7 +154,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -159,6 +167,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#demultiplexing-with-ports"><span class="nav-number">1.1.</span> <span class="nav-text">Demultiplexing with Ports</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp"><span class="nav-number">2.</span> <span class="nav-text">TCP</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -206,110 +215,144 @@
 
     </div>
 
-    <div class="main-inner category posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">Computer Network
-          <small>Category</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2026/01/20/Computer-Networking-3-Transport/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lehan Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lehan Shen's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Computer Networking 3--Transport | Lehan Shen's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Computer Networking 3--Transport
         </h1>
-      </div>
 
-      
-    <div class="collection-year">
-      <span class="collection-header">2026</span>
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-01-20 21:16:45" itemprop="dateCreated datePublished" datetime="2026-01-20T21:16:45+08:00">2026-01-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-01-27 14:36:31" itemprop="dateModified" datetime="2026-01-27T14:36:31+08:00">2026-01-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Computer-Network/" itemprop="url" rel="index"><span itemprop="name">Computer Network</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>129</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="overview">Overview</h2>
+<h3 id="demultiplexing-with-ports">Demultiplexing with Ports</h3>
+<p>IP 协议只能看到 IP。如果一台主机上同时有两个应用在和一个 server
+通信，那么二者在 IP 层面是完全一样的（有相同的 source/destination
+IP）</p>
+<p>我们该如何区分这两个应用，将数据正确的交给他们？</p>
+<p>解决方案就是 port，每个应用走不同的 port 出去。</p>
+<figure>
+<img src="/.io//port1.png" alt="port">
+<figcaption aria-hidden="true">port</figcaption>
+</figure>
+<figure>
+<img src="/.io//port2.png" alt="port">
+<figcaption aria-hidden="true">port</figcaption>
+</figure>
+<div class="note "><p>Because the transport layer is implemented in the <strong>operating
+system</strong>, these ports (sometimes called <strong>logical
+ports</strong>) are the attachment point where the application connects
+to the operating system’s network stack.</p>
+</div>
+<h2 id="tcp">TCP</h2>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-01-27T13:41:21+08:00"
-              content="2026-01-27">
-          01-27
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2026/01/27/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">UCB CS168 lab2 Routing 小记</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CS168/" rel="tag"><i class="fa fa-tag"></i> CS168</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/01/15/Computer-Networking-2-Routing/" rel="prev" title="Computer Networking 2--Routing">
+                  <i class="fa fa-angle-left"></i> Computer Networking 2--Routing
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/01/27/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/" rel="next" title="UCB CS168 lab2 Routing 小记">
+                  UCB CS168 lab2 Routing 小记 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-01-20T21:16:45+08:00"
-              content="2026-01-20">
-          01-20
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2026/01/20/Computer-Networking-3-Transport/" itemprop="url">
-            <span itemprop="name">Computer Networking 3--Transport</span>
-          </a>
-      </div>
 
-      
-    </header>
-  </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-01-15T21:19:39+08:00"
-              content="2026-01-15">
-          01-15
-        </time>
-      </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2026/01/15/Computer-Networking-2-Routing/" itemprop="url">
-            <span itemprop="name">Computer Networking 2--Routing</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-01-14T13:16:06+08:00"
-              content="2026-01-14">
-          01-14
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2026/01/14/Computer-Networking-1-Introduction/" itemprop="url">
-            <span itemprop="name">Computer Networking 1--Introduction</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-    </div>
-  </div>
-  
-  
-  
 
 </div>
   </main>
