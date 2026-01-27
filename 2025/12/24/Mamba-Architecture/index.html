@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark-reasonable","dark":"atom-one-dark-reasonable"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="Mamba 是一种 State Space Model&#x2F;SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。 其本质可以理解为“隐空间”&#x2F;“状态空间”中的递推。 问题 给定时间信号输入序列 \(x(t)\)，以及输出序列 \(y(t)\)，尝试给出预测模型。 我们考虑一个隐状态空间 \(h(t)\in \mathbb{R}^N\)，它由 \(x(t)\) 而来，控制了 \(y(t)\">
 <meta property="og:type" content="article">
@@ -300,7 +300,9 @@ Function</span></a></li></ol></li></ol></div>
 Model/SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。</p>
 <p>其本质可以理解为“隐空间”/“状态空间”中的递推。</p>
 <h2 id="问题">问题</h2>
-<p>给定时间信号输入序列 <span class="math inline">\(x(t)\)</span>，以及输出序列 <span class="math inline">\(y(t)\)</span>，尝试给出预测模型。
+<p>给定时间信号输入序列 <span
+class="math inline">\(x(t)\)</span>，以及输出序列 <span
+class="math inline">\(y(t)\)</span>，尝试给出预测模型。
 我们考虑一个隐状态空间 <span class="math inline">\(h(t)\in
 \mathbb{R}^N\)</span>，它由 <span class="math inline">\(x(t)\)</span>
 而来，控制了 <span class="math inline">\(y(t)\)</span> 的输出。
@@ -310,7 +312,9 @@ h&#39;(t) &amp;= \mathbf{A}h(t)+\mathbf{B}x(t) \\
 y(t)  &amp;= \mathbf{C}h&#39;(t)
 \end{align}
 \]</span></p>
-<p>其中，<span class="math inline">\(\mathbf{A}\)</span>，<span class="math inline">\(\mathbf{B}\)</span>，<span class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
+<p>其中，<span class="math inline">\(\mathbf{A}\)</span>，<span
+class="math inline">\(\mathbf{B}\)</span>，<span
+class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
 parameter 和 projection
 parameter。第一个的作用是将隐空间中的状态逐步演化的最终态，后二者的作用是进行隐空间和实际输入/输出空间的映射。</p>
 <h2 id="从连续时间到离散时间">从连续时间到离散时间</h2>
@@ -324,7 +328,9 @@ parameter。第一个的作用是将隐空间中的状态逐步演化的最终�
 <p><span class="math display">\[
 u(t)=u_k\quad t\in [t_k,t_{k+1})
 \]</span></p>
-<p>其中，采样步长 <span class="math inline">\(\Delta&gt;0\)</span>，<span class="math inline">\(t_k=k\Delta\)</span></p>
+<p>其中，采样步长 <span
+class="math inline">\(\Delta&gt;0\)</span>，<span
+class="math inline">\(t_k=k\Delta\)</span></p>
 </div>
 <p>我们希望得到离散递推公式： <span class="math display">\[
 x_{k+1}=\bar{A}x_k+\bar{B}u_k
@@ -333,7 +339,8 @@ x_{k+1}=\bar{A}x_k+\bar{B}u_k
 <span class="math display">\[
 \frac{\mathrm{d}x}{\mathrm{d}t}=Ax+Bu
 \]</span></p>
-<p>注意，这里 <span class="math inline">\(x\)</span> 是状态，<span class="math inline">\(u\)</span> 是输入。</p>
+<p>注意，这里 <span class="math inline">\(x\)</span> 是状态，<span
+class="math inline">\(u\)</span> 是输入。</p>
 <p>将系统重写为 <span class="math display">\[
 \dot{x}(t)-Ax(t)=Bu(t)
 \]</span></p>
@@ -341,9 +348,12 @@ x_{k+1}=\bar{A}x_k+\bar{B}u_k
 \bar{A}=e^{\Delta
 A},\bar{B}=\int_{t_k}^{t_{k+1}}e^{A(t_{k+1}-\tau)}B\mathrm{d}\tau
 \]</span></p>
-<p>若 <span class="math inline">\(A\)</span> 可逆，则 <span class="math inline">\(B\)</span> 有闭式解 <span class="math inline">\(A^{-1}(e^{A\Delta}-I)B\)</span></p>
+<p>若 <span class="math inline">\(A\)</span> 可逆，则 <span
+class="math inline">\(B\)</span> 有闭式解 <span
+class="math inline">\(A^{-1}(e^{A\Delta}-I)B\)</span></p>
 <div class="note info"><h4 id="矩阵指数">矩阵指数</h4>
-<p><span class="math inline">\(B=e^{A}\)</span> 并不是 <span class="math inline">\(B_{ij}=\exp\{a_{ij}\}\)</span>，而是采用泰勒展开：
+<p><span class="math inline">\(B=e^{A}\)</span> 并不是 <span
+class="math inline">\(B_{ij}=\exp\{a_{ij}\}\)</span>，而是采用泰勒展开：
 <span class="math display">\[
 e^A=\sum_{i=0}^{\infin} \frac{A^k}{k!}
 \]</span></p>
@@ -357,7 +367,9 @@ e^A=P\text{diag}(e^{a_1},\dots,e^{a_n})P^{-1}
 \]</span></p>
 </div>
 <h3 id="递推">递推</h3>
-<p>基于 ZOH 假设，我们可以快速写出以下式子（<span class="math inline">\(M\)</span> 是序列长度）： <span class="math display">\[
+<p>基于 ZOH 假设，我们可以快速写出以下式子（<span
+class="math inline">\(M\)</span> 是序列长度）： <span
+class="math display">\[
 \begin{align}
 \bar{K} &amp;= (C\bar{B}, C\bar{A}\bar{B}, C\bar{A}^2\bar{B},\dots,
 C\bar{A}^{M-1}\bar{B})\\
@@ -378,7 +390,9 @@ Block M}} x^{(M)}
 <h2 id="具体实现">具体实现</h2>
 <h3 id="algorithm-1parameters-function">Algorithm 1：Parameters
 Function</h3>
-<p>根据我们上文的描述，从给定的序列 <span class="math inline">\(\{x\}\)</span> 中生成 <span class="math inline">\(\bar{A}, \bar{B}, C\)</span>。</p>
+<p>根据我们上文的描述，从给定的序列 <span
+class="math inline">\(\{x\}\)</span> 中生成 <span
+class="math inline">\(\bar{A}, \bar{B}, C\)</span>。</p>
 <p><span class="math display">\[
 \begin{aligned}
 \textbf{Algorithm 1: Parameters Function}\\

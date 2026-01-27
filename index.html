@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark-reasonable","dark":"atom-one-dark-reasonable"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="Lehan Shen&#39;s Blog">
@@ -518,11 +518,11 @@ IP）</p>
 <p>我们该如何区分这两个应用，将数据正确的交给他们？</p>
 <p>解决方案就是 port，每个应用走不同的 port 出去。</p>
 <figure>
-<img src="/.io//port1.png" alt="port">
+<img src="port1.png" alt="port" />
 <figcaption aria-hidden="true">port</figcaption>
 </figure>
 <figure>
-<img src="/.io//port2.png" alt="port">
+<img src="port2.png" alt="port" />
 <figcaption aria-hidden="true">port</figcaption>
 </figure>
 <div class="note "><p>Because the transport layer is implemented in the <strong>operating
@@ -642,7 +642,7 @@ Destination。 他们需要一个唯一的标识符。</p>
 <p>这个标识符是怎么来的，姑且先不考虑。在有了这个标识符之后，我们便在
 packet 的头部加上 Source Address 和 Destination Address 两个元素。</p>
 <figure>
-<img src="/.io//packets.png" alt="Packets">
+<img src="packets.png" alt="Packets" />
 <figcaption aria-hidden="true">Packets</figcaption>
 </figure>
 <h2 id="routing-states">Routing States</h2>
@@ -654,13 +654,13 @@ packet 的头部加上 Source Address 和 Destination Address 两个元素。</p
 <p>理论上而言，我们可以建立一张表：这张表直白的告诉我们，如果我想把一个
 packet 送到一个地方，我的 next hop 应该是什么。</p>
 <figure>
-<img src="/.io//ft.png" alt="Forwarding Table">
+<img src="ft.png" alt="Forwarding Table" />
 <figcaption aria-hidden="true">Forwarding Table</figcaption>
 </figure>
 <p>在现实中，next hop 往往不是指一个抽象的地点，而是指物理上的一个
 port</p>
 <figure>
-<img src="/.io//ft1.png" alt="Port">
+<img src="ft1.png" alt="Port" />
 <figcaption aria-hidden="true">Port</figcaption>
 </figure>
 <h3 id="routing-vs.-forwarding">Routing vs. Forwarding</h3>
@@ -721,7 +721,7 @@ Reverse，往往是比 Split Horizon 更有效的广播方式</li>
 <li>如果我们已经有一个死循环了，我们该怎么办？方法很简单，给定一个上限，如果
 cost 超过了这个上限，我们就认为他是无穷大/不可达的。</li>
 </ol>
-<img src="/.io//01/15/Computer-Networking-2-Routing/advertise.png" class title="advertise">
+<img src="/2026/01/15/Computer-Networking-2-Routing/advertise.png" class="" title="advertise">
 <h2 id="link-state-protocols">Link-State Protocols</h2>
 <h3 id="overview">Overview</h3>
 <div class="note "><p>Link-state protocols in one sentence: Every router <strong>learns the
@@ -765,11 +765,11 @@ Note that R1 does not know about R3, because R1 and R3 are not
 neighbors.</p></li>
 </ol>
 <figure>
-<img src="/.io//graph3.png" alt="graph3">
+<img src="graph3.png" alt="graph3" />
 <figcaption aria-hidden="true">graph3</figcaption>
 </figure>
 <figure>
-<img src="/.io//graph1.png" alt="graph1">
+<img src="graph1.png" alt="graph1" />
 <figcaption aria-hidden="true">graph1</figcaption>
 </figure>
 <ol start="2" type="1">
@@ -783,7 +783,7 @@ flooding information across the network. If any information changes
 well.</li>
 </ol>
 <figure>
-<img src="/.io//graph2.png" alt="graph2">
+<img src="graph2.png" alt="graph2" />
 <figcaption aria-hidden="true">graph2</figcaption>
 </figure>
 <ol start="3" type="1">
@@ -1064,7 +1064,7 @@ see that same message again, don’t send it a second time.</li>
 <p>我们将网络架构自顶向下地分成 5
 层。每一层只需要做好自己的工作就可以了。</p>
 <p>由于历史原因，最顶层被叫做 "Layer 7"</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/layers.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/layers.png" class="">
 <h2 id="layers-of-the-internet">Layers of the Internet</h2>
 <h3 id="physical-layer">Physical Layer</h3>
 <p>In the Internet, we’re looking for a way to signal bits (1s and 0s)
@@ -1095,9 +1095,9 @@ header），它指明了信息传输的各种附加信息（采取的协议、�
 <p>在传输过程中，Header 不断被 peel off，然后又被加上新的。</p>
 <p>由于 Header 的存在，每一层相当于仅仅和自己同层的 peer
 进行通信，因此也要求相同层级采用的协议必须相同。</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/header1.png" class>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/header2.png" class>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/Header.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/header1.png" class="">
+<img src="/2026/01/14/Computer-Networking-1-Introduction/header2.png" class="">
+<img src="/2026/01/14/Computer-Networking-1-Introduction/Header.png" class="">
 <h2 id="resource-sharing">Resource Sharing</h2>
 <p>网络的总容量是有限度的，因此如何分配资源是一个重要的问题。</p>
 <p>我们先考虑两个问题：</p>
@@ -1107,16 +1107,16 @@ header），它指明了信息传输的各种附加信息（采取的协议、�
 </ol>
 <p>第一个问题的解决方案被称作 statistical
 multiplexing，其原理非常直观：</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/sm.png" class>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/sm1.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/sm.png" class="">
+<img src="/2026/01/14/Computer-Networking-1-Introduction/sm1.png" class="">
 <p>第二个问题有两种解决办法，一种被称作 <strong>best
 effort</strong>，通俗而言就是所有人都只管发送信息，并且 "hope for the
 best"，其对应的策略被称作 packet switching</p>
 <p>另一种被称作
 <strong>reservation</strong>，也就是在通信前会先在网络中预留出容量，其对应的策略被称作
 Circuit Switching</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/reservation.png" class>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/reservation1.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/reservation.png" class="">
+<img src="/2026/01/14/Computer-Networking-1-Introduction/reservation1.png" class="">
 <h2 id="properties-of-links">Properties of Links</h2>
 <p>The <strong>bandwidth</strong> of a link tells us how many bits we
 can send on the link per unit time. Intuitively, this is the speed of
@@ -1136,12 +1136,13 @@ on the link at any given instant. In the pipe analogy, if we fill up the
 pipe and freeze time, the capacity of the pipe is how much water is in
 the pipe in that instant.</p>
 <p>注意，bandwidth/带宽是指“一秒内发射的 bit 数量”，而 bit
-必须是一个一个发射出去的。所以一个 bit 的发射用时是 <span class="math inline">\(\frac{1}{\text{bandwidth}}\)</span>。</p>
+必须是一个一个发射出去的。所以一个 bit 的发射用时是 <span
+class="math inline">\(\frac{1}{\text{bandwidth}}\)</span>。</p>
 <p>注意区分 delay（或者用全称，propagation delay） 和这个发射用时
 <strong>（也就是上文的 transmission delay）</strong> 的区别。前者是 bit
 在物理链路里面传播(propagation)的时间，后者是终端发送一个 packet 所有
 bit 的时间。这从我们下文的例子就可以看出来。</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/bandwidth.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/bandwidth.png" class="">
 <h3 id="timing-diagram">Timing Diagram</h3>
 <p>Suppose we have a link with bandwidth 1 Mbps = 1 million bits per
 second, and propagation delay of 1 ms = 0.001 seconds.</p>
@@ -1151,7 +1152,7 @@ to the time the last bit is received?</p>
 <p>To answer this question, we can draw a timing diagram. The left bar
 is the sender, and the right bar is the recipient. Time starts at 0 and
 increases as we move down the diagram.</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/timing_diagram.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/timing_diagram.png" class="">
 <p>Let’s focus on the first bit. We can put 1,000,000 bits on the link
 per second (bandwidth), so it takes 1/1,000,000 = 0.000001 seconds to
 put a single bit on the link. At time 0.000001 seconds, the link has a
@@ -1159,30 +1160,32 @@ single bit on it, at the sender end.</p>
 <p>It then takes 0.001 seconds for this bit to travel across the link
 (propagation delay), so at time 0.000001 + 0.001 seconds, the very first
 bit arrives at the recipient.</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/timing_diagram1.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/timing_diagram1.png" class="">
 <p>Now let’s think about the last bit. From before, it takes 0.000001 to
 put a bit on the link. We have 800 bits to send, so the last bit is
-placed on the link at time <span class="math inline">\(800*0.000001=0.0008\)</span> seconds.</p>
+placed on the link at time <span
+class="math inline">\(800*0.000001=0.0008\)</span> seconds.</p>
 <p>It then takes 0.001 seconds for the last bit to travel across the
 link, so at time 0.0008 + 0.001 seconds, the very last bit arrives at
 the recipient. This is the time when we can say the packet has arrived
 at the recipient.</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/timing_diagram2.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/timing_diagram2.png" class="">
 <h3 id="packet-delay">Packet Delay</h3>
-<p>从上文例子可以看出，一个完整的 packet 发送的延迟就是 <span class="math inline">\(\text{transmission delay + propagation
+<p>从上文例子可以看出，一个完整的 packet 发送的延迟就是 <span
+class="math inline">\(\text{transmission delay + propagation
 delay}\)</span></p>
 <h3 id="pipe-diagram">Pipe Diagram</h3>
 <p>To draw the link, we can imagine the link is a pipe (similar to the
 water analogy) and draw the pipe as a rectangle, where the width is the
 propagation delay, and the height is the bandwidth. The area of the pipe
 is the capacity of the link.</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe1.png" class>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe2.png" class>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe3.png" class>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe4.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/pipe1.png" class="">
+<img src="/2026/01/14/Computer-Networking-1-Introduction/pipe2.png" class="">
+<img src="/2026/01/14/Computer-Networking-1-Introduction/pipe3.png" class="">
+<img src="/2026/01/14/Computer-Networking-1-Introduction/pipe4.png" class="">
 <p>Pipe diagrams can be useful for comparing different links. Let’s look
 at the exact same packets traveling through three different links.</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/pipe5.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/pipe5.png" class="">
 <h3 id="overloaded-links">Overloaded Links</h3>
 <p>In the long term, we have enough capacity to send all the outgoing
 packets, but at this very instant in time, we have two packets arriving
@@ -1191,8 +1194,8 @@ overload, and it’s extremely common at switches in the Internet.</p>
 <p>To cope with transient overload, the switch maintains a queue of
 packets. If two packets arrive simultaneously, the switch queues one of
 them and sends out the other one.</p>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/queue1.png" class>
-<img src="/.io//01/14/Computer-Networking-1-Introduction/queue2.png" class>
+<img src="/2026/01/14/Computer-Networking-1-Introduction/queue1.png" class="">
+<img src="/2026/01/14/Computer-Networking-1-Introduction/queue2.png" class="">
 <p>At any given time, the switch could choose to send a packet from one
 of the incoming links, or send a packet from the queue. This choice is
 determined by a packet scheduling algorithm, and there are lots of
@@ -1428,7 +1431,9 @@ AI 需要的数学中的最后一块了。</p></li>
 Model/SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。</p>
 <p>其本质可以理解为“隐空间”/“状态空间”中的递推。</p>
 <h2 id="问题">问题</h2>
-<p>给定时间信号输入序列 <span class="math inline">\(x(t)\)</span>，以及输出序列 <span class="math inline">\(y(t)\)</span>，尝试给出预测模型。
+<p>给定时间信号输入序列 <span
+class="math inline">\(x(t)\)</span>，以及输出序列 <span
+class="math inline">\(y(t)\)</span>，尝试给出预测模型。
 我们考虑一个隐状态空间 <span class="math inline">\(h(t)\in
 \mathbb{R}^N\)</span>，它由 <span class="math inline">\(x(t)\)</span>
 而来，控制了 <span class="math inline">\(y(t)\)</span> 的输出。
@@ -1438,7 +1443,9 @@ h&#39;(t) &amp;= \mathbf{A}h(t)+\mathbf{B}x(t) \\
 y(t)  &amp;= \mathbf{C}h&#39;(t)
 \end{align}
 \]</span></p>
-<p>其中，<span class="math inline">\(\mathbf{A}\)</span>，<span class="math inline">\(\mathbf{B}\)</span>，<span class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
+<p>其中，<span class="math inline">\(\mathbf{A}\)</span>，<span
+class="math inline">\(\mathbf{B}\)</span>，<span
+class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
 parameter 和 projection
 parameter。第一个的作用是将隐空间中的状态逐步演化的最终态，后二者的作用是进行隐空间和实际输入/输出空间的映射。</p>
 <h2 id="从连续时间到离散时间">从连续时间到离散时间</h2>
@@ -1452,7 +1459,9 @@ parameter。第一个的作用是将隐空间中的状态逐步演化的最终�
 <p><span class="math display">\[
 u(t)=u_k\quad t\in [t_k,t_{k+1})
 \]</span></p>
-<p>其中，采样步长 <span class="math inline">\(\Delta&gt;0\)</span>，<span class="math inline">\(t_k=k\Delta\)</span></p>
+<p>其中，采样步长 <span
+class="math inline">\(\Delta&gt;0\)</span>，<span
+class="math inline">\(t_k=k\Delta\)</span></p>
 </div>
 <p>我们希望得到离散递推公式： <span class="math display">\[
 x_{k+1}=\bar{A}x_k+\bar{B}u_k
@@ -1461,7 +1470,8 @@ x_{k+1}=\bar{A}x_k+\bar{B}u_k
 <span class="math display">\[
 \frac{\mathrm{d}x}{\mathrm{d}t}=Ax+Bu
 \]</span></p>
-<p>注意，这里 <span class="math inline">\(x\)</span> 是状态，<span class="math inline">\(u\)</span> 是输入。</p>
+<p>注意，这里 <span class="math inline">\(x\)</span> 是状态，<span
+class="math inline">\(u\)</span> 是输入。</p>
 <p>将系统重写为 <span class="math display">\[
 \dot{x}(t)-Ax(t)=Bu(t)
 \]</span></p>
@@ -1469,9 +1479,12 @@ x_{k+1}=\bar{A}x_k+\bar{B}u_k
 \bar{A}=e^{\Delta
 A},\bar{B}=\int_{t_k}^{t_{k+1}}e^{A(t_{k+1}-\tau)}B\mathrm{d}\tau
 \]</span></p>
-<p>若 <span class="math inline">\(A\)</span> 可逆，则 <span class="math inline">\(B\)</span> 有闭式解 <span class="math inline">\(A^{-1}(e^{A\Delta}-I)B\)</span></p>
+<p>若 <span class="math inline">\(A\)</span> 可逆，则 <span
+class="math inline">\(B\)</span> 有闭式解 <span
+class="math inline">\(A^{-1}(e^{A\Delta}-I)B\)</span></p>
 <div class="note info"><h4 id="矩阵指数">矩阵指数</h4>
-<p><span class="math inline">\(B=e^{A}\)</span> 并不是 <span class="math inline">\(B_{ij}=\exp\{a_{ij}\}\)</span>，而是采用泰勒展开：
+<p><span class="math inline">\(B=e^{A}\)</span> 并不是 <span
+class="math inline">\(B_{ij}=\exp\{a_{ij}\}\)</span>，而是采用泰勒展开：
 <span class="math display">\[
 e^A=\sum_{i=0}^{\infin} \frac{A^k}{k!}
 \]</span></p>
@@ -1485,7 +1498,9 @@ e^A=P\text{diag}(e^{a_1},\dots,e^{a_n})P^{-1}
 \]</span></p>
 </div>
 <h3 id="递推">递推</h3>
-<p>基于 ZOH 假设，我们可以快速写出以下式子（<span class="math inline">\(M\)</span> 是序列长度）： <span class="math display">\[
+<p>基于 ZOH 假设，我们可以快速写出以下式子（<span
+class="math inline">\(M\)</span> 是序列长度）： <span
+class="math display">\[
 \begin{align}
 \bar{K} &amp;= (C\bar{B}, C\bar{A}\bar{B}, C\bar{A}^2\bar{B},\dots,
 C\bar{A}^{M-1}\bar{B})\\
@@ -1506,7 +1521,9 @@ Block M}} x^{(M)}
 <h2 id="具体实现">具体实现</h2>
 <h3 id="algorithm-1parameters-function">Algorithm 1：Parameters
 Function</h3>
-<p>根据我们上文的描述，从给定的序列 <span class="math inline">\(\{x\}\)</span> 中生成 <span class="math inline">\(\bar{A}, \bar{B}, C\)</span>。</p>
+<p>根据我们上文的描述，从给定的序列 <span
+class="math inline">\(\{x\}\)</span> 中生成 <span
+class="math inline">\(\bar{A}, \bar{B}, C\)</span>。</p>
 <p><span class="math display">\[
 \begin{aligned}
 \textbf{Algorithm 1: Parameters Function}\\
@@ -1652,14 +1669,17 @@ B,C)(x&#39;)\\
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="em-算法的目标">EM 算法的目标</h2>
-<p>先考虑著名的三硬币问题： <div class="note primary"><p>假设三枚硬币 A, B, C，其正面朝上的概率分别为 <span class="math inline">\(\pi,p,q\)</span>。</p>
+<p>先考虑著名的三硬币问题： <div class="note primary"><p>假设三枚硬币 A, B, C，其正面朝上的概率分别为 <span
+class="math inline">\(\pi,p,q\)</span>。</p>
 <p>先抛 A，若正面朝上抛 B，反之则抛 C。</p>
 <p>只记录抛 B，C 的结果，得到一个 01 序列。</p>
-<p>要求给出此模型的参数 <span class="math inline">\(\theta=(\pi,p,q)\)</span></p>
+<p>要求给出此模型的参数 <span
+class="math inline">\(\theta=(\pi,p,q)\)</span></p>
 </div></p>
 <p>抽象出问题实质：</p>
 <p>给出观测数据 <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span>
-以及隐变量 <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span>，则给出似然估计：
+以及隐变量 <span
+class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span>，则给出似然估计：
 <span class="math display">\[
 P(Y|\theta) =\sum_Z P(Y|Z,\theta) P(Z|\theta)
 \]</span></p>
@@ -1673,9 +1693,13 @@ q^{y_j} (1-q)^{1-y_j}  \right]
 \]</span></p>
 <p>下面给出一个用语的约定：</p>
 <ul>
-<li><p><strong>观测数据</strong>/<strong>不完全数据</strong> <span class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span></p></li>
-<li><p>隐变量/<strong>未观测数据</strong>/ <span class="math inline">\(\text{Latent Variables}\)</span> <span class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span></p></li>
-<li><p>完全数据：<span class="math inline">\(P(Y,Z|\theta)\)</span></p></li>
+<li><p><strong>观测数据</strong>/<strong>不完全数据</strong> <span
+class="math inline">\(Y=[Y_1,\dots,Y_n]^T\)</span></p></li>
+<li><p>隐变量/<strong>未观测数据</strong>/ <span
+class="math inline">\(\text{Latent Variables}\)</span> <span
+class="math inline">\(Z=[Z_1,\dots,Z_n]^T\)</span></p></li>
+<li><p>完全数据：<span
+class="math inline">\(P(Y,Z|\theta)\)</span></p></li>
 <li><p>完全数据的对数似然函数：<span class="math inline">\(\log
 P(Y,Z|\theta)\)</span></p></li>
 </ul>
@@ -1686,7 +1710,11 @@ L(\theta) &amp;=P(Y|\theta)=\sum_Z P(Y|Z,\theta) P(Z|\theta) \\
 &amp;=\log \left( \sum_Z P(Y|Z,\theta) P(Z|\theta) \right)
 \end{align}
 \]</span></p>
-<p>我们逐步迭代去求出最优化的 <span class="math inline">\(\theta\)</span>，设第 <span class="math inline">\(i\)</span> 次求出的解是 <span class="math inline">\(\theta^{(i)}\)</span>，则： <span class="math display">\[
+<p>我们逐步迭代去求出最优化的 <span
+class="math inline">\(\theta\)</span>，设第 <span
+class="math inline">\(i\)</span> 次求出的解是 <span
+class="math inline">\(\theta^{(i)}\)</span>，则： <span
+class="math display">\[
 \begin{align}
 L(\theta)-L(\theta^{(i)})&amp;=\log \left( \sum_Z P(Y|Z,\theta)
 P(Z|\theta) \right)-\log P(Y|\theta^{(i)})
@@ -1703,12 +1731,16 @@ P(Z|\theta) }
 \end{align}
 \]</span></p>
 <p>不等号是Jensen不等式给出的</p>
-<p>设 <span class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
+<p>设 <span
+class="math inline">\(B(\theta,\theta^{(i)})\hat{=}L(\theta^{(i)})+\sum_Z
 P(Z|Y,\theta^{(i)})\log \left( \dfrac{ P(Y|Z,\theta) P(Z|\theta)
 }{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})} \right)\)</span></p>
 <p>显然有 <span class="math inline">\(L(\theta)\geq
-B(\theta,\theta^{(i)})\)</span>，即 <span class="math inline">\(B\)</span> 为原本函数的一个下界，且 <span class="math inline">\(\theta=\theta^{(i)}\)</span> 时取等。
-故可以考虑最大化 <span class="math inline">\(B\)</span>，从而使得 <span class="math inline">\(L\)</span> 最大。</p>
+B(\theta,\theta^{(i)})\)</span>，即 <span
+class="math inline">\(B\)</span> 为原本函数的一个下界，且 <span
+class="math inline">\(\theta=\theta^{(i)}\)</span> 时取等。
+故可以考虑最大化 <span class="math inline">\(B\)</span>，从而使得 <span
+class="math inline">\(L\)</span> 最大。</p>
 <p>即： <span class="math display">\[
 \begin{align}
 \theta^{(i+1)} &amp;= \arg \max _{\theta} B(\theta,\theta^{(i)})  \\
@@ -1720,31 +1752,45 @@ P(Z|Y,\theta^{(i)})\log \left( \dfrac{  P(Y|Z,\theta) P(Z|\theta)
 \left(   P(Y|Z,\theta) P(Z|\theta) \right) \right)\\
 &amp;=\arg \max_{\theta} \sum_Z P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)
 \end{align}
-\]</span> 上面的等号都是去掉了常数项（上面的变量只有 <span class="math inline">\(\theta\)</span>，<span class="math inline">\(\theta^{(i)}\)</span>固定） 令 <span class="math inline">\(Q(\theta,\theta^{(i)})=\sum_Z
+\]</span> 上面的等号都是去掉了常数项（上面的变量只有 <span
+class="math inline">\(\theta\)</span>，<span
+class="math inline">\(\theta^{(i)}\)</span>固定） 令 <span
+class="math inline">\(Q(\theta,\theta^{(i)})=\sum_Z
 P(Z|Y,\theta^{(i)})\log P(Y,Z|\theta)\)</span>，则 Q 函数即为：</p>
 <p>完全似然函数 <span class="math inline">\(\log P(Y,Z|\theta)\)</span>
 关于在给定观测数据 <span class="math inline">\(Y\)</span>
 和当前参数估计<span class="math inline">\(\theta^{(i)}\)</span>
 下，对于未观测数据 <span class="math inline">\(Z\)</span> 的条件概率分布
 <span class="math inline">\(P(Z|Y,\theta^{(i)})\)</span> 的期望。</p>
-<p>EM 算法实质上就是找一个凸函数 <span class="math inline">\(B/Q\)</span>，让它在 <span class="math inline">\(\theta^{(i)}\)</span> 处严格等于对数似然函数 <span class="math inline">\(\log
+<p>EM 算法实质上就是找一个凸函数 <span
+class="math inline">\(B/Q\)</span>，让它在 <span
+class="math inline">\(\theta^{(i)}\)</span> 处严格等于对数似然函数 <span
+class="math inline">\(\log
 P(Y,Z|\theta)\)</span>，但始终在似然函数下方。我们通过不断增大 B
 函数，迫使似然函数上升。</p>
-<div class="note info"><p>关于 Q 函数更直观的认知，见 <a target="_blank" rel="noopener" href="https://chat.qwen.ai/c/41591c41-69ab-4005-8cbd-a9db5412b27b">Qwen</a></p>
+<div class="note info"><p>关于 Q 函数更直观的认知，见 <a
+target="_blank" rel="noopener" href="https://chat.qwen.ai/c/41591c41-69ab-4005-8cbd-a9db5412b27b">Qwen</a></p>
 </div>
 <h2 id="em-算法的流程">EM 算法的流程</h2>
 <ol type="1">
 <li>初始化 <span class="math inline">\(\theta^{(0)}\)</span></li>
 <li>E(Expectation): 求出 Q 函数</li>
-<li>M(Maximization): 最大化 Q 函数，求出下一轮的 <span class="math inline">\(\theta^{(i+1)}\)</span></li>
+<li>M(Maximization): 最大化 Q 函数，求出下一轮的 <span
+class="math inline">\(\theta^{(i+1)}\)</span></li>
 <li>重复 E-M 步，直到收敛为止</li>
 </ol>
 <h2 id="gmm">GMM</h2>
-<p>GMM，即 Gaussian Mixture Model，刻画了如下的问题： <div class="note "><p>有 K 个 Gaussian，分别服从 <span class="math inline">\(\theta_k=(\mu_k,\sigma_k)\)</span>；第 <span class="math inline">\(k\)</span> 个模型被选择的概率是 <span class="math inline">\(\alpha_k\)</span></p>
+<p>GMM，即 Gaussian Mixture Model，刻画了如下的问题： <div class="note "><p>有 K 个 Gaussian，分别服从 <span
+class="math inline">\(\theta_k=(\mu_k,\sigma_k)\)</span>；第 <span
+class="math inline">\(k\)</span> 个模型被选择的概率是 <span
+class="math inline">\(\alpha_k\)</span></p>
 <p>即 <span class="math inline">\(P(y)=\sum_{k=1}^K \alpha_k
 \phi(\mu_k,\sigma_k)\)</span></p>
 </div></p>
-<p>现在你既不知道各个Gaussian的具体参数，也不知道选择的概率 <span class="math inline">\(\alpha_k\)</span>，任务就是根据观测的序列 <span class="math inline">\(y=(y_1,\dots,y_N)\)</span> 求出 <span class="math inline">\(\theta=(\alpha_1,\dots,\alpha_K;\theta_1,\dots,\theta_K)\)</span></p>
+<p>现在你既不知道各个Gaussian的具体参数，也不知道选择的概率 <span
+class="math inline">\(\alpha_k\)</span>，任务就是根据观测的序列 <span
+class="math inline">\(y=(y_1,\dots,y_N)\)</span> 求出 <span
+class="math inline">\(\theta=(\alpha_1,\dots,\alpha_K;\theta_1,\dots,\theta_K)\)</span></p>
 <p>使用 EM 算法完成这个任务，逐步分析：</p>
 <h3 id="明确隐变量">明确隐变量</h3>
 <p>设 <span class="math display">\[
