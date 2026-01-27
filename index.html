@@ -247,7 +247,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2026-01-27 14:35:08 / Modified: 16:28:40" itemprop="dateCreated datePublished" datetime="2026-01-27T14:35:08+08:00">2026-01-27</time>
+      <time title="Created: 2026-01-27 14:35:08 / Modified: 16:42:25" itemprop="dateCreated datePublished" datetime="2026-01-27T14:35:08+08:00">2026-01-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -266,14 +266,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>816</span>
+      <span>1k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
+      <span>4 mins.</span>
     </span>
 </div>
 
@@ -333,9 +333,9 @@ r_t = W_r \cdot (\mu_r \odot x_t + (1 - \mu_r) \odot x_{t-1})\\
 k_t = W_r \cdot (\mu_k \odot x_t + (1 - \mu_k) \odot x_{t-1})\\
 v_t = W_r \cdot (\mu_v \odot x_t + (1 - \mu_v) \odot x_{t-1})
 \]</span></p>
-<h4 id="process">Process</h4>
+<h3 id="process">Process</h3>
 <p>我们完整梳理一下一个 RWKV Block 的流程。</p>
-<h5 id="time-mixing-channel">Time mixing channel</h5>
+<h4 id="time-mixing-channel">Time mixing channel</h4>
 <ol type="1">
 <li><p>归一化与位移（LayerNorm &amp; Token Shift）</p>
 <ul>
@@ -368,9 +368,40 @@ wkv_t = \frac{\sum_{i=1}^{t-1} e^{-(t-1-i)w+k_i} \odot v_i + e^{u+k_t}
 </ul></li>
 <li><p>输出门控（Output Gating）</p>
 <ul>
-<li></li>
+<li><p>将 Receptance (<span class="math inline">\(r_t\)</span>) 经过
+<span class="math inline">\(sigmoid\)</span>
+激活后，作为“门控信号”去乘以 WKV 的结果。</p></li>
+<li><p>最后通过一个线性变换 <span class="math inline">\(W_o\)</span>
+输出，并与原始输入 <span class="math inline">\(x_t\)</span>
+进行残差相加。</p></li>
 </ul></li>
 </ol>
+<h4 id="channel-mixing">Channel-mixing</h4>
+<ol type="1">
+<li><p>再次位移与投影</p>
+<ul>
+<li><p>同样先做 LayerNorm 和 Token Shift 。</p></li>
+<li><p>生成用于通道混合的 <span class="math inline">\(r&#39;_t\)</span>
+和 <span class="math inline">\(k&#39;_t\)</span></p></li>
+</ul></li>
+<li><p>平方 ReLU 激活</p>
+<ul>
+<li>对 <span class="math inline">\(k&#39;_t\)</span>
+进行线性变换后，使用 Squared ReLU（即 <span class="math inline">\(V&#39;
+= W&#39;_v \cdot \max(k&#39;_t, 0)^2\)</span>）进行激活 。</li>
+</ul></li>
+<li><p>最终门控输出</p>
+<ul>
+<li>再次利用 <span class="math inline">\(sigmoid(r&#39;_t)\)</span>
+作为门控，决定保留多少计算后的特征 。结果与第一阶段的输出进行残差相加
+。</li>
+</ul></li>
+</ol>
+<p>对比时间混合和通道混合，我们容易发现：</p>
+<ul>
+<li><p>WKV 算子起到了“上下文”的作用</p></li>
+<li><p>整体仍然保持“线性”的特点</p></li>
+</ul>
 
       
     </div>
