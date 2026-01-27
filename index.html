@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-dark-reasonable","dark":"atom-one-dark-reasonable"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"shenlehan.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"atom-one-light","dark":"atom-one-dark-reasonable"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="Lehan Shen&#39;s Blog">
@@ -473,7 +473,7 @@ KeyError。 但 defaultdict(dict) 自带默认值：</p>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-01-27 14:36:31" itemprop="dateModified" datetime="2026-01-27T14:36:31+08:00">2026-01-27</time>
+      <time title="Modified: 2026-01-27 14:58:16" itemprop="dateModified" datetime="2026-01-27T14:58:16+08:00">2026-01-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -492,7 +492,7 @@ KeyError。 但 defaultdict(dict) 自带默认值：</p>
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>129</span>
+      <span>133</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -517,14 +517,8 @@ KeyError。 但 defaultdict(dict) 自带默认值：</p>
 IP）</p>
 <p>我们该如何区分这两个应用，将数据正确的交给他们？</p>
 <p>解决方案就是 port，每个应用走不同的 port 出去。</p>
-<figure>
-<img src="port1.png" alt="port" />
-<figcaption aria-hidden="true">port</figcaption>
-</figure>
-<figure>
-<img src="port2.png" alt="port" />
-<figcaption aria-hidden="true">port</figcaption>
-</figure>
+<img src="/2026/01/20/Computer-Networking-3-Transport/port1.png" class="">
+<img src="/2026/01/20/Computer-Networking-3-Transport/port2.png" class="">
 <div class="note "><p>Because the transport layer is implemented in the <strong>operating
 system</strong>, these ports (sometimes called <strong>logical
 ports</strong>) are the attachment point where the application connects
@@ -593,7 +587,7 @@ to the operating system’s network stack.</p>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-01-27 14:36:27" itemprop="dateModified" datetime="2026-01-27T14:36:27+08:00">2026-01-27</time>
+      <time title="Modified: 2026-01-27 14:57:55" itemprop="dateModified" datetime="2026-01-27T14:57:55+08:00">2026-01-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -641,10 +635,7 @@ to the operating system’s network stack.</p>
 Destination。 他们需要一个唯一的标识符。</p>
 <p>这个标识符是怎么来的，姑且先不考虑。在有了这个标识符之后，我们便在
 packet 的头部加上 Source Address 和 Destination Address 两个元素。</p>
-<figure>
-<img src="packets.png" alt="Packets" />
-<figcaption aria-hidden="true">Packets</figcaption>
-</figure>
+<img src="/2026/01/15/Computer-Networking-2-Routing/packets.png" class="">
 <h2 id="routing-states">Routing States</h2>
 <h3 id="what-is-rouing-state">What is Rouing State</h3>
 <p>Routing States 最简单的说，是一种策略。即当 router 接收到一个 packet
@@ -653,16 +644,10 @@ packet 的头部加上 Source Address 和 Destination Address 两个元素。</p
 <h3 id="forwarding-table">Forwarding Table</h3>
 <p>理论上而言，我们可以建立一张表：这张表直白的告诉我们，如果我想把一个
 packet 送到一个地方，我的 next hop 应该是什么。</p>
-<figure>
-<img src="ft.png" alt="Forwarding Table" />
-<figcaption aria-hidden="true">Forwarding Table</figcaption>
-</figure>
+<img src="/2026/01/15/Computer-Networking-2-Routing/ft.png" class="">
 <p>在现实中，next hop 往往不是指一个抽象的地点，而是指物理上的一个
 port</p>
-<figure>
-<img src="ft1.png" alt="Port" />
-<figcaption aria-hidden="true">Port</figcaption>
-</figure>
+<img src="/2026/01/15/Computer-Networking-2-Routing/ft1.png" class="">
 <h3 id="routing-vs.-forwarding">Routing vs. Forwarding</h3>
 <p>我们现在区分两个概念：routing 本身指的是填充 forwarding table
 的过程，而 forwarding 指的才是转发 packet 的过程。</p>
@@ -764,15 +749,9 @@ knows about R3.</p>
 Note that R1 does not know about R3, because R1 and R3 are not
 neighbors.</p></li>
 </ol>
-<figure>
-<img src="graph3.png" alt="graph3" />
-<figcaption aria-hidden="true">graph3</figcaption>
-</figure>
-<figure>
-<img src="graph1.png" alt="graph1" />
-<figcaption aria-hidden="true">graph1</figcaption>
-</figure>
-<ol start="2" type="1">
+<p><img src="/2026/01/15/Computer-Networking-2-Routing/graph3.png" class=""></p>
+<p><img src="/2026/01/15/Computer-Networking-2-Routing/graph1.png" class=""></p>
+<ol type="1">
 <li>Now that we know about our neighbors, we should announce that fact
 to everybody. To make a global announcement, we send the announcement to
 all of our neighbors. Also, if we ever receive an announcement, we
@@ -782,10 +761,7 @@ flooding information across the network. If any information changes
 (e.g. a neighbor disappears), we should flood that information as
 well.</li>
 </ol>
-<figure>
-<img src="graph2.png" alt="graph2" />
-<figcaption aria-hidden="true">graph2</figcaption>
-</figure>
+<img src="/2026/01/15/Computer-Networking-2-Routing/graph2.png" class="">
 <ol start="3" type="1">
 <li>avoid infinite flooding: When we see a message for the first time,
 send that message to all neighbors, and write down that we’ve seen that

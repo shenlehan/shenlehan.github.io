@@ -41,212 +41,6 @@ AI 需要的数学中的最后一块了。</p></li>
       </categories>
   </entry>
   <entry>
-    <title>Computer Networking 2--Routing</title>
-    <url>/2026/01/15/Computer-Networking-2-Routing/</url>
-    <content><![CDATA[<h2 id="what-is-routing">What is Routing?</h2>
-<h3 id="end-host-and-router">End Host and Router</h3>
-<p>我们先说明 End Host 和 Router 的区别。</p>
-<p>前者是网络中一条线路的端点，他只负责接受、发送自己的信息，而不负责“传送”任务。
-后者则相反，仅仅起到中介的作用。</p>
-<h3 id="packets">Packets</h3>
-<p>我们之前说过，Packets 是 Internet Layer 传送的基本单元。</p>
-<p>为了正确地在互联网中传送数据，我们显然需要指明 Source 和
-Destination。 他们需要一个唯一的标识符。</p>
-<p>这个标识符是怎么来的，姑且先不考虑。在有了这个标识符之后，我们便在
-packet 的头部加上 Source Address 和 Destination Address 两个元素。</p>
-<figure>
-<img src="packets.png" alt="Packets" />
-<figcaption aria-hidden="true">Packets</figcaption>
-</figure>
-<h2 id="routing-states">Routing States</h2>
-<h3 id="what-is-rouing-state">What is Rouing State</h3>
-<p>Routing States 最简单的说，是一种策略。即当 router 接收到一个 packet
-的时候，根据这些策略，便能成功地把信息传送到目的地。</p>
-<p>其中，最重要的、也是最泛用的策略被称作转发表/Forward Table</p>
-<h3 id="forwarding-table">Forwarding Table</h3>
-<p>理论上而言，我们可以建立一张表：这张表直白的告诉我们，如果我想把一个
-packet 送到一个地方，我的 next hop 应该是什么。</p>
-<figure>
-<img src="ft.png" alt="Forwarding Table" />
-<figcaption aria-hidden="true">Forwarding Table</figcaption>
-</figure>
-<p>在现实中，next hop 往往不是指一个抽象的地点，而是指物理上的一个
-port</p>
-<figure>
-<img src="ft1.png" alt="Port" />
-<figcaption aria-hidden="true">Port</figcaption>
-</figure>
-<h3 id="routing-vs.-forwarding">Routing vs. Forwarding</h3>
-<p>我们现在区分两个概念：routing 本身指的是填充 forwarding table
-的过程，而 forwarding 指的才是转发 packet 的过程。</p>
-<p>因此，forwarding 本身并不需要知道 forwarding table
-是如何计算的，故它是一个局部的动作。</p>
-<p>相反，routing
-本身要求我们必须对于整个网络结构有一个认知，因此这是一个全局的过程。</p>
-<h2 id="distance-vector-protocols">Distance Vector Protocols</h2>
-<p>Distance Vector Protocols 的主要内容如下：</p>
-<div class="note "><p>For each destination:</p>
-<ul>
-<li>If you hear an advertisement for that destination, update the table
-and reset the TTL if:
-<ul>
-<li>The destination isn’t in the table.</li>
-<li>The advertised cost, plus the link cost to the neighbor, is better
-than the best-known cost.</li>
-<li>The advertisement is from the current next-hop. Includes poison
-advertisements.</li>
-</ul></li>
-<li>Advertise to all your neighbors when the table updates, and
-periodically (advertisement interval).
-<ul>
-<li>But don’t advertise back to the next-hop.</li>
-<li>…Or, advertise poison back to the next-hop.</li>
-<li>Any cost greater than or equal to 16 is advertised as infinity.</li>
-</ul></li>
-<li>If a table entry expires, make the entry poison and advertise
-it.</li>
-</ul>
-</div>
-<p>我们分条来看。</p>
-<h3 id="update-rules">Update Rules</h3>
-<p>我们如果从毗邻的节点接收到一条 <code>(from, to, cost, TTL)</code>
-的信息，我们进行如下的判定来决定要不要更新我们的 forwarding table:</p>
-<ol type="1">
-<li>最明显的，如果我根本没有到 to 的路径，那我肯定要加上这条</li>
-<li>这条路径比我现在手上有的要更快，我肯定选择它更好</li>
-<li>这条路径是从我当前的最优的 next hop 发来的，这说明 next hop
-有更新，它到 to
-的距离发生了变化，有可能不再是最优解。为了保证正确性，我现在先更新这条，等后面别人广播的时候自然会更新成正确答案。</li>
-<li>或者，如果是 <code>poison</code> 的，也就是 “我无法到达某个目的地”
-的信息，那么我收到的 Cost 就是无穷大，类似 3，我也要更新。</li>
-</ol>
-<h3 id="advertise-rules">Advertise Rules</h3>
-<p>我们通过不停广播自己的信息来使得这个网络达到收敛态/converge</p>
-<ol type="1">
-<li>首先，我们必须定时广播信息，告诉我的邻居们我还在线，以及我到某个目的地的最小
-cost 是多少</li>
-<li>但是注意，我们不能反向告诉 next hop，否则，如果 next hop
-失效（不再能够到达目的地），它会误以为通过我还能抵达目的地，造成死循环（这被称作
-Split Horizon 原则）</li>
-<li>或者，我们定时广播时，反向告诉 next hop，我不可以到达 A（即，我是从
-next hop 来的，我不能把 packet 再返回给你）。这被称作 Poison
-Reverse，往往是比 Split Horizon 更有效的广播方式</li>
-<li>如果我们已经有一个死循环了，我们该怎么办？方法很简单，给定一个上限，如果
-cost 超过了这个上限，我们就认为他是无穷大/不可达的。</li>
-</ol>
-<img src="/2026/01/15/Computer-Networking-2-Routing/advertise.png" class="" title="advertise">
-<h2 id="link-state-protocols">Link-State Protocols</h2>
-<h3 id="overview">Overview</h3>
-<div class="note "><p>Link-state protocols in one sentence: Every router <strong>learns the
-full network graph</strong>, and then <strong>runs shortest-paths on the
-graph</strong> to populate the forwarding table.</p>
-</div>
-<p>直白地说，Link-state
-协议通过让所有路由器都有全局信息，使得他们并行计算（通过
-Bellman-Ford/Dijkstra 等最短路算法）出自己的next hop
-但这显然引起了一个问题，如果 A 计算的最短路径和 B
-计算出的路径不一致怎么办呢？</p>
-<p>因此，我们做出以下 4 条约定：</p>
-<div class="note "><ol type="1">
-<li><p>All routers have to agree on the network topology. Suppose a link
-failed, but only one router knows about it. Then different routers are
-computing paths on totally different graphs, and might produce
-inconsistent results.</p></li>
-<li><p>All routers are finding least-cost paths through the path. If one
-router preferred more expensive paths for some reason, we would get
-inconsistent results.</p></li>
-<li><p>All costs are positive. Negative costs could produce
-negative-weight cycles.</p></li>
-<li><p>All routers use the same tiebreaking rules. If we assumed
-shortest paths are unique, then the previous two conditions are
-sufficient to ensure everybody picks the same path. This condition
-additionally ensures that if there are multiple paths tied as the
-shortest, everyone chooses the same one.</p></li>
-</ol>
-</div>
-<h3 id="learning-about-graph-topology">Learning About Graph
-Topology</h3>
-<ol type="1">
-<li><p>To discover neighbors, every router sends a hello message to all
-of its neighbors. For example, in this network, R2 sends to both of its
-neighbors: “Hello, I’m R2.” Now, R1 knows that it’s connected to R2, and
-R3 also knows that it’s connected to R2. Similarly, R1 says hello to R2,
-so now R2 knows about R1. Likewise, R3 says hello to R2, so R2 also
-knows about R3.</p>
-<p>As a result, everybody now knows who their immediate neighbors are.
-Note that R1 does not know about R3, because R1 and R3 are not
-neighbors.</p></li>
-</ol>
-<figure>
-<img src="graph3.png" alt="graph3" />
-<figcaption aria-hidden="true">graph3</figcaption>
-</figure>
-<figure>
-<img src="graph1.png" alt="graph1" />
-<figcaption aria-hidden="true">graph1</figcaption>
-</figure>
-<ol start="2" type="1">
-<li>Now that we know about our neighbors, we should announce that fact
-to everybody. To make a global announcement, we send the announcement to
-all of our neighbors. Also, if we ever receive an announcement, we
-should send it to all of our neighbors as well. This ensures that every
-message gets propagated throughout the network. This is known as
-flooding information across the network. If any information changes
-(e.g. a neighbor disappears), we should flood that information as
-well.</li>
-</ol>
-<figure>
-<img src="graph2.png" alt="graph2" />
-<figcaption aria-hidden="true">graph2</figcaption>
-</figure>
-<ol start="3" type="1">
-<li>avoid infinite flooding: When we see a message for the first time,
-send that message to all neighbors, and write down that we’ve seen that
-message. (We have to write down this message anyway, since we’re trying
-to use this information to build up the network graph.) Then, if we ever
-see that same message again, don’t send it a second time.</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Computer Network</category>
-      </categories>
-      <tags>
-        <tag>CS168</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Computer Networking 3--Transport</title>
-    <url>/2026/01/20/Computer-Networking-3-Transport/</url>
-    <content><![CDATA[<h2 id="overview">Overview</h2>
-<h3 id="demultiplexing-with-ports">Demultiplexing with Ports</h3>
-<p>IP 协议只能看到 IP。如果一台主机上同时有两个应用在和一个 server
-通信，那么二者在 IP 层面是完全一样的（有相同的 source/destination
-IP）</p>
-<p>我们该如何区分这两个应用，将数据正确的交给他们？</p>
-<p>解决方案就是 port，每个应用走不同的 port 出去。</p>
-<figure>
-<img src="port1.png" alt="port" />
-<figcaption aria-hidden="true">port</figcaption>
-</figure>
-<figure>
-<img src="port2.png" alt="port" />
-<figcaption aria-hidden="true">port</figcaption>
-</figure>
-<div class="note "><p>Because the transport layer is implemented in the <strong>operating
-system</strong>, these ports (sometimes called <strong>logical
-ports</strong>) are the attachment point where the application connects
-to the operating system’s network stack.</p>
-</div>
-<h2 id="tcp">TCP</h2>
-]]></content>
-      <categories>
-        <category>Computer Network</category>
-      </categories>
-      <tags>
-        <tag>CS168</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Computer Networking 1--Introduction</title>
     <url>/2026/01/14/Computer-Networking-1-Introduction/</url>
     <content><![CDATA[<h2 id="概览">概览</h2>
@@ -401,192 +195,211 @@ transmission delay, propagation delay, and queuing delay</strong>.</p>
       </tags>
   </entry>
   <entry>
-    <title>Hexo Blog 的一些技术细节</title>
-    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/</url>
-    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a
-href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
+    <title>Computer Networking 2--Routing</title>
+    <url>/2026/01/15/Computer-Networking-2-Routing/</url>
+    <content><![CDATA[<h2 id="what-is-routing">What is Routing?</h2>
+<h3 id="end-host-and-router">End Host and Router</h3>
+<p>我们先说明 End Host 和 Router 的区别。</p>
+<p>前者是网络中一条线路的端点，他只负责接受、发送自己的信息，而不负责“传送”任务。
+后者则相反，仅仅起到中介的作用。</p>
+<h3 id="packets">Packets</h3>
+<p>我们之前说过，Packets 是 Internet Layer 传送的基本单元。</p>
+<p>为了正确地在互联网中传送数据，我们显然需要指明 Source 和
+Destination。 他们需要一个唯一的标识符。</p>
+<p>这个标识符是怎么来的，姑且先不考虑。在有了这个标识符之后，我们便在
+packet 的头部加上 Source Address 和 Destination Address 两个元素。</p>
+<img src="/2026/01/15/Computer-Networking-2-Routing/packets.png" class="">
+<h2 id="routing-states">Routing States</h2>
+<h3 id="what-is-rouing-state">What is Rouing State</h3>
+<p>Routing States 最简单的说，是一种策略。即当 router 接收到一个 packet
+的时候，根据这些策略，便能成功地把信息传送到目的地。</p>
+<p>其中，最重要的、也是最泛用的策略被称作转发表/Forward Table</p>
+<h3 id="forwarding-table">Forwarding Table</h3>
+<p>理论上而言，我们可以建立一张表：这张表直白的告诉我们，如果我想把一个
+packet 送到一个地方，我的 next hop 应该是什么。</p>
+<img src="/2026/01/15/Computer-Networking-2-Routing/ft.png" class="">
+<p>在现实中，next hop 往往不是指一个抽象的地点，而是指物理上的一个
+port</p>
+<img src="/2026/01/15/Computer-Networking-2-Routing/ft1.png" class="">
+<h3 id="routing-vs.-forwarding">Routing vs. Forwarding</h3>
+<p>我们现在区分两个概念：routing 本身指的是填充 forwarding table
+的过程，而 forwarding 指的才是转发 packet 的过程。</p>
+<p>因此，forwarding 本身并不需要知道 forwarding table
+是如何计算的，故它是一个局部的动作。</p>
+<p>相反，routing
+本身要求我们必须对于整个网络结构有一个认知，因此这是一个全局的过程。</p>
+<h2 id="distance-vector-protocols">Distance Vector Protocols</h2>
+<p>Distance Vector Protocols 的主要内容如下：</p>
+<div class="note "><p>For each destination:</p>
+<ul>
+<li>If you hear an advertisement for that destination, update the table
+and reset the TTL if:
+<ul>
+<li>The destination isn’t in the table.</li>
+<li>The advertised cost, plus the link cost to the neighbor, is better
+than the best-known cost.</li>
+<li>The advertisement is from the current next-hop. Includes poison
+advertisements.</li>
+</ul></li>
+<li>Advertise to all your neighbors when the table updates, and
+periodically (advertisement interval).
+<ul>
+<li>But don’t advertise back to the next-hop.</li>
+<li>…Or, advertise poison back to the next-hop.</li>
+<li>Any cost greater than or equal to 16 is advertised as infinity.</li>
+</ul></li>
+<li>If a table entry expires, make the entry poison and advertise
+it.</li>
+</ul>
+</div>
+<p>我们分条来看。</p>
+<h3 id="update-rules">Update Rules</h3>
+<p>我们如果从毗邻的节点接收到一条 <code>(from, to, cost, TTL)</code>
+的信息，我们进行如下的判定来决定要不要更新我们的 forwarding table:</p>
+<ol type="1">
+<li>最明显的，如果我根本没有到 to 的路径，那我肯定要加上这条</li>
+<li>这条路径比我现在手上有的要更快，我肯定选择它更好</li>
+<li>这条路径是从我当前的最优的 next hop 发来的，这说明 next hop
+有更新，它到 to
+的距离发生了变化，有可能不再是最优解。为了保证正确性，我现在先更新这条，等后面别人广播的时候自然会更新成正确答案。</li>
+<li>或者，如果是 <code>poison</code> 的，也就是 “我无法到达某个目的地”
+的信息，那么我收到的 Cost 就是无穷大，类似 3，我也要更新。</li>
+</ol>
+<h3 id="advertise-rules">Advertise Rules</h3>
+<p>我们通过不停广播自己的信息来使得这个网络达到收敛态/converge</p>
+<ol type="1">
+<li>首先，我们必须定时广播信息，告诉我的邻居们我还在线，以及我到某个目的地的最小
+cost 是多少</li>
+<li>但是注意，我们不能反向告诉 next hop，否则，如果 next hop
+失效（不再能够到达目的地），它会误以为通过我还能抵达目的地，造成死循环（这被称作
+Split Horizon 原则）</li>
+<li>或者，我们定时广播时，反向告诉 next hop，我不可以到达 A（即，我是从
+next hop 来的，我不能把 packet 再返回给你）。这被称作 Poison
+Reverse，往往是比 Split Horizon 更有效的广播方式</li>
+<li>如果我们已经有一个死循环了，我们该怎么办？方法很简单，给定一个上限，如果
+cost 超过了这个上限，我们就认为他是无穷大/不可达的。</li>
+</ol>
+<img src="/2026/01/15/Computer-Networking-2-Routing/advertise.png" class="" title="advertise">
+<h2 id="link-state-protocols">Link-State Protocols</h2>
+<h3 id="overview">Overview</h3>
+<div class="note "><p>Link-state protocols in one sentence: Every router <strong>learns the
+full network graph</strong>, and then <strong>runs shortest-paths on the
+graph</strong> to populate the forwarding table.</p>
+</div>
+<p>直白地说，Link-state
+协议通过让所有路由器都有全局信息，使得他们并行计算（通过
+Bellman-Ford/Dijkstra 等最短路算法）出自己的next hop
+但这显然引起了一个问题，如果 A 计算的最短路径和 B
+计算出的路径不一致怎么办呢？</p>
+<p>因此，我们做出以下 4 条约定：</p>
+<div class="note "><ol type="1">
+<li><p>All routers have to agree on the network topology. Suppose a link
+failed, but only one router knows about it. Then different routers are
+computing paths on totally different graphs, and might produce
+inconsistent results.</p></li>
+<li><p>All routers are finding least-cost paths through the path. If one
+router preferred more expensive paths for some reason, we would get
+inconsistent results.</p></li>
+<li><p>All costs are positive. Negative costs could produce
+negative-weight cycles.</p></li>
+<li><p>All routers use the same tiebreaking rules. If we assumed
+shortest paths are unique, then the previous two conditions are
+sufficient to ensure everybody picks the same path. This condition
+additionally ensures that if there are multiple paths tied as the
+shortest, everyone chooses the same one.</p></li>
+</ol>
+</div>
+<h3 id="learning-about-graph-topology">Learning About Graph
+Topology</h3>
+<ol type="1">
+<li><p>To discover neighbors, every router sends a hello message to all
+of its neighbors. For example, in this network, R2 sends to both of its
+neighbors: “Hello, I’m R2.” Now, R1 knows that it’s connected to R2, and
+R3 also knows that it’s connected to R2. Similarly, R1 says hello to R2,
+so now R2 knows about R1. Likewise, R3 says hello to R2, so R2 also
+knows about R3.</p>
+<p>As a result, everybody now knows who their immediate neighbors are.
+Note that R1 does not know about R3, because R1 and R3 are not
+neighbors.</p></li>
+</ol>
+<p><img src="/2026/01/15/Computer-Networking-2-Routing/graph3.png" class=""></p>
+<p><img src="/2026/01/15/Computer-Networking-2-Routing/graph1.png" class=""></p>
+<ol type="1">
+<li>Now that we know about our neighbors, we should announce that fact
+to everybody. To make a global announcement, we send the announcement to
+all of our neighbors. Also, if we ever receive an announcement, we
+should send it to all of our neighbors as well. This ensures that every
+message gets propagated throughout the network. This is known as
+flooding information across the network. If any information changes
+(e.g. a neighbor disappears), we should flood that information as
+well.</li>
+</ol>
+<img src="/2026/01/15/Computer-Networking-2-Routing/graph2.png" class="">
+<ol start="3" type="1">
+<li>avoid infinite flooding: When we see a message for the first time,
+send that message to all neighbors, and write down that we’ve seen that
+message. (We have to write down this message anyway, since we’re trying
+to use this information to build up the network graph.) Then, if we ever
+see that same message again, don’t send it a second time.</li>
+</ol>
 ]]></content>
       <categories>
-        <category>Others</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Mamba Architecture</title>
-    <url>/2025/12/24/Mamba-Architecture/</url>
-    <content><![CDATA[<p>Mamba 是一种 State Space
-Model/SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。</p>
-<p>其本质可以理解为“隐空间”/“状态空间”中的递推。</p>
-<h2 id="问题">问题</h2>
-<p>给定时间信号输入序列 <span
-class="math inline">\(x(t)\)</span>，以及输出序列 <span
-class="math inline">\(y(t)\)</span>，尝试给出预测模型。
-我们考虑一个隐状态空间 <span class="math inline">\(h(t)\in
-\mathbb{R}^N\)</span>，它由 <span class="math inline">\(x(t)\)</span>
-而来，控制了 <span class="math inline">\(y(t)\)</span> 的输出。
-从简化的角度考虑，给出线性模型：</p>
-<p><span class="math display">\[\begin{align}
-h&#39;(t) &amp;= \mathbf{A}h(t)+\mathbf{B}x(t) \\
-y(t)  &amp;= \mathbf{C}h&#39;(t)
-\end{align}
-\]</span></p>
-<p>其中，<span class="math inline">\(\mathbf{A}\)</span>，<span
-class="math inline">\(\mathbf{B}\)</span>，<span
-class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
-parameter 和 projection
-parameter。第一个的作用是将隐空间中的状态逐步演化的最终态，后二者的作用是进行隐空间和实际输入/输出空间的映射。</p>
-<h2 id="从连续时间到离散时间">从连续时间到离散时间</h2>
-<p>上面的模型显然是一个连续时间模型，也就意味着是一个微分方程。</p>
-<p>但是在实际工程和应用中，我们不可能去解一个微分方程，因此我们考虑去将他离散化。其中，最重要的一种离散化方式被称作
-"Zero-Order Hold/ZOH" 规则。</p>
-<h3 id="zoh">ZOH</h3>
-<p>ZOH 的核心假设非常易于理解：</p>
-<div class="note "><h4 id="zero-order-hold">Zero-Order Hold</h4>
-<p>在每个采样区间中，输入保持常数：</p>
-<p><span class="math display">\[
-u(t)=u_k\quad t\in [t_k,t_{k+1})
-\]</span></p>
-<p>其中，采样步长 <span
-class="math inline">\(\Delta&gt;0\)</span>，<span
-class="math inline">\(t_k=k\Delta\)</span></p>
-</div>
-<p>我们希望得到离散递推公式： <span class="math display">\[
-x_{k+1}=\bar{A}x_k+\bar{B}u_k
-\]</span></p>
-<p>所以，也就是去解这个微分方程（和普通的微分方程一样，先不考虑是矩阵的情况）：
-<span class="math display">\[
-\frac{\mathrm{d}x}{\mathrm{d}t}=Ax+Bu
-\]</span></p>
-<p>注意，这里 <span class="math inline">\(x\)</span> 是状态，<span
-class="math inline">\(u\)</span> 是输入。</p>
-<p>将系统重写为 <span class="math display">\[
-\dot{x}(t)-Ax(t)=Bu(t)
-\]</span></p>
-<p>解之即有： <span class="math display">\[
-\bar{A}=e^{\Delta
-A},\bar{B}=\int_{t_k}^{t_{k+1}}e^{A(t_{k+1}-\tau)}B\mathrm{d}\tau
-\]</span></p>
-<p>若 <span class="math inline">\(A\)</span> 可逆，则 <span
-class="math inline">\(B\)</span> 有闭式解 <span
-class="math inline">\(A^{-1}(e^{A\Delta}-I)B\)</span></p>
-<div class="note info"><h4 id="矩阵指数">矩阵指数</h4>
-<p><span class="math inline">\(B=e^{A}\)</span> 并不是 <span
-class="math inline">\(B_{ij}=\exp\{a_{ij}\}\)</span>，而是采用泰勒展开：
-<span class="math display">\[
-e^A=\sum_{i=0}^{\infin} \frac{A^k}{k!}
-\]</span></p>
-<p>对于对角矩阵，退化为上面的直觉的形式： <span class="math display">\[
-A=\text{diag}(a_1,\dots,a_n) \Rightarrow
-e^A=\text{diag}(e^{a_1},\dots,e^{a_n})
-\]</span></p>
-<p>类似，对于可对角化矩阵，也有： <span class="math display">\[
-A=P \text{diag}(a_1,\dots,a_n) P^{-1} \Rightarrow
-e^A=P\text{diag}(e^{a_1},\dots,e^{a_n})P^{-1}
-\]</span></p>
-</div>
-<h3 id="递推">递推</h3>
-<p>基于 ZOH 假设，我们可以快速写出以下式子（<span
-class="math inline">\(M\)</span> 是序列长度）： <span
-class="math display">\[
-\begin{align}
-\bar{K} &amp;= (C\bar{B}, C\bar{A}\bar{B}, C\bar{A}^2\bar{B},\dots,
-C\bar{A}^{M-1}\bar{B})\\
-y &amp;= x * \bar{K}
-\end{align}
-\]</span></p>
-<h2 id="一个-mamba-block">一个 Mamba Block</h2>
-<p>一个 Mamba Block
-做一次完整的我们上述的递推操作，也就是对于每个位置提取一次上下文理解。</p>
-<p>和 Transformer 类似，我们也可以把多个 Mamba Block
-叠起来，进行更深度的信息提取，也就是<strong>逐层抽象</strong>，越靠后的
-Mamba Block 蕴含了越丰富的、越抽象的信息。</p>
-<p><span class="math display">\[
-x^{(0)}\xrightarrow{\text{Mamba Block 1}}
-x^{(1)}\xrightarrow{\text{Mamba Block 2}}\dots \xrightarrow{\text{Mamba
-Block M}} x^{(M)}
-\]</span></p>
-<h2 id="具体实现">具体实现</h2>
-<h3 id="algorithm-1parameters-function">Algorithm 1：Parameters
-Function</h3>
-<p>根据我们上文的描述，从给定的序列 <span
-class="math inline">\(\{x\}\)</span> 中生成 <span
-class="math inline">\(\bar{A}, \bar{B}, C\)</span>。</p>
-<p><span class="math display">\[
-\begin{aligned}
-\textbf{Algorithm 1: Parameters Function}\\
-\textbf{Require: } x&#39; \in \mathbb{R}^{(B,N,P)}\\
-\textbf{Ensure: } \bar A \in \mathbb{R}^{(B,N,P,K)},\ \bar B \in
-\mathbb{R}^{(B,N,P,K)},\ C \in \mathbb{R}^{(B,N,K)}\\[4pt]
-\begin{array}{ll}
-1: &amp; B \in \mathbb{R}^{(B,N,K)} \leftarrow
-\mathrm{Linear}^{B}(x&#39;)\\
-2: &amp; C \in \mathbb{R}^{(B,N,K)} \leftarrow
-\mathrm{Linear}^{C}(x&#39;)\\
-3: &amp; \Delta \in \mathbb{R}^{(B,N,P)} \leftarrow
-\log\!\Big(1+\exp(\mathrm{Linear}^{\Delta}(x&#39;)+\mathrm{Parameter}^{\Delta})\Big)\\
-4: &amp; \text{// } \mathrm{Parameter}^{A} \in \mathbb{R}^{(P,K)}\\
-5: &amp; \bar A \in \mathbb{R}^{(B,N,P,K)} \leftarrow \Delta \otimes
-\mathrm{Parameter}^{A}\\
-6: &amp; \bar B \in \mathbb{R}^{(B,N,P,K)} \leftarrow \Delta \otimes B\\
-\textbf{Return:} &amp; \bar A,\ \bar B,\ C
-\end{array}
-\end{aligned}
-\]</span></p>
-<p><span class="math display">\[
-\begin{aligned}
-\textbf{Algorithm 2: Mamba Block}\\
-\textbf{Require: } T_{l-1} \in \mathbb{R}^{(B,N,C)}\\
-\textbf{Ensure: } T_{l} \in \mathbb{R}^{(B,N,C)}\\[4pt]
-\begin{array}{ll}
-1: &amp; \text{// Apply layer normalization to } T_{l-1}\\
-2: &amp; T&#39;_{l-1} \in \mathbb{R}^{(B,N,C)} \leftarrow
-\mathrm{Norm}(T_{l-1})\\
-3: &amp; x \in \mathbb{R}^{(B,N,P)} \leftarrow
-\mathrm{Linear}^{x}(T&#39;_{l-1})\\
-4: &amp; z \in \mathbb{R}^{(B,N,P)} \leftarrow
-\mathrm{Linear}^{z}(T&#39;_{l-1})\\
-5: &amp; \text{// Process the input sequence}\\
-6: &amp; x&#39; \in \mathbb{R}^{(B,N,P)} \leftarrow
-\mathrm{SiLU}(\mathrm{Conv1d}(x))\\
-7: &amp; \bar A,\ \bar B,\ C \leftarrow
-\mathrm{ParametersFunction}(x&#39;)\\
-8: &amp; y \in \mathbb{R}^{(B,N,P)} \leftarrow \mathrm{SSM}(\bar A,\bar
-B,C)(x&#39;)\\
-9: &amp; \text{// Obtain gated } y\\
-10: &amp; y&#39; \in \mathbb{R}^{(B,N,P)} \leftarrow y \odot
-\mathrm{SiLU}(z)\\
-11: &amp; \text{// Residual connection}\\
-12: &amp; T_{l} \in \mathbb{R}^{(B,N,C)} \leftarrow
-\mathrm{Linear}^{T}(y&#39;) + T_{l-1}\\
-\textbf{Return:} &amp; T_{l}
-\end{array}
-\end{aligned}
-\]</span></p>
-]]></content>
-      <categories>
-        <category>Deep Learning</category>
+        <category>Computer Network</category>
       </categories>
       <tags>
-        <tag>Mamba</tag>
+        <tag>CS168</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Computer Networking 3--Transport</title>
+    <url>/2026/01/20/Computer-Networking-3-Transport/</url>
+    <content><![CDATA[<h2 id="overview">Overview</h2>
+<h3 id="demultiplexing-with-ports">Demultiplexing with Ports</h3>
+<p>IP 协议只能看到 IP。如果一台主机上同时有两个应用在和一个 server
+通信，那么二者在 IP 层面是完全一样的（有相同的 source/destination
+IP）</p>
+<p>我们该如何区分这两个应用，将数据正确的交给他们？</p>
+<p>解决方案就是 port，每个应用走不同的 port 出去。</p>
+<img src="/2026/01/20/Computer-Networking-3-Transport/port1.png" class="">
+<img src="/2026/01/20/Computer-Networking-3-Transport/port2.png" class="">
+<div class="note "><p>Because the transport layer is implemented in the <strong>operating
+system</strong>, these ports (sometimes called <strong>logical
+ports</strong>) are the attachment point where the application connects
+to the operating system’s network stack.</p>
+</div>
+<h2 id="tcp">TCP</h2>
+]]></content>
+      <categories>
+        <category>Computer Network</category>
+      </categories>
+      <tags>
+        <tag>CS168</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>First Blog</title>
+    <url>/2025/12/19/First-Blog/</url>
+    <content><![CDATA[<p>Hello! This is my first blog.</p>
+<p>A math formula: <span class="math display">\[
+\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
+\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
+\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
+\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
+\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
+\]</span></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>尝试一下中文输入 This's my blog!</p>
+<ul>
+<li>todo 1</li>
+<li>todo 2</li>
+</ul>
+<h1 id="hello">Hello</h1>
+<h2 id="你好">你好</h2>
+<h3 id="foo"><code>foo</code></h3>
+<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
+<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
+<p><span class="math display">\[a+b\geq 3\]</span></p>
+]]></content>
   </entry>
   <entry>
     <title>EM算法</title>
@@ -753,90 +566,198 @@ P(y_j,\gamma_{j1}\dots,\gamma_{jk})\\
 ]]></content>
   </entry>
   <entry>
-    <title>First Blog</title>
-    <url>/2025/12/19/First-Blog/</url>
-    <content><![CDATA[<p>Hello! This is my first blog.</p>
-<p>A math formula: <span class="math display">\[
-\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
-\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
-\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
-\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
-\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
-\]</span></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>尝试一下中文输入 This's my blog!</p>
-<ul>
-<li>todo 1</li>
-<li>todo 2</li>
-</ul>
-<h1 id="hello">Hello</h1>
-<h2 id="你好">你好</h2>
-<h3 id="foo"><code>foo</code></h3>
-<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
-<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
-<p><span class="math display">\[a+b\geq 3\]</span></p>
-]]></content>
-  </entry>
-  <entry>
     <title>RWKV 初探</title>
     <url>/2026/01/27/RWKV-%E5%88%9D%E6%8E%A2/</url>
     <content><![CDATA[
 ]]></content>
   </entry>
   <entry>
-    <title>UCB CS168 lab2 Routing 小记</title>
-    <url>/2026/01/27/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/</url>
-    <content><![CDATA[<p>简单记录一下我做下来的一些小坑。</p>
-<h2 id="stage-2">Stage 2</h2>
-<h3 id="正确的端口">正确的端口</h3>
-<p>事实上，<code>handle_data_packet(self, packet, in_port)</code>
-注释说明了是
-<code>:param in_port: the port from which the packet arrived.</code>，但这个其实没有作用。我们关心的是我们当前这个
-router 要把收到的 packet 向哪个端口转发，所以其实是：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dst = packet.dst</span><br><span class="line">...</span><br><span class="line">dst_port = <span class="variable language_">self</span>.table[dst].port</span><br><span class="line">latency = <span class="variable language_">self</span>.table[dst].latency</span><br></pre></td></tr></table></figure>
-<h2 id="stage-4">Stage 4</h2>
-<h3 id="注意-latency-计算完整">注意 <code>latency</code> 计算完整</h3>
-<p>我们在接收到邻居的广播后，注意他发送过来的 latency 只是他到目标 host
-的 latency，而我们如果要通过它中转，还需要加上我们到它的 latency:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">latency = route_latency + <span class="variable language_">self</span>.ports.get_latency(port)</span><br><span class="line">new_entry = TableEntry(dst=route_dst, port=port,</span><br><span class="line">                        latency=latency, </span><br><span class="line">                        expire_time=api.current_time()+<span class="variable language_">self</span>.ROUTE_TTL)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="stage-5">Stage 5</h2>
-<h3 id="字典删除问题">字典删除问题</h3>
-<p>由于 <code>self.table</code>
-是一个字典类型，而直接在遍历中删除字典元素会引发错误：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RuntimeError: dictionary changed size during iteration</span><br></pre></td></tr></table></figure>
-<p>比较推荐的做法是先收集一个应当删除的 <code>list</code>:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">expire_list = []</span><br><span class="line"><span class="keyword">for</span> dst, entry <span class="keyword">in</span> <span class="variable language_">self</span>.table.items():</span><br><span class="line">  <span class="keyword">if</span> entry.expire_time &lt;= api.current_time():</span><br><span class="line">    expire_list.append(dst)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> dst <span class="keyword">in</span> expire_list:</span><br><span class="line">  <span class="keyword">if</span> <span class="variable language_">self</span>.POISON_EXPIRED:</span><br><span class="line">    new_entry = TableEntry(dst=dst, port=<span class="variable language_">self</span>.table[dst].port,</span><br><span class="line">                            latency=INFINITY, expire_time=api.current_time()+<span class="variable language_">self</span>.ROUTE_TTL)</span><br><span class="line">    <span class="variable language_">self</span>.table[dst] = new_entry</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="variable language_">self</span>.table.pop(dst)</span><br></pre></td></tr></table></figure>
-<h2 id="stage-67">Stage 6&amp;7</h2>
-<p>关于处理 Split Horizon 和 Poison Reverse
-有一个更聪明的写法，我们在遇到 <code>self.SPLIT_HORIZON</code> 为 True
-的时候选择直接 continue，这样就避免了大量繁琐的 if 语句。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> port <span class="keyword">in</span> ports_update:</span><br><span class="line">  <span class="keyword">for</span> dst <span class="keyword">in</span> <span class="variable language_">self</span>.table.keys():</span><br><span class="line">    latency = <span class="variable language_">self</span>.table[dst].latency</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> port == <span class="variable language_">self</span>.table[dst].port:</span><br><span class="line">      <span class="keyword">if</span> <span class="variable language_">self</span>.SPLIT_HORIZON:</span><br><span class="line">        <span class="comment"># Split Horizon: don&#x27;t send anything at all</span></span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">      <span class="keyword">elif</span> <span class="variable language_">self</span>.POISON_REVERSE:</span><br><span class="line">        <span class="comment"># Poison Reverse: send it as INFINITY</span></span><br><span class="line">        latency = INFINITY</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> latency &gt; INFINITY:</span><br><span class="line">      latency = INFINITY</span><br><span class="line"></span><br><span class="line">    route = RoutePacket(destination=dst, latency=latency)</span><br><span class="line">    <span class="keyword">if</span> force <span class="keyword">or</span> <span class="variable language_">self</span>.history[port].get(dst, <span class="literal">None</span>) != latency:</span><br><span class="line">      <span class="variable language_">self</span>.send_route(port, dst, latency=latency)</span><br><span class="line">      <span class="variable language_">self</span>.history[port][dst] = latency</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-<h2 id="stage-10a">Stage 10A</h2>
-<p>题干提示了要使用一个 <code>self.history</code>
-的数据结构来记录每个端口向每个目的地上一次转发的 packet
-的信息。我一开始使用了一个元组 <code>(port, dst)</code>，然后使用
-<code>self.key: {(port, dst): RoutePacket}</code>
-这样的键值对来存储。</p>
-<p>但这样有几个问题： 1. 写起来很繁琐 2.
-有冗余的信息，我们不需要保存完整的 packet，因为我们的 key 已经有 dst
-了（RoutePacket 本身有 latency 和 dst 两个信息）</p>
-<p>综上，我们采用一个更良好的写法，即一个二重字典。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, ...</span>):</span><br><span class="line">  <span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">  <span class="variable language_">self</span>.history = defaultdict(<span class="built_in">dict</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># in send_routes</span></span><br><span class="line"><span class="keyword">if</span> force <span class="keyword">or</span> <span class="variable language_">self</span>.history[port].get(dst, <span class="literal">None</span>) != latency:</span><br><span class="line">  <span class="variable language_">self</span>.send_route(port, dst, latency=latency)</span><br><span class="line">  <span class="variable language_">self</span>.history[port][dst] = latency</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-<h3 id="defaultdict"><code>defaultdict</code></h3>
-<p>对于一个普通的 Python 字典, 如果你访问一个不存在的键，它会直接报错
-KeyError。 但 defaultdict(dict) 自带默认值：</p>
-<p>当尝试访问 self.history[port] 时，如果这个 port
-还没出现过，它不会报错，而是自动创建一个空的字典 {} 填在那里。</p>
-<p>配套的，使用 <code>dict.get(key, None)</code>
-可以安全的取出对应的值。</p>
+    <title>Mamba Architecture</title>
+    <url>/2025/12/24/Mamba-Architecture/</url>
+    <content><![CDATA[<p>Mamba 是一种 State Space
+Model/SSM，即状态空间模型。这是用以处理序列问题的一种非常优秀的模型。</p>
+<p>其本质可以理解为“隐空间”/“状态空间”中的递推。</p>
+<h2 id="问题">问题</h2>
+<p>给定时间信号输入序列 <span
+class="math inline">\(x(t)\)</span>，以及输出序列 <span
+class="math inline">\(y(t)\)</span>，尝试给出预测模型。
+我们考虑一个隐状态空间 <span class="math inline">\(h(t)\in
+\mathbb{R}^N\)</span>，它由 <span class="math inline">\(x(t)\)</span>
+而来，控制了 <span class="math inline">\(y(t)\)</span> 的输出。
+从简化的角度考虑，给出线性模型：</p>
+<p><span class="math display">\[\begin{align}
+h&#39;(t) &amp;= \mathbf{A}h(t)+\mathbf{B}x(t) \\
+y(t)  &amp;= \mathbf{C}h&#39;(t)
+\end{align}
+\]</span></p>
+<p>其中，<span class="math inline">\(\mathbf{A}\)</span>，<span
+class="math inline">\(\mathbf{B}\)</span>，<span
+class="math inline">\(\mathbf{C}\)</span> 三个矩阵分别代表 evolution
+parameter 和 projection
+parameter。第一个的作用是将隐空间中的状态逐步演化的最终态，后二者的作用是进行隐空间和实际输入/输出空间的映射。</p>
+<h2 id="从连续时间到离散时间">从连续时间到离散时间</h2>
+<p>上面的模型显然是一个连续时间模型，也就意味着是一个微分方程。</p>
+<p>但是在实际工程和应用中，我们不可能去解一个微分方程，因此我们考虑去将他离散化。其中，最重要的一种离散化方式被称作
+"Zero-Order Hold/ZOH" 规则。</p>
+<h3 id="zoh">ZOH</h3>
+<p>ZOH 的核心假设非常易于理解：</p>
+<div class="note "><h4 id="zero-order-hold">Zero-Order Hold</h4>
+<p>在每个采样区间中，输入保持常数：</p>
+<p><span class="math display">\[
+u(t)=u_k\quad t\in [t_k,t_{k+1})
+\]</span></p>
+<p>其中，采样步长 <span
+class="math inline">\(\Delta&gt;0\)</span>，<span
+class="math inline">\(t_k=k\Delta\)</span></p>
+</div>
+<p>我们希望得到离散递推公式： <span class="math display">\[
+x_{k+1}=\bar{A}x_k+\bar{B}u_k
+\]</span></p>
+<p>所以，也就是去解这个微分方程（和普通的微分方程一样，先不考虑是矩阵的情况）：
+<span class="math display">\[
+\frac{\mathrm{d}x}{\mathrm{d}t}=Ax+Bu
+\]</span></p>
+<p>注意，这里 <span class="math inline">\(x\)</span> 是状态，<span
+class="math inline">\(u\)</span> 是输入。</p>
+<p>将系统重写为 <span class="math display">\[
+\dot{x}(t)-Ax(t)=Bu(t)
+\]</span></p>
+<p>解之即有： <span class="math display">\[
+\bar{A}=e^{\Delta
+A},\bar{B}=\int_{t_k}^{t_{k+1}}e^{A(t_{k+1}-\tau)}B\mathrm{d}\tau
+\]</span></p>
+<p>若 <span class="math inline">\(A\)</span> 可逆，则 <span
+class="math inline">\(B\)</span> 有闭式解 <span
+class="math inline">\(A^{-1}(e^{A\Delta}-I)B\)</span></p>
+<div class="note info"><h4 id="矩阵指数">矩阵指数</h4>
+<p><span class="math inline">\(B=e^{A}\)</span> 并不是 <span
+class="math inline">\(B_{ij}=\exp\{a_{ij}\}\)</span>，而是采用泰勒展开：
+<span class="math display">\[
+e^A=\sum_{i=0}^{\infin} \frac{A^k}{k!}
+\]</span></p>
+<p>对于对角矩阵，退化为上面的直觉的形式： <span class="math display">\[
+A=\text{diag}(a_1,\dots,a_n) \Rightarrow
+e^A=\text{diag}(e^{a_1},\dots,e^{a_n})
+\]</span></p>
+<p>类似，对于可对角化矩阵，也有： <span class="math display">\[
+A=P \text{diag}(a_1,\dots,a_n) P^{-1} \Rightarrow
+e^A=P\text{diag}(e^{a_1},\dots,e^{a_n})P^{-1}
+\]</span></p>
+</div>
+<h3 id="递推">递推</h3>
+<p>基于 ZOH 假设，我们可以快速写出以下式子（<span
+class="math inline">\(M\)</span> 是序列长度）： <span
+class="math display">\[
+\begin{align}
+\bar{K} &amp;= (C\bar{B}, C\bar{A}\bar{B}, C\bar{A}^2\bar{B},\dots,
+C\bar{A}^{M-1}\bar{B})\\
+y &amp;= x * \bar{K}
+\end{align}
+\]</span></p>
+<h2 id="一个-mamba-block">一个 Mamba Block</h2>
+<p>一个 Mamba Block
+做一次完整的我们上述的递推操作，也就是对于每个位置提取一次上下文理解。</p>
+<p>和 Transformer 类似，我们也可以把多个 Mamba Block
+叠起来，进行更深度的信息提取，也就是<strong>逐层抽象</strong>，越靠后的
+Mamba Block 蕴含了越丰富的、越抽象的信息。</p>
+<p><span class="math display">\[
+x^{(0)}\xrightarrow{\text{Mamba Block 1}}
+x^{(1)}\xrightarrow{\text{Mamba Block 2}}\dots \xrightarrow{\text{Mamba
+Block M}} x^{(M)}
+\]</span></p>
+<h2 id="具体实现">具体实现</h2>
+<h3 id="algorithm-1parameters-function">Algorithm 1：Parameters
+Function</h3>
+<p>根据我们上文的描述，从给定的序列 <span
+class="math inline">\(\{x\}\)</span> 中生成 <span
+class="math inline">\(\bar{A}, \bar{B}, C\)</span>。</p>
+<p><span class="math display">\[
+\begin{aligned}
+\textbf{Algorithm 1: Parameters Function}\\
+\textbf{Require: } x&#39; \in \mathbb{R}^{(B,N,P)}\\
+\textbf{Ensure: } \bar A \in \mathbb{R}^{(B,N,P,K)},\ \bar B \in
+\mathbb{R}^{(B,N,P,K)},\ C \in \mathbb{R}^{(B,N,K)}\\[4pt]
+\begin{array}{ll}
+1: &amp; B \in \mathbb{R}^{(B,N,K)} \leftarrow
+\mathrm{Linear}^{B}(x&#39;)\\
+2: &amp; C \in \mathbb{R}^{(B,N,K)} \leftarrow
+\mathrm{Linear}^{C}(x&#39;)\\
+3: &amp; \Delta \in \mathbb{R}^{(B,N,P)} \leftarrow
+\log\!\Big(1+\exp(\mathrm{Linear}^{\Delta}(x&#39;)+\mathrm{Parameter}^{\Delta})\Big)\\
+4: &amp; \text{// } \mathrm{Parameter}^{A} \in \mathbb{R}^{(P,K)}\\
+5: &amp; \bar A \in \mathbb{R}^{(B,N,P,K)} \leftarrow \Delta \otimes
+\mathrm{Parameter}^{A}\\
+6: &amp; \bar B \in \mathbb{R}^{(B,N,P,K)} \leftarrow \Delta \otimes B\\
+\textbf{Return:} &amp; \bar A,\ \bar B,\ C
+\end{array}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\textbf{Algorithm 2: Mamba Block}\\
+\textbf{Require: } T_{l-1} \in \mathbb{R}^{(B,N,C)}\\
+\textbf{Ensure: } T_{l} \in \mathbb{R}^{(B,N,C)}\\[4pt]
+\begin{array}{ll}
+1: &amp; \text{// Apply layer normalization to } T_{l-1}\\
+2: &amp; T&#39;_{l-1} \in \mathbb{R}^{(B,N,C)} \leftarrow
+\mathrm{Norm}(T_{l-1})\\
+3: &amp; x \in \mathbb{R}^{(B,N,P)} \leftarrow
+\mathrm{Linear}^{x}(T&#39;_{l-1})\\
+4: &amp; z \in \mathbb{R}^{(B,N,P)} \leftarrow
+\mathrm{Linear}^{z}(T&#39;_{l-1})\\
+5: &amp; \text{// Process the input sequence}\\
+6: &amp; x&#39; \in \mathbb{R}^{(B,N,P)} \leftarrow
+\mathrm{SiLU}(\mathrm{Conv1d}(x))\\
+7: &amp; \bar A,\ \bar B,\ C \leftarrow
+\mathrm{ParametersFunction}(x&#39;)\\
+8: &amp; y \in \mathbb{R}^{(B,N,P)} \leftarrow \mathrm{SSM}(\bar A,\bar
+B,C)(x&#39;)\\
+9: &amp; \text{// Obtain gated } y\\
+10: &amp; y&#39; \in \mathbb{R}^{(B,N,P)} \leftarrow y \odot
+\mathrm{SiLU}(z)\\
+11: &amp; \text{// Residual connection}\\
+12: &amp; T_{l} \in \mathbb{R}^{(B,N,C)} \leftarrow
+\mathrm{Linear}^{T}(y&#39;) + T_{l-1}\\
+\textbf{Return:} &amp; T_{l}
+\end{array}
+\end{aligned}
+\]</span></p>
 ]]></content>
       <categories>
-        <category>Computer Network</category>
+        <category>Deep Learning</category>
       </categories>
       <tags>
-        <tag>CS168</tag>
-        <tag>lab</tag>
+        <tag>Mamba</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hexo Blog 的一些技术细节</title>
+    <url>/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/</url>
+    <content><![CDATA[<p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
+<h2 id="数学公式渲染">数学公式渲染</h2>
+<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
+engine，同时将默认 <code>Markdown</code> 渲染器换成了
+<code>pandoc</code></p>
+<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
+<h2 id="英文引号变成中文">英文引号变成中文</h2>
+<p>我想写这篇文章的罪魁祸首。</p>
+<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
+<code>‘/“</code>，显示效果奇差无比</p>
+<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
+之类的操作</p>
+<p>Github 上比较常见的几个 <a
+href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
+<code>hexo-renderer-marked</code></p>
+<p>但是如上文所说，我换成了 <code>pandoc</code>
+之后依然有这个问题（有的文章说换 <code>pandoc</code>
+之后就好了），猜测也有一个类似的开关</p>
+<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
+<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
+扩展</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
   </entry>
   <entry>
     <title>Vision Mamba源码导读</title>
@@ -981,6 +902,61 @@ class="math inline">\(\text{Gini}\)</span>
       </categories>
       <tags>
         <tag>决策树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>UCB CS168 lab2 Routing 小记</title>
+    <url>/2026/01/27/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/</url>
+    <content><![CDATA[<p>简单记录一下我做下来的一些小坑。</p>
+<h2 id="stage-2">Stage 2</h2>
+<h3 id="正确的端口">正确的端口</h3>
+<p>事实上，<code>handle_data_packet(self, packet, in_port)</code>
+注释说明了是
+<code>:param in_port: the port from which the packet arrived.</code>，但这个其实没有作用。我们关心的是我们当前这个
+router 要把收到的 packet 向哪个端口转发，所以其实是：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dst = packet.dst</span><br><span class="line">...</span><br><span class="line">dst_port = <span class="variable language_">self</span>.table[dst].port</span><br><span class="line">latency = <span class="variable language_">self</span>.table[dst].latency</span><br></pre></td></tr></table></figure>
+<h2 id="stage-4">Stage 4</h2>
+<h3 id="注意-latency-计算完整">注意 <code>latency</code> 计算完整</h3>
+<p>我们在接收到邻居的广播后，注意他发送过来的 latency 只是他到目标 host
+的 latency，而我们如果要通过它中转，还需要加上我们到它的 latency:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">latency = route_latency + <span class="variable language_">self</span>.ports.get_latency(port)</span><br><span class="line">new_entry = TableEntry(dst=route_dst, port=port,</span><br><span class="line">                        latency=latency, </span><br><span class="line">                        expire_time=api.current_time()+<span class="variable language_">self</span>.ROUTE_TTL)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="stage-5">Stage 5</h2>
+<h3 id="字典删除问题">字典删除问题</h3>
+<p>由于 <code>self.table</code>
+是一个字典类型，而直接在遍历中删除字典元素会引发错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RuntimeError: dictionary changed size during iteration</span><br></pre></td></tr></table></figure>
+<p>比较推荐的做法是先收集一个应当删除的 <code>list</code>:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">expire_list = []</span><br><span class="line"><span class="keyword">for</span> dst, entry <span class="keyword">in</span> <span class="variable language_">self</span>.table.items():</span><br><span class="line">  <span class="keyword">if</span> entry.expire_time &lt;= api.current_time():</span><br><span class="line">    expire_list.append(dst)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> dst <span class="keyword">in</span> expire_list:</span><br><span class="line">  <span class="keyword">if</span> <span class="variable language_">self</span>.POISON_EXPIRED:</span><br><span class="line">    new_entry = TableEntry(dst=dst, port=<span class="variable language_">self</span>.table[dst].port,</span><br><span class="line">                            latency=INFINITY, expire_time=api.current_time()+<span class="variable language_">self</span>.ROUTE_TTL)</span><br><span class="line">    <span class="variable language_">self</span>.table[dst] = new_entry</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="variable language_">self</span>.table.pop(dst)</span><br></pre></td></tr></table></figure>
+<h2 id="stage-67">Stage 6&amp;7</h2>
+<p>关于处理 Split Horizon 和 Poison Reverse
+有一个更聪明的写法，我们在遇到 <code>self.SPLIT_HORIZON</code> 为 True
+的时候选择直接 continue，这样就避免了大量繁琐的 if 语句。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> port <span class="keyword">in</span> ports_update:</span><br><span class="line">  <span class="keyword">for</span> dst <span class="keyword">in</span> <span class="variable language_">self</span>.table.keys():</span><br><span class="line">    latency = <span class="variable language_">self</span>.table[dst].latency</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> port == <span class="variable language_">self</span>.table[dst].port:</span><br><span class="line">      <span class="keyword">if</span> <span class="variable language_">self</span>.SPLIT_HORIZON:</span><br><span class="line">        <span class="comment"># Split Horizon: don&#x27;t send anything at all</span></span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">      <span class="keyword">elif</span> <span class="variable language_">self</span>.POISON_REVERSE:</span><br><span class="line">        <span class="comment"># Poison Reverse: send it as INFINITY</span></span><br><span class="line">        latency = INFINITY</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> latency &gt; INFINITY:</span><br><span class="line">      latency = INFINITY</span><br><span class="line"></span><br><span class="line">    route = RoutePacket(destination=dst, latency=latency)</span><br><span class="line">    <span class="keyword">if</span> force <span class="keyword">or</span> <span class="variable language_">self</span>.history[port].get(dst, <span class="literal">None</span>) != latency:</span><br><span class="line">      <span class="variable language_">self</span>.send_route(port, dst, latency=latency)</span><br><span class="line">      <span class="variable language_">self</span>.history[port][dst] = latency</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h2 id="stage-10a">Stage 10A</h2>
+<p>题干提示了要使用一个 <code>self.history</code>
+的数据结构来记录每个端口向每个目的地上一次转发的 packet
+的信息。我一开始使用了一个元组 <code>(port, dst)</code>，然后使用
+<code>self.key: {(port, dst): RoutePacket}</code>
+这样的键值对来存储。</p>
+<p>但这样有几个问题： 1. 写起来很繁琐 2.
+有冗余的信息，我们不需要保存完整的 packet，因为我们的 key 已经有 dst
+了（RoutePacket 本身有 latency 和 dst 两个信息）</p>
+<p>综上，我们采用一个更良好的写法，即一个二重字典。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, ...</span>):</span><br><span class="line">  <span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">  <span class="variable language_">self</span>.history = defaultdict(<span class="built_in">dict</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># in send_routes</span></span><br><span class="line"><span class="keyword">if</span> force <span class="keyword">or</span> <span class="variable language_">self</span>.history[port].get(dst, <span class="literal">None</span>) != latency:</span><br><span class="line">  <span class="variable language_">self</span>.send_route(port, dst, latency=latency)</span><br><span class="line">  <span class="variable language_">self</span>.history[port][dst] = latency</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h3 id="defaultdict"><code>defaultdict</code></h3>
+<p>对于一个普通的 Python 字典, 如果你访问一个不存在的键，它会直接报错
+KeyError。 但 defaultdict(dict) 自带默认值：</p>
+<p>当尝试访问 self.history[port] 时，如果这个 port
+还没出现过，它不会报错，而是自动创建一个空的字典 {} 填在那里。</p>
+<p>配套的，使用 <code>dict.get(key, None)</code>
+可以安全的取出对应的值。</p>
+]]></content>
+      <categories>
+        <category>Computer Network</category>
+      </categories>
+      <tags>
+        <tag>CS168</tag>
+        <tag>lab</tag>
       </tags>
   </entry>
 </search>
