@@ -171,7 +171,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -207,6 +207,238 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2026/01/27/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lehan Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lehan Shen's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Lehan Shen's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/01/27/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/" class="post-title-link" itemprop="url">UCB CS168 lab2 Routing 小记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-01-27 13:41:21 / Modified: 14:11:35" itemprop="dateCreated datePublished" datetime="2026-01-27T13:41:21+08:00">2026-01-27</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>666</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>简单记录一下我做下来的一些小坑。</p>
+<h2 id="stage-2">Stage 2</h2>
+<h3 id="正确的端口">正确的端口</h3>
+<p>事实上，<code>handle_data_packet(self, packet, in_port)</code>
+注释说明了是
+<code>:param in_port: the port from which the packet arrived.</code>，但这个其实没有作用。我们关心的是我们当前这个
+router 要把收到的 packet 向哪个端口转发，所以其实是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dst = packet.dst</span><br><span class="line">...</span><br><span class="line">dst_port = <span class="variable language_">self</span>.table[dst].port</span><br><span class="line">latency = <span class="variable language_">self</span>.table[dst].latency</span><br></pre></td></tr></table></figure>
+<h2 id="stage-4">Stage 4</h2>
+<h3 id="注意-latency-计算完整">注意 <code>latency</code> 计算完整</h3>
+<p>我们在接收到邻居的广播后，注意他发送过来的 latency 只是他到目标 host
+的 latency，而我们如果要通过它中转，还需要加上我们到它的 latency:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">latency = route_latency + <span class="variable language_">self</span>.ports.get_latency(port)</span><br><span class="line">new_entry = TableEntry(dst=route_dst, port=port,</span><br><span class="line">                        latency=latency, </span><br><span class="line">                        expire_time=api.current_time()+<span class="variable language_">self</span>.ROUTE_TTL)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="stage-5">Stage 5</h2>
+<h3 id="字典删除问题">字典删除问题</h3>
+<p>由于 <code>self.table</code>
+是一个字典类型，而直接在遍历中删除字典元素会引发错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuntimeError: dictionary changed size during iteration</span><br></pre></td></tr></table></figure>
+<p>比较推荐的做法是先收集一个应当删除的 <code>list</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">expire_list = []</span><br><span class="line"><span class="keyword">for</span> dst, entry <span class="keyword">in</span> <span class="variable language_">self</span>.table.items():</span><br><span class="line">  <span class="keyword">if</span> entry.expire_time &lt;= api.current_time():</span><br><span class="line">    expire_list.append(dst)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> dst <span class="keyword">in</span> expire_list:</span><br><span class="line">  <span class="keyword">if</span> <span class="variable language_">self</span>.POISON_EXPIRED:</span><br><span class="line">    new_entry = TableEntry(dst=dst, port=<span class="variable language_">self</span>.table[dst].port,</span><br><span class="line">                            latency=INFINITY, expire_time=api.current_time()+<span class="variable language_">self</span>.ROUTE_TTL)</span><br><span class="line">    <span class="variable language_">self</span>.table[dst] = new_entry</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="variable language_">self</span>.table.pop(dst)</span><br></pre></td></tr></table></figure>
+<h2 id="stage-67">Stage 6&amp;7</h2>
+<p>关于处理 Split Horizon 和 Poison Reverse
+有一个更聪明的写法，我们在遇到 <code>self.SPLIT_HORIZON</code> 为 True
+的时候选择直接 continue，这样就避免了大量繁琐的 if 语句。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> port <span class="keyword">in</span> ports_update:</span><br><span class="line">  <span class="keyword">for</span> dst <span class="keyword">in</span> <span class="variable language_">self</span>.table.keys():</span><br><span class="line">    latency = <span class="variable language_">self</span>.table[dst].latency</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> port == <span class="variable language_">self</span>.table[dst].port:</span><br><span class="line">      <span class="keyword">if</span> <span class="variable language_">self</span>.SPLIT_HORIZON:</span><br><span class="line">        <span class="comment"># Split Horizon: don&#x27;t send anything at all</span></span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">      <span class="keyword">elif</span> <span class="variable language_">self</span>.POISON_REVERSE:</span><br><span class="line">        <span class="comment"># Poison Reverse: send it as INFINITY</span></span><br><span class="line">        latency = INFINITY</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> latency &gt; INFINITY:</span><br><span class="line">      latency = INFINITY</span><br><span class="line"></span><br><span class="line">    route = RoutePacket(destination=dst, latency=latency)</span><br><span class="line">    <span class="keyword">if</span> force <span class="keyword">or</span> <span class="variable language_">self</span>.history[port].get(dst, <span class="literal">None</span>) != latency:</span><br><span class="line">      <span class="variable language_">self</span>.send_route(port, dst, latency=latency)</span><br><span class="line">      <span class="variable language_">self</span>.history[port][dst] = latency</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h2 id="stage-10a">Stage 10A</h2>
+<p>题干提示了要使用一个 <code>self.history</code>
+的数据结构来记录每个端口向每个目的地上一次转发的 packet
+的信息。我一开始使用了一个元组 <code>(port, dst)</code>，然后使用
+<code>self.key: {(port, dst): RoutePacket}</code>
+这样的键值对来存储。</p>
+<p>但这样有几个问题： 1. 写起来很繁琐 2.
+有冗余的信息，我们不需要保存完整的 packet，因为我们的 key 已经有 dst
+了（RoutePacket 本身有 latency 和 dst 两个信息）</p>
+<p>综上，我们采用一个更良好的写法，即一个二重字典。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, ...</span>):</span><br><span class="line">  <span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">  <span class="variable language_">self</span>.history = defaultdict(<span class="built_in">dict</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># in send_routes</span></span><br><span class="line"><span class="keyword">if</span> force <span class="keyword">or</span> <span class="variable language_">self</span>.history[port].get(dst, <span class="literal">None</span>) != latency:</span><br><span class="line">  <span class="variable language_">self</span>.send_route(port, dst, latency=latency)</span><br><span class="line">  <span class="variable language_">self</span>.history[port][dst] = latency</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h3 id="defaultdict"><code>defaultdict</code></h3>
+<p>对于一个普通的 Python 字典, 如果你访问一个不存在的键，它会直接报错
+KeyError。 但 defaultdict(dict) 自带默认值：</p>
+<p>当尝试访问 self.history[port] 时，如果这个 port
+还没出现过，它不会报错，而是自动创建一个空的字典 {} 填在那里。</p>
+<p>配套的，使用 <code>dict.get(key, None)</code>
+可以安全的取出对应的值。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2026/01/20/Computer-Networking-3-Transport/Computer-Networking-3-Transport/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lehan Shen">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lehan Shen's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Lehan Shen's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/01/20/Computer-Networking-3-Transport/Computer-Networking-3-Transport/" class="post-title-link" itemprop="url">Computer Networking 3--Transport</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-01-20 21:16:45 / Modified: 21:25:07" itemprop="dateCreated datePublished" datetime="2026-01-20T21:16:45+08:00">2026-01-20</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>129</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="overview">Overview</h2>
+<h3 id="demultiplexing-with-ports">Demultiplexing with Ports</h3>
+<p>IP 协议只能看到 IP。如果一台主机上同时有两个应用在和一个 server
+通信，那么二者在 IP 层面是完全一样的（有相同的 source/destination
+IP）</p>
+<p>我们该如何区分这两个应用，将数据正确的交给他们？</p>
+<p>解决方案就是 port，每个应用走不同的 port 出去。</p>
+<figure>
+<img src="/.io//port1.png" alt="port">
+<figcaption aria-hidden="true">port</figcaption>
+</figure>
+<figure>
+<img src="/.io//port2.png" alt="port">
+<figcaption aria-hidden="true">port</figcaption>
+</figure>
+<div class="note "><p>Because the transport layer is implemented in the <strong>operating
+system</strong>, these ports (sometimes called <strong>logical
+ports</strong>) are the attachment point where the application connects
+to the operating system’s network stack.</p>
+</div>
+<h2 id="tcp">TCP</h2>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -252,7 +484,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2026-01-19 12:22:13" itemprop="dateModified" datetime="2026-01-19T12:22:13+08:00">2026-01-19</time>
+      <time title="Modified: 2026-01-20 21:15:02" itemprop="dateModified" datetime="2026-01-20T21:15:02+08:00">2026-01-20</time>
     </span>
 
   
@@ -262,14 +494,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>1.3k</span>
+      <span>1.5k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
+      <span>6 mins.</span>
     </span>
 </div>
 
@@ -322,8 +554,7 @@ port</p>
 本身要求我们必须对于整个网络结构有一个认知，因此这是一个全局的过程。</p>
 <h2 id="distance-vector-protocols">Distance Vector Protocols</h2>
 <p>Distance Vector Protocols 的主要内容如下：</p>
-<p>{ % note % }</p>
-<p>For each destination:</p>
+<div class="note "><p>For each destination:</p>
 <ul>
 <li>If you hear an advertisement for that destination, update the table
 and reset the TTL if:
@@ -344,7 +575,7 @@ periodically (advertisement interval).
 <li>If a table entry expires, make the entry poison and advertise
 it.</li>
 </ul>
-<p>{ % endnote % }</p>
+</div>
 <p>我们分条来看。</p>
 <h3 id="update-rules">Update Rules</h3>
 <p>我们如果从毗邻的节点接收到一条 <code>(from, to, cost, TTL)</code>
@@ -404,6 +635,46 @@ shortest, everyone chooses the same one.</p></li>
 </div>
 <h3 id="learning-about-graph-topology">Learning About Graph
 Topology</h3>
+<ol type="1">
+<li><p>To discover neighbors, every router sends a hello message to all
+of its neighbors. For example, in this network, R2 sends to both of its
+neighbors: “Hello, I’m R2.” Now, R1 knows that it’s connected to R2, and
+R3 also knows that it’s connected to R2. Similarly, R1 says hello to R2,
+so now R2 knows about R1. Likewise, R3 says hello to R2, so R2 also
+knows about R3.</p>
+<p>As a result, everybody now knows who their immediate neighbors are.
+Note that R1 does not know about R3, because R1 and R3 are not
+neighbors.</p></li>
+</ol>
+<figure>
+<img src="/.io//graph3.png" alt="graph3">
+<figcaption aria-hidden="true">graph3</figcaption>
+</figure>
+<figure>
+<img src="/.io//graph1.png" alt="graph1">
+<figcaption aria-hidden="true">graph1</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>Now that we know about our neighbors, we should announce that fact
+to everybody. To make a global announcement, we send the announcement to
+all of our neighbors. Also, if we ever receive an announcement, we
+should send it to all of our neighbors as well. This ensures that every
+message gets propagated throughout the network. This is known as
+flooding information across the network. If any information changes
+(e.g. a neighbor disappears), we should flood that information as
+well.</li>
+</ol>
+<figure>
+<img src="/.io//graph2.png" alt="graph2">
+<figcaption aria-hidden="true">graph2</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>avoid infinite flooding: When we see a message for the first time,
+send that message to all neighbors, and write down that we’ve seen that
+message. (We have to write down this message anyway, since we’re trying
+to use this information to build up the network graph.) Then, if we ever
+see that same message again, don’t send it a second time.</li>
+</ol>
 
       
     </div>
@@ -1586,223 +1857,9 @@ R_1(j,s)),\hat{c}_2=\text{ave}(y_i|x_i\in R_2(j,s))\)</span></p>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Lehan Shen">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lehan Shen's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Lehan Shen's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/12/20/Hexo%20Blog%20%E7%9A%84%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82/index/" class="post-title-link" itemprop="url">Hexo Blog 的一些技术细节</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2025-12-20 09:13:09 / Modified: 09:31:39" itemprop="dateCreated datePublished" datetime="2025-12-20T09:13:09+08:00">2025-12-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>289</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>花了一些时间总算搞好了，第一篇文章就简要记录一下踩的坑吧。</p>
-<h2 id="数学公式渲染">数学公式渲染</h2>
-<p>处于兼容性考虑，我采用了 <code>Mathjax</code> 作为 math
-engine，同时将默认 <code>Markdown</code> 渲染器换成了
-<code>pandoc</code></p>
-<p>一定要把之前的渲染引擎删除干净，否则会有一些很诡异的错误</p>
-<h2 id="英文引号变成中文">英文引号变成中文</h2>
-<p>我想写这篇文章的罪魁祸首。</p>
-<p>一开始，所有的英文引号 <code>'/"</code> 都会被渲染成
-<code>‘/“</code>，显示效果奇差无比</p>
-<p>查询之后发现这也是渲染引擎的问题，它会自动开启一个类似于 formatting
-之类的操作</p>
-<p>Github 上比较常见的几个 <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/1981">issue</a> 都是用的
-<code>hexo-renderer-marked</code></p>
-<p>但是如上文所说，我换成了 <code>pandoc</code>
-之后依然有这个问题（有的文章说换 <code>pandoc</code>
-之后就好了），猜测也有一个类似的开关</p>
-<p>随问 LLM，发现要传入一些参数： <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">pandoc:</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--from&#x27;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;markdown-smart&#x27;</span> <span class="comment"># 这里的 -smart 表示在 markdown 解析中禁用 smart 扩展</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&#x27;--mathjax&#x27;</span></span><br></pre></td></tr></table></figure></p>
-<p>我估计可能是因为 pandoc 版本的不同，旧版本的默认关闭/没有 smart
-扩展</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://shenlehan.github.io/2025/12/19/First-Blog/First-Blog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Lehan Shen">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lehan Shen's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Lehan Shen's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/12/19/First-Blog/First-Blog/" class="post-title-link" itemprop="url">First Blog</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2025-12-19 21:00:38 / Modified: 21:12:24" itemprop="dateCreated datePublished" datetime="2025-12-19T21:00:38+08:00">2025-12-19</time>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>103</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>1 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Hello! This is my first blog.</p>
-<p>A math formula: <span class="math display">\[
-\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
-\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
-\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
-\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
-\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
-\]</span></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>尝试一下中文输入 This's my blog!</p>
-<ul>
-<li>todo 1</li>
-<li>todo 2</li>
-</ul>
-<h1 id="hello">Hello</h1>
-<h2 id="你好">你好</h2>
-<h3 id="foo"><code>foo</code></h3>
-<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
-<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
-<p><span class="math display">\[a+b\geq 3\]</span></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
 
 </div>
   </main>
@@ -1824,14 +1881,14 @@ engine，同时将默认 <code>Markdown</code> 渲染器换成了
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Word count total: </span>
-    <span title="Word count total">7k</span>
+    <span title="Word count total">8k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">26 mins.</span>
+    <span title="Reading time total">30 mins.</span>
   </span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>

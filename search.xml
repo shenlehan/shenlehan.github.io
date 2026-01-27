@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2026新年展望</title>
+    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
+    <content><![CDATA[<p>2026 就这么突然来了。</p>
+<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
+<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
+和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
+<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
+<p>去年寒假看了一半的
+CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
+倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
+<p>先争取活过这个无比劳碌的期末周吧。</p>
+<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
+TPAMI 什么的就最好了）。</p>
+<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
+<ol type="1">
+<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
+去做互联网码农也能用得上。
+其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
+<li><p>UCB CS168/Stanford CS144 Computer
+Networking：其实早在一年前就听完了 USTC
+的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
+看网上的建议，听 UCB 的课，然后把两个的实验都做了。
+还是得动手写点代码：（</p></li>
+<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
+ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
+<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
+的，先把上面的七七八八做完再考虑这个吧。</p></li>
+<li><p>学学 JavaScript</p></li>
+<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
+AI 需要的数学中的最后一块了。</p></li>
+</ol>
+<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
+<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
+<p>再见，2025；干杯，2026！</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>First Blog</title>
+    <url>/2025/12/19/First-Blog/First-Blog/</url>
+    <content><![CDATA[<p>Hello! This is my first blog.</p>
+<p>A math formula: <span class="math display">\[
+\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
+\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
+\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
+\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
+\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
+\]</span></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>尝试一下中文输入 This's my blog!</p>
+<ul>
+<li>todo 1</li>
+<li>todo 2</li>
+</ul>
+<h1 id="hello">Hello</h1>
+<h2 id="你好">你好</h2>
+<h3 id="foo"><code>foo</code></h3>
+<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
+<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
+<p><span class="math display">\[a+b\geq 3\]</span></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Computer Networking 2--Routing</title>
     <url>/2026/01/15/Computer-Networking-2-Routing/Computer-Networking-2-Routing/</url>
     <content><![CDATA[<h2 id="what-is-routing">What is Routing?</h2>
@@ -45,8 +110,7 @@ port</p>
 本身要求我们必须对于整个网络结构有一个认知，因此这是一个全局的过程。</p>
 <h2 id="distance-vector-protocols">Distance Vector Protocols</h2>
 <p>Distance Vector Protocols 的主要内容如下：</p>
-<p>{ % note % }</p>
-<p>For each destination:</p>
+<div class="note "><p>For each destination:</p>
 <ul>
 <li>If you hear an advertisement for that destination, update the table
 and reset the TTL if:
@@ -67,7 +131,7 @@ periodically (advertisement interval).
 <li>If a table entry expires, make the entry poison and advertise
 it.</li>
 </ul>
-<p>{ % endnote % }</p>
+</div>
 <p>我们分条来看。</p>
 <h3 id="update-rules">Update Rules</h3>
 <p>我们如果从毗邻的节点接收到一条 <code>(from, to, cost, TTL)</code>
@@ -127,6 +191,72 @@ shortest, everyone chooses the same one.</p></li>
 </div>
 <h3 id="learning-about-graph-topology">Learning About Graph
 Topology</h3>
+<ol type="1">
+<li><p>To discover neighbors, every router sends a hello message to all
+of its neighbors. For example, in this network, R2 sends to both of its
+neighbors: “Hello, I’m R2.” Now, R1 knows that it’s connected to R2, and
+R3 also knows that it’s connected to R2. Similarly, R1 says hello to R2,
+so now R2 knows about R1. Likewise, R3 says hello to R2, so R2 also
+knows about R3.</p>
+<p>As a result, everybody now knows who their immediate neighbors are.
+Note that R1 does not know about R3, because R1 and R3 are not
+neighbors.</p></li>
+</ol>
+<figure>
+<img src="/.io//graph3.png" alt="graph3">
+<figcaption aria-hidden="true">graph3</figcaption>
+</figure>
+<figure>
+<img src="/.io//graph1.png" alt="graph1">
+<figcaption aria-hidden="true">graph1</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>Now that we know about our neighbors, we should announce that fact
+to everybody. To make a global announcement, we send the announcement to
+all of our neighbors. Also, if we ever receive an announcement, we
+should send it to all of our neighbors as well. This ensures that every
+message gets propagated throughout the network. This is known as
+flooding information across the network. If any information changes
+(e.g. a neighbor disappears), we should flood that information as
+well.</li>
+</ol>
+<figure>
+<img src="/.io//graph2.png" alt="graph2">
+<figcaption aria-hidden="true">graph2</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>avoid infinite flooding: When we see a message for the first time,
+send that message to all neighbors, and write down that we’ve seen that
+message. (We have to write down this message anyway, since we’re trying
+to use this information to build up the network graph.) Then, if we ever
+see that same message again, don’t send it a second time.</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>Computer Networking 3--Transport</title>
+    <url>/2026/01/20/Computer-Networking-3-Transport/Computer-Networking-3-Transport/</url>
+    <content><![CDATA[<h2 id="overview">Overview</h2>
+<h3 id="demultiplexing-with-ports">Demultiplexing with Ports</h3>
+<p>IP 协议只能看到 IP。如果一台主机上同时有两个应用在和一个 server
+通信，那么二者在 IP 层面是完全一样的（有相同的 source/destination
+IP）</p>
+<p>我们该如何区分这两个应用，将数据正确的交给他们？</p>
+<p>解决方案就是 port，每个应用走不同的 port 出去。</p>
+<figure>
+<img src="/.io//port1.png" alt="port">
+<figcaption aria-hidden="true">port</figcaption>
+</figure>
+<figure>
+<img src="/.io//port2.png" alt="port">
+<figcaption aria-hidden="true">port</figcaption>
+</figure>
+<div class="note "><p>Because the transport layer is implemented in the <strong>operating
+system</strong>, these ports (sometimes called <strong>logical
+ports</strong>) are the attachment point where the application connects
+to the operating system’s network stack.</p>
+</div>
+<h2 id="tcp">TCP</h2>
 ]]></content>
   </entry>
   <entry>
@@ -273,46 +403,6 @@ different designs that we’ll look at.</p>
 our packet delay formula. <strong>Now, packet delay is the sum of
 transmission delay, propagation delay, and queuing delay</strong>.</p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>2026新年展望</title>
-    <url>/2026/01/01/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/2026%E6%96%B0%E5%B9%B4%E5%B1%95%E6%9C%9B/</url>
-    <content><![CDATA[<p>2026 就这么突然来了。</p>
-<p>我已经很久没有写什么非技术性的东西了，只能感叹这一年过的比我体感要快得多。</p>
-<p>2025 的一月仿佛还历历在目。在鼓楼图书馆里看 FSF，百无聊赖地复习着 CPL
-和微积分；南京清早熙熙攘攘的人声，冬日清朗的空气，教超的蛋糕和布丁仿佛还是几天前的事情。</p>
-<p>是因为长大一点了吗，对于过去的事情记得更加清楚，但时间也感觉流动的更快了。</p>
-<p>去年寒假看了一半的
-CSAPP，到现在还没看完。学了一点皮毛的数学分析，只有在看花书的时候派上了点用场。CS61A
-倒是学完了，但是感觉这门课属于会的人不需要听，不会的人一开始也难解其妙。</p>
-<p>先争取活过这个无比劳碌的期末周吧。</p>
-<p>寒假里最重要的还是在学校里老老实实搬砖，争取今年能把第一篇文章投中（能中
-TPAMI 什么的就最好了）。</p>
-<p>然后完成一些一直想学，但是也没时间学的东西吧：</p>
-<ol type="1">
-<li><p>UCB CS186 Database System：正好学学 Java，万一将来不去做 AI
-去做互联网码农也能用得上。
-其实我一直对软工系的东西很感兴趣，但苦于课程安排一直没什么机会。</p></li>
-<li><p>UCB CS168/Stanford CS144 Computer
-Networking：其实早在一年前就听完了 USTC
-的计网，但是当时也就听个响，现在脑海里也就一点粗略的印象。
-看网上的建议，听 UCB 的课，然后把两个的实验都做了。
-还是得动手写点代码：（</p></li>
-<li><p>把拖了一年的 CSAPP 听完，然后把实验做了。其实我很想做计科的
-ICSPA，但是不知道有没有时间，估计要做的话只有过年的时间能砸进去了</p></li>
-<li><p>操作系统。这个还没决定是 MIT 的还是 UCB
-的，先把上面的七七八八做完再考虑这个吧。</p></li>
-<li><p>学学 JavaScript</p></li>
-<li><p>把《统计学习方法》之前跳过的部分读完。这学期学了凸优化，应该算是补上了
-AI 需要的数学中的最后一块了。</p></li>
-</ol>
-<p>这个学期都没写什么代码。事实上，整个一年都没写什么代码，但是理论貌似学的也不怎么样。</p>
-<p>还是希望能提升一下自己的动手能力，亲自做一个大一点的工程吧。</p>
-<p>再见，2025；干杯，2026！</p>
-]]></content>
-      <categories>
-        <category>Others</category>
-      </categories>
   </entry>
   <entry>
     <title>EM算法</title>
@@ -623,34 +713,57 @@ B,C)(x&#39;)\\
       </tags>
   </entry>
   <entry>
-    <title>First Blog</title>
-    <url>/2025/12/19/First-Blog/First-Blog/</url>
-    <content><![CDATA[<p>Hello! This is my first blog.</p>
-<p>A math formula: <span class="math display">\[
-\frac{\partial p_t(\mathbf{x})}{\partial t} = -\sum_{i=1}^{D}
-\frac{\partial}{\partial x_i} \left[ f_i(\mathbf{x}, t) p_t(\mathbf{x})
-\right] + \frac{1}{2} \sum_{i=1}^{D} \sum_{j=1}^{D}
-\frac{\partial^2}{\partial x_i \partial x_j} \left[ (g^2(t)
-\mathbf{I}_D)_{ij} p_t(\mathbf{x}) \right]
-\]</span></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;This is a piece of code!&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>尝试一下中文输入 This's my blog!</p>
-<ul>
-<li>todo 1</li>
-<li>todo 2</li>
-</ul>
-<h1 id="hello">Hello</h1>
-<h2 id="你好">你好</h2>
-<h3 id="foo"><code>foo</code></h3>
-<h4 id="geq-2"><span class="math inline">\(1+2\geq 2\)</span></h4>
-<p>有<span class="math inline">\(a+b\geq 3\)</span></p>
-<p><span class="math display">\[a+b\geq 3\]</span></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Vision Mamba源码导读</title>
     <url>/2026/01/15/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/Vision-Mamba%E6%BA%90%E7%A0%81%E5%AF%BC%E8%AF%BB/</url>
     <content><![CDATA[
+]]></content>
+  </entry>
+  <entry>
+    <title>UCB CS168 lab2 Routing 小记</title>
+    <url>/2026/01/27/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/UCB-CS168-lab2-Routing-%E5%B0%8F%E8%AE%B0/</url>
+    <content><![CDATA[<p>简单记录一下我做下来的一些小坑。</p>
+<h2 id="stage-2">Stage 2</h2>
+<h3 id="正确的端口">正确的端口</h3>
+<p>事实上，<code>handle_data_packet(self, packet, in_port)</code>
+注释说明了是
+<code>:param in_port: the port from which the packet arrived.</code>，但这个其实没有作用。我们关心的是我们当前这个
+router 要把收到的 packet 向哪个端口转发，所以其实是：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dst = packet.dst</span><br><span class="line">...</span><br><span class="line">dst_port = <span class="variable language_">self</span>.table[dst].port</span><br><span class="line">latency = <span class="variable language_">self</span>.table[dst].latency</span><br></pre></td></tr></table></figure>
+<h2 id="stage-4">Stage 4</h2>
+<h3 id="注意-latency-计算完整">注意 <code>latency</code> 计算完整</h3>
+<p>我们在接收到邻居的广播后，注意他发送过来的 latency 只是他到目标 host
+的 latency，而我们如果要通过它中转，还需要加上我们到它的 latency:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">latency = route_latency + <span class="variable language_">self</span>.ports.get_latency(port)</span><br><span class="line">new_entry = TableEntry(dst=route_dst, port=port,</span><br><span class="line">                        latency=latency, </span><br><span class="line">                        expire_time=api.current_time()+<span class="variable language_">self</span>.ROUTE_TTL)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="stage-5">Stage 5</h2>
+<h3 id="字典删除问题">字典删除问题</h3>
+<p>由于 <code>self.table</code>
+是一个字典类型，而直接在遍历中删除字典元素会引发错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">RuntimeError: dictionary changed size during iteration</span><br></pre></td></tr></table></figure>
+<p>比较推荐的做法是先收集一个应当删除的 <code>list</code>:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">expire_list = []</span><br><span class="line"><span class="keyword">for</span> dst, entry <span class="keyword">in</span> <span class="variable language_">self</span>.table.items():</span><br><span class="line">  <span class="keyword">if</span> entry.expire_time &lt;= api.current_time():</span><br><span class="line">    expire_list.append(dst)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> dst <span class="keyword">in</span> expire_list:</span><br><span class="line">  <span class="keyword">if</span> <span class="variable language_">self</span>.POISON_EXPIRED:</span><br><span class="line">    new_entry = TableEntry(dst=dst, port=<span class="variable language_">self</span>.table[dst].port,</span><br><span class="line">                            latency=INFINITY, expire_time=api.current_time()+<span class="variable language_">self</span>.ROUTE_TTL)</span><br><span class="line">    <span class="variable language_">self</span>.table[dst] = new_entry</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="variable language_">self</span>.table.pop(dst)</span><br></pre></td></tr></table></figure>
+<h2 id="stage-67">Stage 6&amp;7</h2>
+<p>关于处理 Split Horizon 和 Poison Reverse
+有一个更聪明的写法，我们在遇到 <code>self.SPLIT_HORIZON</code> 为 True
+的时候选择直接 continue，这样就避免了大量繁琐的 if 语句。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> port <span class="keyword">in</span> ports_update:</span><br><span class="line">  <span class="keyword">for</span> dst <span class="keyword">in</span> <span class="variable language_">self</span>.table.keys():</span><br><span class="line">    latency = <span class="variable language_">self</span>.table[dst].latency</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> port == <span class="variable language_">self</span>.table[dst].port:</span><br><span class="line">      <span class="keyword">if</span> <span class="variable language_">self</span>.SPLIT_HORIZON:</span><br><span class="line">        <span class="comment"># Split Horizon: don&#x27;t send anything at all</span></span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">      <span class="keyword">elif</span> <span class="variable language_">self</span>.POISON_REVERSE:</span><br><span class="line">        <span class="comment"># Poison Reverse: send it as INFINITY</span></span><br><span class="line">        latency = INFINITY</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> latency &gt; INFINITY:</span><br><span class="line">      latency = INFINITY</span><br><span class="line"></span><br><span class="line">    route = RoutePacket(destination=dst, latency=latency)</span><br><span class="line">    <span class="keyword">if</span> force <span class="keyword">or</span> <span class="variable language_">self</span>.history[port].get(dst, <span class="literal">None</span>) != latency:</span><br><span class="line">      <span class="variable language_">self</span>.send_route(port, dst, latency=latency)</span><br><span class="line">      <span class="variable language_">self</span>.history[port][dst] = latency</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h2 id="stage-10a">Stage 10A</h2>
+<p>题干提示了要使用一个 <code>self.history</code>
+的数据结构来记录每个端口向每个目的地上一次转发的 packet
+的信息。我一开始使用了一个元组 <code>(port, dst)</code>，然后使用
+<code>self.key: {(port, dst): RoutePacket}</code>
+这样的键值对来存储。</p>
+<p>但这样有几个问题： 1. 写起来很繁琐 2.
+有冗余的信息，我们不需要保存完整的 packet，因为我们的 key 已经有 dst
+了（RoutePacket 本身有 latency 和 dst 两个信息）</p>
+<p>综上，我们采用一个更良好的写法，即一个二重字典。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, ...</span>):</span><br><span class="line">  <span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line">  <span class="variable language_">self</span>.history = defaultdict(<span class="built_in">dict</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># in send_routes</span></span><br><span class="line"><span class="keyword">if</span> force <span class="keyword">or</span> <span class="variable language_">self</span>.history[port].get(dst, <span class="literal">None</span>) != latency:</span><br><span class="line">  <span class="variable language_">self</span>.send_route(port, dst, latency=latency)</span><br><span class="line">  <span class="variable language_">self</span>.history[port][dst] = latency</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<h3 id="defaultdict"><code>defaultdict</code></h3>
+<p>对于一个普通的 Python 字典, 如果你访问一个不存在的键，它会直接报错
+KeyError。 但 defaultdict(dict) 自带默认值：</p>
+<p>当尝试访问 self.history[port] 时，如果这个 port
+还没出现过，它不会报错，而是自动创建一个空的字典 {} 填在那里。</p>
+<p>配套的，使用 <code>dict.get(key, None)</code>
+可以安全的取出对应的值。</p>
 ]]></content>
   </entry>
   <entry>
